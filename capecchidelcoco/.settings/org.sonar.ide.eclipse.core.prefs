@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 extraProperties=sonar.language\=java
-projectKey=it.polimi.ingsw\:capecchidelcoco
+projectKey=it.polimi.ingsw\:NOME_DEL_GRUPPO
 serverUrl=http\://localhost\:9000
 version=2
