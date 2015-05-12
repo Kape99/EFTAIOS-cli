@@ -10,15 +10,17 @@ public class Sector implements AbstractSector{
 	 * 0 - NullSector
 	 * 1 - SecureSector
 	 * 2 - DangerousSector
-	 * 3 - 
+	 * 3 - HatchSector
+	 * 4 - HumanSpawn
+	 * 5 - AlienSpawn
 	 */
 	private int type;
 	private String name;
 	
 	
 	public Sector(int x, int y, int type){
-		this.row = x;
-		this.col = y;
+		this.row = y;
+		this.col = x;
 		this.type = type;
 	}
 	
@@ -32,19 +34,19 @@ public class Sector implements AbstractSector{
 	}
 	
 	public void setX (int x){
-		this.row = x;
+		this.col = x;
 	}
 	
 	public int getX (){
-		return this.row;
+		return this.col;
 	}
 	
 	public void setY (int y){
-		this.col = y;
+		this.row = y;
 	}
 	
 	public int getY (){
-		return this.col;
+		return this.row;
 	}
 	
 	public void setName (int x, int y, String name){

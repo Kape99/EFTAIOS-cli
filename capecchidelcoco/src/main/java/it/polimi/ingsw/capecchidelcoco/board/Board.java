@@ -1,6 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.board;
 
-import it.polimi.ingsw.capecchidelcoco.sector.Sector;
+import it.polimi.ingsw.capecchidelcoco.sector.*;
 
 import java.io.*;
 import java.util.*;
@@ -23,7 +23,27 @@ public class Board {
 				for (int col = 0; col < BoardConstant.COLS; col++ ){
 					if(input.hasNextInt())
 			        {
-						sectors[row][col] = new Sector(row, col, input.nextInt());
+						switch (input.nextInt()){
+						case(0):{
+							sectors[row][col] = new NullSector(row, col);
+						}break;
+						case(1):{
+							sectors[row][col] = new SecureSector(row, col);						
+						}break;
+						case(2):{
+							sectors[row][col] = new DangerousSector(row, col);
+						}break;
+						case(3):{
+							sectors[row][col] = new HatchSector(row, col);
+						}break;
+						case(4):{
+							sectors[row][col] = new HumanSpawn(row, col);
+						}break;
+						case(5):{
+							sectors[row][col] = new AlienSpawn(row, col);
+						}break;
+						}
+						
 			        }
 				}
 			}
