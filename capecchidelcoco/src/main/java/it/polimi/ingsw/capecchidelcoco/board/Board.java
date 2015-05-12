@@ -11,8 +11,8 @@ public class Board {
 	
 	//possibile lettura da file
 	
-	private  Sector[][] sectors;
-	static int table [][];
+	public static  Sector[][] sectors;
+	
 	
 	
 	public Board () throws FileNotFoundException{
@@ -28,11 +28,6 @@ public class Board {
 				}
 			}
 			input.close();
-		
-			
-		
-			
-		
 	}
 	
 	public static void main (String[] args){

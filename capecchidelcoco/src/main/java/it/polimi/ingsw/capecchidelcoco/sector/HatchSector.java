@@ -2,7 +2,7 @@ package it.polimi.ingsw.capecchidelcoco.sector;
 
 public class HatchSector extends Sector {
 
-	private int count = 0;
+	private int count = 1;
 	
 	private int num;
 	private boolean avaible = false;
