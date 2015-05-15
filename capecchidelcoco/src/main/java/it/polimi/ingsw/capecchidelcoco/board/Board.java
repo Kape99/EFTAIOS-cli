@@ -26,22 +26,28 @@ public class Board {
 						switch (input.nextInt()){
 						case(0):{
 							sectors[row][col] = new NullSector(row, col);
-						}break;
+							}break;
+							
 						case(1):{
 							sectors[row][col] = new SecureSector(row, col);						
-						}break;
+							}break;
+							
 						case(2):{
 							sectors[row][col] = new DangerousSector(row, col);
-						}break;
+							}break;
+							
 						case(3):{
 							sectors[row][col] = new HatchSector(row, col);
-						}break;
+							}break;
+							
 						case(4):{
 							sectors[row][col] = new HumanSpawn(row, col);
-						}break;
+							}break;
+							
 						case(5):{
 							sectors[row][col] = new AlienSpawn(row, col);
-						}break;
+							}break;
+							
 						}
 						
 			        }

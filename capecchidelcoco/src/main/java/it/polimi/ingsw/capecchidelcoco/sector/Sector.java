@@ -1,9 +1,10 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
-public class Sector implements AbstractSector{
+import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
 
-	private int row;
-	private int col;
+public abstract class  Sector extends Coordinates {
+
+	
 	/*
 	 * Tell which type of sector is the one in coordinate [row][col]
 	 * type:
@@ -19,9 +20,9 @@ public class Sector implements AbstractSector{
 	
 	
 	public Sector(int x, int y, int type){
-		this.row = y;
-		this.col = x;
+		super(x, y);
 		this.type = type;
+		setName();
 	}
 	
 	
@@ -33,23 +34,27 @@ public class Sector implements AbstractSector{
 		return this.type;
 	}
 	
-	public void setX (int x){
-		this.col = x;
+	public void setCol (int x){
+		this.setX(x);
+	}
+
+	public int getCol (){
+		return this.getX();
 	}
 	
-	public int getX (){
-		return this.col;
+	public void setRow (int y){
+		this.setY(y);
 	}
 	
-	public void setY (int y){
-		this.row = y;
+	public int getRow (){
+		return this.getY();
 	}
 	
-	public int getY (){
-		return this.row;
-	}
-	
-	public void setName (int x, int y, String name){
+	public void setName (){
+		String name= new String();
+		name += (char)('A'+(byte)getCol()); 
+		name += String.format("%02d", getRow()+1);
+		
 		this.name = name;
 	}
 		
@@ -57,4 +62,12 @@ public class Sector implements AbstractSector{
 		return this.name;
 	}
 	
+	
+	public Coordinates getCoordinate(String name){
+		int x =(int)((byte)name.charAt(0) - 'A');
+		String appo =""+ name.charAt(1) + name.charAt(2);
+    	int y = Integer.parseInt(appo);
+		Coordinates co = new Coordinates(x, y);
+		return co;
+	}
 }

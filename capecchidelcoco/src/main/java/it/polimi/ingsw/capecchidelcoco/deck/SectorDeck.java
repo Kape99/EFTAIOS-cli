@@ -50,6 +50,7 @@ public class SectorDeck implements Deck {
 		cardsNotUsed--;
 		SectorCard tmp = deck.get(1);
 		deck.remove(1);
+		discardedCard.add(tmp);
 		return tmp;
 	}
 
