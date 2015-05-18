@@ -17,12 +17,17 @@ public abstract class  Sector extends Coordinates {
 	 */
 	private int type;
 	private String name;
+	private boolean usable;
 	
-	
-	public Sector(int x, int y, int type){
+	public Sector(int x, int y, int type, boolean usable){
 		super(x, y);
 		this.type = type;
+		this.usable = usable;
 		setName();
+	}
+	
+	public boolean isUsable(){
+		return this.usable;
 	}
 	
 	

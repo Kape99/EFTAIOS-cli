@@ -34,7 +34,7 @@ public class SectorDeck implements Deck {
 
 			
 	}
-
+	@Override
 	public void shuffle() {
         
 		for ( int i = 0; i < deck.size() - 1; i++) {
@@ -45,7 +45,7 @@ public class SectorDeck implements Deck {
         }
         
     } 
-
+	@Override
 	public SectorCard draw(){
 		cardsNotUsed--;
 		SectorCard tmp = deck.get(1);

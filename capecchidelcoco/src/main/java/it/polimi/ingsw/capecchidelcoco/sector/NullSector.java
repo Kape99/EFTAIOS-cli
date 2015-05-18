@@ -4,7 +4,7 @@ public class NullSector extends Sector {
 
 	
 	public NullSector(int x, int y) {
-		super(x, y, 0);
+		super(x, y, 0 , false);
 	}   
 
 }

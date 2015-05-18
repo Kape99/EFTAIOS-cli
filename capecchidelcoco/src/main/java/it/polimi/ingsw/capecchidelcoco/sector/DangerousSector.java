@@ -4,7 +4,7 @@ public class DangerousSector extends Sector {
 	
 	
 	public DangerousSector(int x, int y) {
-					super(x, y, 2);
+		super(x, y, 2, true);
 	}   
 	
 
