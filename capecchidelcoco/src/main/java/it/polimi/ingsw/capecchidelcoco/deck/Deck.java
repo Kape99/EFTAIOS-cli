@@ -1,6 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.deck;
 
-import it.polimi.ingsw.capecchidelcoco.card.*;
+import it.polimi.ingsw.capecchidelcoco.deck.card.Card;
 
 public interface Deck {
 

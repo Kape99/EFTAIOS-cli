@@ -1,45 +1,141 @@
 package it.polimi.ingsw.capecchidelcoco.player;
 
 import it.polimi.ingsw.capecchidelcoco.sector.*;
-import it.polimi.ingsw.capecchidelcoco.card.*;
+import it.polimi.ingsw.capecchidelcoco.board.Board;
+import it.polimi.ingsw.capecchidelcoco.deck.card.*;
+import it.polimi.ingsw.capecchidelcoco.deck.card.object.ObjectCard;
+import it.polimi.ingsw.capecchidelcoco.game.*;
+
 import java.util.List;
 
 public abstract class Player {
 	
-	public static final int MAX_N_CARD = 3;
+	protected static final int MAX_OBJECT_CARDS = 3;
 
-	private Table myTable;
-	private Sector currentPosition;
+	protected Board board;
+	protected Sector currentPosition;
 	List<Sector> possibleMoves;
 	int speed;
-	private Card[] hand;
-	private int id;
-	private int life;
-	private boolean alive;
+	protected List<ObjectCard> objects;
+	protected int playerNumber;
+	protected int life;
+	protected boolean alive;
+	protected Game myGame;
+	protected String characterName;
+	protected String characterRole; 
+	protected boolean hasMoved;
+	protected boolean sedated;
 	
 	
 	
 	
 	
 	
-	public Player(int num){
-		this.id = num;
-		this.myTable = new Table();
+	public Player(Game myGame, int num){
+		this.myGame = myGame;
+		this.playerNumber = num;
 		this.possibleMoves.clear();
 		this.life = 1;
 		this.alive = true;
-		this.hand[3] = new Card(); 
-		for (int i = 0; i < MAX_N_CARD; i++){
-			hand[i] = null;
-		}
+		
 		
 	}
-
-
 	
-	
-	public void movePlayer(Sector nextPosition){
-		this.currentPosition = nextPosition;
+	/**
+	 * Method that return the number of this player.
+	 * @return number of this player.
+	 */
+	public int getPlayerNumber (){
+		return this.playerNumber;
 	}
+	
+	
+	/**
+	 * Returns the list of object (cards) currently owned by the player. 
+	 * @return the objects
+	 */
+	public List<ObjectCard> getObjects() {
+		return objects;
+	}
+	
+	/**
+	 * Return the character name related to this player 
+	 * @return the name of the character.
+	 */
+	public String getCharacter (){
+		return characterName;
+	}
+	
+	public String getRole (){
+		return characterRole;
+	}
+	
+	/**
+	 *Set the name and the role of the character related to this player.  
+	 */
+	public void setCharacter() {
+		this.characterName = Game.characterNameList[playerNumber];
+		this.characterRole = Game.characterRoleList[playerNumber];
+	}
+	
+	public List<Sector> reachable(Sector cSector, int distance){
+		return board.getNeighbors(cSector, distance);
+	}
+
+	public void addObjectCard(ObjectCard currentCard){
+		if (objects.size() >= MAX_OBJECT_CARDS){
+			objects.remove(1);
+		}
+		objects.add(currentCard);
+	}
+	
+	public void attacked(){
+		this.life--;
+		//TODO notificare morte
+	}
+	
+	public Game getGame(){
+		return myGame;
+	}
+	
+	public void setSedated(){
+		sedated = true;
+	}
+	
+	public void resetSedated(){
+		sedated = false;
+	}
+	
+	public void setAdrenaline(){
+		speed = 2;
+	}
+	
+	public void resetAdrenaline(){
+		speed = 1;
+	}
+	
+	public Sector getCurrentPosition(){
+		return currentPosition;
+	}
+	/**
+	 * @param nextPosition
+	 */
+	public void move(Sector nextPosition){
+		if (!hasMoved){
+			this.currentPosition.removePlayer(this);
+			this.currentPosition = nextPosition;
+			this.currentPosition.addPlayer(this);
+			hasMoved = true;
+			if (!sedated && currentPosition instanceof DangerousSector){
+				SectorCard tmp = myGame.sectorDeck.draw();
+				tmp.doAction(this);
+				
+				//decidere come fare eseguire qualcosa alle carte
+				
+			}
+		}
+	}
+	
+	
 	
 }

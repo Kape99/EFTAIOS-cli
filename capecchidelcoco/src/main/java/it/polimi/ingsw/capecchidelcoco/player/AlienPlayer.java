@@ -1,24 +1,33 @@
 package it.polimi.ingsw.capecchidelcoco.player;
 
+import it.polimi.ingsw.capecchidelcoco.game.Game;
 import it.polimi.ingsw.capecchidelcoco.sector.*;
+
 import java.util.Collection;; 
 
 public class AlienPlayer extends Player{
 	
 	Collection<Player> killed;
 	
-	public AlienPlayer(int num){
-		super(num);
+	public AlienPlayer(Game myGame, int num){
+		super(myGame, num);
 		this.speed = 2;
 		
 	}
 	
-	public Collection<Player> attack(Sector cp){
-		killed.clear();
-		/*for (int = 0 ; i<8 ;i++){
-			if (playerList[i].getPosition() == cp && playerList[i] != this)
-				
-		}*/
-		return killed;
+	public void attack(){
+		killed.addAll(this.currentPosition.playerList());
+		for (Player pl:killed){
+			pl.attacked();
+		}
 	}
+	
+	public int returnSpeed(){
+		if (killed.isEmpty()){
+			return 2;
+		}
+		return 3;
+	}
+	
+
 }

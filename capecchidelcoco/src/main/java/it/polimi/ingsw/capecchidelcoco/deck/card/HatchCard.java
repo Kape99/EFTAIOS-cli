@@ -1,4 +1,5 @@
-package it.polimi.ingsw.capecchidelcoco.card;
+package it.polimi.ingsw.capecchidelcoco.deck.card;
+
 
 public class HatchCard extends Card{
 

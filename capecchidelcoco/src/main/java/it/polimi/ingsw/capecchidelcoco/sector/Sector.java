@@ -1,7 +1,8 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
 import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
-
+import it.polimi.ingsw.capecchidelcoco.player.*;
+import java.util.List;
 public abstract class  Sector extends Coordinates {
 
 	
@@ -17,9 +18,10 @@ public abstract class  Sector extends Coordinates {
 	 */
 	private int type;
 	private String name;
+	private List<Player> players;
 	private boolean usable;
 	
-	public Sector(int x, int y, int type, boolean usable){
+	public Sector(int y, int x, int type, boolean usable){
 		super(x, y);
 		this.type = type;
 		this.usable = usable;
@@ -30,8 +32,19 @@ public abstract class  Sector extends Coordinates {
 		return this.usable;
 	}
 	
+	public void addPlayer(Player pl){
+		players.add(pl);
+	}
 	
-	public void setType (int x, int y, int type){
+	public void removePlayer(Player pl){
+		players.remove(pl);
+	}
+	
+	public List<Player> playerList(){
+		return players;
+	}
+	
+	public void setType (int type){
 		this.type = type;
 	}
 	

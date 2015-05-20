@@ -1,28 +1,30 @@
 package it.polimi.ingsw.capecchidelcoco.deck;
 
-import it.polimi.ingsw.capecchidelcoco.card.*;
+import it.polimi.ingsw.capecchidelcoco.deck.card.*;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Collections;
 
 public class SectorDeck implements Deck {
 	
-	ArrayList<SectorCard> deck;
-	ArrayList<SectorCard> discardedCard;
+	LinkedList<SectorCard> deck;
+	List<SectorCard> discardedCard;
 	
 	int cardsNotUsed = 25;
 	
 	public SectorDeck (){
 		cardsNotUsed = 25;
 		for(int i = 0; i < 6;i++){
-			this.deck.add(new SectorCard(SectorCardType.NOISE_ANY_SECTOR,false));
-			this.deck.add(new SectorCard(SectorCardType.NOISE_THIS_SECTOR,false));
+			this.deck.add(new NoiseYour(false));
+			this.deck.add(new NoiseAny(false));
 		}
 		for(int i = 0; i < 4;i++){
-			this.deck.add(new SectorCard(SectorCardType.NOISE_ANY_SECTOR,true));
-			this.deck.add(new SectorCard(SectorCardType.NOISE_THIS_SECTOR,true));
+			this.deck.add(new NoiseYour(true));
+			this.deck.add(new NoiseAny(true));
 		}
 		for(int i = 0; i < 5;i++){
-			this.deck.add(new SectorCard(SectorCardType.SILENCE,false));
+			this.deck.add(new Silence(false));
 		}
 		  
 		for ( int i = 0; i < deck.size() - 1; i++) {
@@ -36,15 +38,13 @@ public class SectorDeck implements Deck {
 	}
 	@Override
 	public void shuffle() {
-        
-		for ( int i = 0; i < deck.size() - 1; i++) {
-            int rand = (int)(Math.random()*(deck.size()));
-            SectorCard temp = deck.get(i);
-            deck.set(i, deck.get(rand));
-            deck.set(rand, (SectorCard) temp);
+        this.deck.addAll(this.discardedCard);
+		this.discardedCard.clear();
+		Collections.shuffle(this.deck);
+		
         }
         
-    } 
+   
 	@Override
 	public SectorCard draw(){
 		cardsNotUsed--;
