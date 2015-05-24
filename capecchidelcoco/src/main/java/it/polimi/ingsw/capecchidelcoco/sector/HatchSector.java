@@ -1,5 +1,7 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
+import it.polimi.ingsw.capecchidelcoco.player.Player;
+
 public class HatchSector extends Sector {
 
 	private int count = 1;
@@ -12,6 +14,12 @@ public class HatchSector extends Sector {
 		this.avaible = true;
 		this.num = count;
 		count++;
+	}
+
+	@Override
+	public void doAction(Player pl) {
+		pl.getGame().getHatchDeck().draw().doAction(pl);
+		
 	}   
 
 }

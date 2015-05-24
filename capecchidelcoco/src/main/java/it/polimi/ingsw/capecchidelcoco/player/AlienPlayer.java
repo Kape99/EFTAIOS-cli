@@ -12,6 +12,7 @@ public class AlienPlayer extends Player{
 	public AlienPlayer(Game myGame, int num){
 		super(myGame, num);
 		this.speed = 2;
+		this.faction = "Alien";
 		
 	}
 	

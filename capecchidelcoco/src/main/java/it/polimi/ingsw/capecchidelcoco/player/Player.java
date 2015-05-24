@@ -25,7 +25,8 @@ public abstract class Player {
 	protected String characterRole; 
 	protected boolean hasMoved;
 	protected boolean sedated;
-	
+	protected String faction;
+ 	
 	
 	
 	
@@ -94,6 +95,10 @@ public abstract class Player {
 		//TODO notificare morte
 	}
 	
+	public String getFaction(){
+		return faction;
+	}
+	
 	public Game getGame(){
 		return myGame;
 	}
@@ -122,18 +127,21 @@ public abstract class Player {
 	 */
 	public void move(Sector nextPosition){
 		if (!hasMoved){
-			this.currentPosition.removePlayer(this);
-			this.currentPosition = nextPosition;
-			this.currentPosition.addPlayer(this);
+			currentPosition.removePlayer(this);
+			currentPosition = nextPosition;
+			currentPosition.addPlayer(this);
 			hasMoved = true;
-			if (!sedated && currentPosition instanceof DangerousSector){
-				SectorCard tmp = myGame.sectorDeck.draw();
-				tmp.doAction(this);
+			if (!sedated){
+				currentPosition.doAction(this);
 				
 				//decidere come fare eseguire qualcosa alle carte
 				
 			}
 		}
+	}
+	
+	public boolean isAlive(){
+		return alive;
 	}
 	
 	

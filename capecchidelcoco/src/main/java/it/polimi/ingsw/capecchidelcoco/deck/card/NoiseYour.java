@@ -16,7 +16,7 @@ public class NoiseYour extends SectorCard {
 	@Override
 	public void doAction(Player currPlayer){
 		if (this.hasObject){
-			currPlayer.addObjectCard(currPlayer.getGame().objectDeck.draw());
+			currPlayer.addObjectCard(currPlayer.getGame().getObjectDeck().draw());
 		}
 	}
 }

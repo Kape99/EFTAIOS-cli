@@ -27,12 +27,7 @@ public class SectorDeck implements Deck {
 			this.deck.add(new Silence(false));
 		}
 		  
-		for ( int i = 0; i < deck.size() - 1; i++) {
-			int rand = (int)(Math.random()*(deck.size()));
-			SectorCard temp = deck.get(i);
-			deck.set(i, deck.get(rand));
-			deck.set(rand, temp);
-		}
+		Collections.shuffle(this.deck);
 
 			
 	}

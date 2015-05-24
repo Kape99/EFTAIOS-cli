@@ -28,6 +28,8 @@ public abstract class  Sector extends Coordinates {
 		setName();
 	}
 	
+	public abstract void  doAction(Player pl);
+	
 	public boolean isUsable(){
 		return this.usable;
 	}

@@ -18,8 +18,8 @@ public class LightOn extends ObjectCard {
 		@Override
 		public void doAction(Player currPlayer, Sector target){
 			List<Player> visible = null;
-			List<Sector> tmp = currPlayer.getGame().board.getNeighbors(target, 1);
-			for (Player pl:currPlayer.getGame().players){
+			List<Sector> tmp = currPlayer.getGame().getBoard().getNeighbors(target, 1);
+			for (Player pl:currPlayer.getGame().getPlayers()){
 				if (tmp.contains(pl.getCurrentPosition())){
 					visible.add(pl);
 				}
