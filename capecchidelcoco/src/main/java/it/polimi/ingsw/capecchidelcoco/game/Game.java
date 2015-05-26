@@ -22,7 +22,7 @@ public class Game {
 	
 	private List<Player> players;
 	private Board board;
-	public SectorDeck sectorDeck;
+	private SectorDeck sectorDeck;
 	private ObjectDeck objectDeck;
 	private HatchDeck hatchDeck;
 	private Player currentPlayer;
