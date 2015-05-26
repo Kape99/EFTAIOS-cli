@@ -8,7 +8,7 @@ import it.polimi.ingsw.capecchidelcoco.game.*;
 
 import java.util.List;
 
-public abstract class Player {
+public abstract class Player implements RemotePlayer {
 	
 	protected static final int MAX_OBJECT_CARDS = 3;
 

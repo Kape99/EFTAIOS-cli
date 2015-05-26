@@ -5,6 +5,8 @@ import it.polimi.ingsw.capecchidelcoco.deck.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.SectorCard;
 import it.polimi.ingsw.capecchidelcoco.player.*;
 
+import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -40,11 +42,17 @@ public class Game {
 	private static final int MAX_TURNS = 39;
 
 		
-		public	Game(Board board) {
+		public	Game() {
 			players = new ArrayList<Player>();
 			sectorDeck = new SectorDeck();
-			this.setBoard(board);
+			try {
+				board = new Board();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			winnerPlayers = new ArrayList<Player>();
+			hatchDeck = new HatchDeck();
 		}
 
 		public List<Player> getPlayers() {
@@ -73,12 +81,7 @@ public class Game {
 			return n;
 		}
 
-		/**
-		 * @return the map
-		 */
-		public Board getMap() {
-			return getBoard();
-		}
+	
 
 		
 
@@ -103,12 +106,10 @@ public class Game {
 		/**
 		 * @return the ended
 		 */
-		public boolean isEnded() {
-			return ended;
-		}
+	
 
 		void nextTurn() {
-			if (isEnded())
+			if (ended)
 				return;
 			numberOfTurns++;
 
@@ -253,7 +254,7 @@ public class Game {
 			}
 		}
 
-		
+
 
 	
 

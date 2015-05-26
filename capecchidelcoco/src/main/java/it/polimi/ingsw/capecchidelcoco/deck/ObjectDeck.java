@@ -1,6 +1,5 @@
 package it.polimi.ingsw.capecchidelcoco.deck;
 
-import it.polimi.ingsw.capecchidelcoco.deck.card.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.object.ObjectCard;
 
 import java.util.Collections;

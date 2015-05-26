@@ -2,7 +2,6 @@ package it.polimi.ingsw.capecchidelcoco.deck.card;
 
 
 import it.polimi.ingsw.capecchidelcoco.player.*;
-import it.polimi.ingsw.capecchidelcoco.deck.*;
 
 public class NoiseYour extends SectorCard {
 
