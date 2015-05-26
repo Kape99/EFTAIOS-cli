@@ -44,7 +44,7 @@ public class Game {
 		
 		public	Game() {
 			players = new ArrayList<Player>();
-			sectorDeck = new SectorDeck();
+			setSectorDeck(new SectorDeck());
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
@@ -167,7 +167,7 @@ public class Game {
 
 		
 		SectorCard pickDangerousSectorCard() {
-			return sectorDeck.draw();
+			return getSectorDeck().draw();
 		}
 
 		
@@ -229,6 +229,20 @@ public class Game {
 		 */
 		public void setBoard(Board board) {
 			this.board = board;
+		}
+
+		/**
+		 * @return the sectorDeck
+		 */
+		public SectorDeck getSectorDeck() {
+			return sectorDeck;
+		}
+
+		/**
+		 * @param sectorDeck the sectorDeck to set
+		 */
+		public void setSectorDeck(SectorDeck sectorDeck) {
+			this.sectorDeck = sectorDeck;
 		}
 
 		public static class GamePlayException extends Exception {

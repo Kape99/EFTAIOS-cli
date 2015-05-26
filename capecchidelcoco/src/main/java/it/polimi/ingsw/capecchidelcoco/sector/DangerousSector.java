@@ -11,7 +11,7 @@ public class DangerousSector extends Sector {
 
 	@Override
 	public void doAction(Player pl) {
-		pl.getGame().sectorDeck.draw().doAction(pl);
+		pl.getGame().getSectorDeck().draw().doAction(pl);
 		
 	}   
 	
