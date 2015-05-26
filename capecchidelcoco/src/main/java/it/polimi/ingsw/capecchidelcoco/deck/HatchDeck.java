@@ -26,7 +26,6 @@ public class HatchDeck implements Deck {
 		
 			
 	}
-	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCard);
 		this.discardedCard.clear();
@@ -35,7 +34,6 @@ public class HatchDeck implements Deck {
         }
         
    
-	@Override
 	public HatchCard draw(){
 		cardsNotUsed--;
 		HatchCard tmp = deck.get(1);

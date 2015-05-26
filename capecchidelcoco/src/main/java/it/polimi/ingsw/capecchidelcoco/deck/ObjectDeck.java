@@ -20,7 +20,6 @@ public class ObjectDeck implements Deck {
 
 			
 	}
-	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCards);
 		this.discardedCards.clear();
@@ -32,7 +31,6 @@ public class ObjectDeck implements Deck {
 	   discardedCards.add(objectCard);
    }
 	
-	@Override
 	public ObjectCard draw(){
 		ObjectCard tmp = deck.get(1);
 		deck.remove(1);

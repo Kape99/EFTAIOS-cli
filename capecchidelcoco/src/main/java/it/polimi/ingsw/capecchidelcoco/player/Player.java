@@ -6,6 +6,7 @@ import it.polimi.ingsw.capecchidelcoco.deck.card.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.object.ObjectCard;
 import it.polimi.ingsw.capecchidelcoco.game.*;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 public abstract class Player implements RemotePlayer {
@@ -142,6 +143,61 @@ public abstract class Player implements RemotePlayer {
 	
 	public boolean isAlive(){
 		return alive;
+	}
+
+	public String action() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String move() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getMap() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String connect() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String isEnded() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getWinner() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String attack() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String showCard() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String useCard() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String discardCard() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String makeNoise() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

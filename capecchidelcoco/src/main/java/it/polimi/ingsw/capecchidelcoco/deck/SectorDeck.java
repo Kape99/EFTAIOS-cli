@@ -31,7 +31,6 @@ public class SectorDeck implements Deck {
 
 			
 	}
-	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCard);
 		this.discardedCard.clear();
@@ -40,7 +39,6 @@ public class SectorDeck implements Deck {
         }
         
    
-	@Override
 	public SectorCard draw(){
 		cardsNotUsed--;
 		SectorCard tmp = deck.get(1);
