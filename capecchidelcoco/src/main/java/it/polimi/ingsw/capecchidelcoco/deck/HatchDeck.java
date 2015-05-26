@@ -26,15 +26,16 @@ public class HatchDeck implements Deck {
 		
 			
 	}
-	
+	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCard);
 		this.discardedCard.clear();
-		Collections.shuffle(this.deck);	
+		Collections.shuffle(this.deck);
+		
         }
         
    
-	
+	@Override
 	public HatchCard draw(){
 		cardsNotUsed--;
 		HatchCard tmp = deck.get(1);
@@ -42,4 +43,8 @@ public class HatchDeck implements Deck {
 		discardedCard.add(tmp);
 		return tmp;
 	}
+	
+		
+
+
 }
