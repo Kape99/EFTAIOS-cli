@@ -13,7 +13,7 @@ public abstract class Player implements RemotePlayer {
 	
 	protected static final int MAX_OBJECT_CARDS = 3;
 
-	protected Board board;
+	//protected Board board;
 	protected Sector currentPosition;
 	List<Sector> possibleMoves;
 	int speed;
@@ -81,7 +81,7 @@ public abstract class Player implements RemotePlayer {
 	}
 	
 	public List<Sector> reachable(Sector cSector, int distance){
-		return board.getNeighbors(cSector, distance);
+		return myGame.getBoard().getNeighbors(cSector, distance);
 	}
 
 	public void addObjectCard(ObjectCard currentCard){
@@ -143,6 +143,10 @@ public abstract class Player implements RemotePlayer {
 	
 	public boolean isAlive(){
 		return alive;
+	}
+	
+	public void difense(){
+		this.life++;
 	}
 
 	public String action() throws RemoteException {

@@ -62,7 +62,9 @@ public class Board {
 		return visited;
 	}
 		  
-	
+	public Sector findSpawn(){
+		return null;
+	}
 	
 	
 	/**

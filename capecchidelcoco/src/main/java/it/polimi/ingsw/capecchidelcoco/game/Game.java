@@ -31,12 +31,12 @@ public class Game {
 	private boolean started = false;
 	private boolean ended = false;
 	private int numberOfTurns = 0;
+	private int maxNumberOfTurns;
 
 	
 	private boolean aliensWin = false;
 	private List<Player> winnerPlayers;
-	
-	private boolean turnsEnabled = true;
+
 
 	public static final int MAX_PLAYERS = 8;
 	private static final int MAX_TURNS = 39;
@@ -92,6 +92,7 @@ public class Game {
 			
 			currentPlayer = players.get(0);
 			started = true;
+			maxNumberOfTurns = MAX_TURNS*players.size() ;
 		}
 
 		/**
@@ -113,8 +114,8 @@ public class Game {
 				return;
 			numberOfTurns++;
 
-			if (numberOfTurns > MAX_TURNS && getNumberOfAliveHumanPlayers() > 0
-					|| numberOfTurns <= MAX_TURNS
+			if (numberOfTurns > maxNumberOfTurns && getNumberOfAliveHumanPlayers() > 0
+					|| numberOfTurns <= maxNumberOfTurns
 					&& getNumberOfAliveHumanPlayers() == 0) {
 
 				aliensWin = true;
@@ -124,10 +125,11 @@ public class Game {
 				return;
 			}
 			int currentPlayerIndex = players.indexOf(currentPlayer);
-			do {
-				currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-				currentPlayer = players.get(currentPlayerIndex);
-			} while (!currentPlayer.isAlive());
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+			currentPlayer = players.get(currentPlayerIndex);
+			if (!currentPlayer.isAlive())
+				nextTurn();
+			
 		}
 
 		
@@ -137,6 +139,10 @@ public class Game {
 		 */
 		public List<Player> getWinnerPlayers() {
 			return winnerPlayers;
+		}
+		
+		public void addWinner(Player pl){
+			this.winnerPlayers.add(pl);
 		}
 
 		/**
@@ -180,20 +186,7 @@ public class Game {
 		boolean isTurnOf(Player p) {
 			return p.equals(currentPlayer);
 		}
-		
-		/**
-		 * @return turns enabled
-		 */
-		public boolean areTurnsEnabled() {
-			return turnsEnabled;
-		}
 
-		/**
-		 * @param turnsEnabled are turns enabled?
-		 */
-		public void setTurnsEnabled(boolean turnsEnabled) {
-			this.turnsEnabled = turnsEnabled;
-		}
 
 		public ObjectDeck getObjectDeck() {
 			return objectDeck;

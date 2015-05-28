@@ -1,14 +1,12 @@
 package it.polimi.ingsw.capecchidelcoco.player;
 
 import it.polimi.ingsw.capecchidelcoco.game.Game;
-import it.polimi.ingsw.capecchidelcoco.sector.*;
-
 import java.rmi.RemoteException;
-import java.util.Collection;; 
+import java.util.Set;
 
 public class AlienPlayer extends Player{
 	
-	Collection<Player> killed;
+	Set<Player> killed = null;
 	
 	public AlienPlayer(Game myGame, int num){
 		super(myGame, num);

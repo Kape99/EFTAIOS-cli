@@ -14,6 +14,7 @@ public class NoiseYour extends SectorCard {
 	
 	@Override
 	public void doAction(Player currPlayer){
+		//TODO notify noise thsi sector
 		if (this.hasObject){
 			currPlayer.addObjectCard(currPlayer.getGame().getObjectDeck().draw());
 		}
