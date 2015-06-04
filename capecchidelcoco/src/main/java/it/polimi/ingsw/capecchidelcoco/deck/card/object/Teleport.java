@@ -6,12 +6,12 @@ import it.polimi.ingsw.capecchidelcoco.player.Player;
 public class Teleport extends ObjectCard{
 
 		
-		public void FindSpawn(){
+		public Teleport(){
 			super(true);
 		}
 	
 		public void doAction(Player currPlayer){
-			currPlayer.FindSpawn();
+			currPlayer.findSpawn();
 		}
 
 }

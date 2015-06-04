@@ -8,13 +8,13 @@ public class Defense extends ObjectCard{
 	
 
 		public Defense (){
-			super(true);
+			super(false);
 		
 		}
 		
 		public void doAction(Player currPlayer){
 			
-			currPlayer.Defense();
+			currPlayer.defense();
 		}
 
 }

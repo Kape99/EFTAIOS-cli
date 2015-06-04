@@ -145,14 +145,13 @@ public abstract class Player implements RemotePlayer {
 		return alive;
 	}
 	
-	public void Attack(){
-	}
 	
-	public void Defense(){
+	
+	public void defense(){
 		this.life++;
 	}
 	
-	public void FindSpawn(){
+	public void findSpawn(){
 	}
 
 	public String action() throws RemoteException {

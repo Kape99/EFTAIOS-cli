@@ -6,11 +6,11 @@ import it.polimi.ingsw.capecchidelcoco.player.Player;
 public class Attack extends ObjectCard{
 
 		public Attack (){
-			super(true);
+			super(false);
 		}
 
 		
 		public void doAction(Player currPlayer){
-			currPlayer.Attack();
+			//TODO
 		}
 }
