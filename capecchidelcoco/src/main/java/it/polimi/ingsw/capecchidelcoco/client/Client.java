@@ -1,84 +1,74 @@
 package it.polimi.ingsw.capecchidelcoco.client;
 
+import it.polimi.ingsw.capecchidelcoco.player.RemotePlayer;
+import it.polimi.ingsw.capecchidelcoco.server.Server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
 
 
-public class Client {
+public class Client  extends UnicastRemoteObject implements ClientInterface, Runnable {
 	
-	public static void main(String[] args) throws NotBoundException,IOException, InterruptedException {
+	
+	
+	private Server mycs;
+	
+	public Client (Server cs) throws RemoteException
+	{
+	mycs=cs;
+	mycs.register(this);
+	}
 
-		
-		
-		NetworkInterface ni = new NetworkInterface();
-		System.out.println("Connection to the room... Waiting for other player");
-		String player = ni.connect();
-		
-		System.out.println("You are " + player);
-		boolean finish = false;
-		// while the game is online
-		while (!finish) {
-			
-			// if it is not ended
-			if (!ni.isEnded().equals("true")) {
-		
-				// print the map
-				System.out.println(ni.getMap().replace(";", "\n"));
-				
-				// ask the user for a move
-				String read = readLine("\nPress Q to exit or insert Sector: ");
-				if (read.equals("Q")) {
-					
-					// if the move is quit, exit
-					finish = true;
-				} else {
-					
-				} 
-			} else {
-				
-				// if ended check who won.
-				finish=true;
-				System.out.println("THE WINNER IS "+ni.getWinner());
+	public synchronized void receive (String s) throws RemoteException
+	{
+	System.out.println("Message: "+s);
+	}
+	public void Run ()
+	{
+	Scanner in=new Scanner(System.in);
+	String msg;
+
+	while(true)
+	{
+	try
+	{
+	msg=in.nextLine();
+	mycs.broadcast(msg);
+	}
+	catch(Exception e)
+	{
+	System.err.println("Problem….");
+	}
+	}
+	}
+
+	public static void main (String[] args){
+		{
+			String url = "rmi://localhost:1413/Server";
+			try
+			{
+			RemotePlayer me= (RemotePlayer) Naming.lookup(url);
+			//New Thread(new Client(me)).start();
+			System.out.println(me.action());
+			}
+			catch (Exception e)
+			{
+			System.err.println("Problem….") ;
 			}
 		}
-		
-		while (!finish) {
 			
-			// if it is not ended
-			if (!ni.isEnded().equals("true")) {
-
-				// print the map
-				System.out.println(ni.getMap().replace(";", "\n"));
-				
-				
-			}	
-		}
-
 	}
 
-	
-
-	private static String readLine(String format, Object... args)
-			throws IOException {
-		if (System.console() != null) {
-			return System.console().readLine(format, args);
-		}
-		System.out.print(String.format(format, args));
-
-		BufferedReader br = null;
-		InputStreamReader isr = null;
-		String read = null;
-
-		isr = new InputStreamReader(System.in);
-		br = new BufferedReader(isr);
-		read = br.readLine();
-
-		return read;
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
-	
-
 
 }

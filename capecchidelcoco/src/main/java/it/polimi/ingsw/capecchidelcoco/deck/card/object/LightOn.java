@@ -4,6 +4,7 @@ import it.polimi.ingsw.capecchidelcoco.player.Player;
 import it.polimi.ingsw.capecchidelcoco.sector.*;
 
 import java.util.List;
+import java.util.Set;
 
 public class LightOn extends ObjectCard {
 	
@@ -11,14 +12,16 @@ public class LightOn extends ObjectCard {
 		
 		
 		
+		private Set<Player> visible;
+
 		public LightOn (){
 			super(true);
 		}
 		
 		@Override
 		public void doAction(Player currPlayer, Sector target){
-			List<Player> visible = null;
-			List<Sector> tmp = currPlayer.getGame().getBoard().getNeighbors(target, 1);
+			visible = null;
+			Set<Sector> tmp = currPlayer.getGame().getBoard().getNeighbors(target, 1);
 			for (Player pl:currPlayer.getGame().getPlayers()){
 				if (tmp.contains(pl.getCurrentPosition())){
 					visible.add(pl);

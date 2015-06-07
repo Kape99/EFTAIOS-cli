@@ -1,6 +1,7 @@
 package it.polimi.ingsw.capecchidelcoco.game;
 
 import it.polimi.ingsw.capecchidelcoco.board.Board;
+import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.deck.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.SectorCard;
 import it.polimi.ingsw.capecchidelcoco.player.*;
@@ -44,15 +45,20 @@ public class Game {
 		
 		public	Game() {
 			players = new ArrayList<Player>();
-			setSectorDeck(new SectorDeck());
+			//setSectorDeck(new SectorDeck());
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			winnerPlayers = new ArrayList<Player>();
-			hatchDeck = new HatchDeck();
+			//winnerPlayers = new ArrayList<Player>();
+			//hatchDeck = new HatchDeck();
+		}
+		
+		public synchronized boolean addPlayer(Client cl){
+			return true;
+			
 		}
 
 		public List<Player> getPlayers() {
@@ -82,13 +88,14 @@ public class Game {
 		}
 
 	
+		public boolean isFull(){
+			return (players.size() == MAX_PLAYERS);
+		}
 
 		
 
-		public void start() throws GamePlayException {
-			if (getBoard() == null) {
-				throw new GamePlayException("No valid map to start the game!");
-			}
+		public void start(){
+		
 			
 			currentPlayer = players.get(0);
 			started = true;
@@ -161,13 +168,7 @@ public class Game {
 		 * @param player
 		 * @throws GamePlayException
 		 */
-		void addPlayer(Player p) throws GamePlayException {
-			if (started) {
-				throw new GamePlayException("Cannot add players during the match!");
-			}
-			if(players.size() == MAX_PLAYERS) {
-				throw new GamePlayException("Cannot add another player: max number of players (" + MAX_PLAYERS + ") reached.");
-			}
+		void addPlayer(Player p){
 			players.add(p);
 		}
 
@@ -238,29 +239,10 @@ public class Game {
 			this.sectorDeck = sectorDeck;
 		}
 
-		public static class GamePlayException extends Exception {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public GamePlayException() {
-				super();
-			}
-
-			public GamePlayException(String message) {
-				super(message);
-			}
-
-			public GamePlayException(String message, Throwable cause) {
-				super(message, cause);
-			}
-
-			public GamePlayException(Throwable cause) {
-				super(cause);
-			}
+		public void addClient(Client c) {
+			// TODO Auto-generated method stub
+			
 		}
-
 
 
 	

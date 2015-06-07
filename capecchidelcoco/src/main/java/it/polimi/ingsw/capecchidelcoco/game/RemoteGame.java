@@ -25,6 +25,6 @@ public interface RemoteGame extends Remote {
 	
 	public String discardCard(String card) throws RemoteException;
 	
-	public String makeNoise(String Sector)throws RemoteException;
+	public String makeNoise(String sector)throws RemoteException;
 
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.capecchidelcoco.game.*;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Player implements RemotePlayer {
 	
@@ -15,7 +16,7 @@ public abstract class Player implements RemotePlayer {
 
 	//protected Board board;
 	protected Sector currentPosition;
-	List<Sector> possibleMoves;
+	List<Sector> possibleMoves = null;
 	int speed;
 	protected List<ObjectCard> objects;
 	protected int playerNumber;
@@ -36,7 +37,7 @@ public abstract class Player implements RemotePlayer {
 	public Player(Game myGame, int num){
 		this.myGame = myGame;
 		this.playerNumber = num;
-		this.possibleMoves.clear();
+		
 		this.life = 1;
 		this.alive = true;
 		
@@ -80,7 +81,7 @@ public abstract class Player implements RemotePlayer {
 		this.characterRole = Game.characterRoleList[playerNumber];
 	}
 	
-	public List<Sector> reachable(Sector cSector, int distance){
+	public Set<Sector> reachable(Sector cSector, int distance){
 		return myGame.getBoard().getNeighbors(cSector, distance);
 	}
 
@@ -156,7 +157,7 @@ public abstract class Player implements RemotePlayer {
 
 	public String action() throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		return "ciao";
 	}
 
 	public String move() throws RemoteException {

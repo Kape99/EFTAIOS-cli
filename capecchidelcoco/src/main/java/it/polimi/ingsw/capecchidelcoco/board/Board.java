@@ -27,7 +27,7 @@ public class Board {
 	
 	public Board () throws FileNotFoundException{
 		
-		Scanner input = new Scanner(new File("src/galileo.txt"));
+		Scanner input = new Scanner(new File("src/galilei.txt"));
 		board = new Sector[ROWS][COLS];
 		for (int row = 0; row < ROWS; row++ ){
 			for (int col = 0; col < COLS; col++ ){
@@ -41,19 +41,18 @@ public class Board {
 	}
 			
 	
-	public List<Sector> getNeighbors(Sector centralSector,int distance){
+	public Set<Sector> getNeighbors(Sector centralSector,int distance){
 		//possibleMoves.clear();
-		List<Sector> visited = new LinkedList<Sector>();
+		Set<Sector> visited = new HashSet<Sector>();
 		visited.add(centralSector);
 		for (int i = 0; i < distance; i++){
 			for(Sector vi:visited){
 				for (int dir = 0; dir < 6; dir++){
 					int parity = vi.getCol() % 2;
-					if (!visited.contains(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]])){
 						if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
 							visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
 						   }
-					   }
+					   
 				   }
 			
 			}	   
