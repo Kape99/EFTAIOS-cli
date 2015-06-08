@@ -10,6 +10,7 @@ import java.util.List;
 
 import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.game.*;
+import it.polimi.ingsw.capecchidelcoco.player.AlienPlayer;
 import it.polimi.ingsw.capecchidelcoco.player.HumanPlayer;
 import it.polimi.ingsw.capecchidelcoco.player.Player;
 
@@ -35,8 +36,9 @@ public class Server implements ServerInterface {
 	 public static void main(String[] args){
 		 actualGame = new Game();
 	        try{
+	        	AlienPlayer ap = new AlienPlayer(actualGame,actualGame.getNumberOfPlayers());
 	            Registry registry = LocateRegistry.createRegistry(1413);
-	            registry.rebind("Server",new HumanPlayer(actualGame,actualGame.getNumberOfPlayers()));
+	            registry.rebind("Server",ap);
 	            System.out.println("Running?");
 	        } catch(Exception ex){
 	            ex.printStackTrace();

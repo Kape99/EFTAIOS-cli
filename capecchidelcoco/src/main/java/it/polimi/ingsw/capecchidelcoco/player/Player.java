@@ -6,15 +6,23 @@ import it.polimi.ingsw.capecchidelcoco.deck.card.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.object.ObjectCard;
 import it.polimi.ingsw.capecchidelcoco.game.*;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Set;
+
 
 public abstract class Player implements RemotePlayer {
 	
 	protected static final int MAX_OBJECT_CARDS = 3;
 
 	//protected Board board;
+
+	
+	
 	protected Sector currentPosition;
 	List<Sector> possibleMoves = null;
 	int speed;
@@ -174,7 +182,7 @@ public abstract class Player implements RemotePlayer {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	public String isEnded() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;

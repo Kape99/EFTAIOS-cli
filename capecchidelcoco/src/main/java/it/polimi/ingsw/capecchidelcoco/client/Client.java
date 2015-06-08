@@ -18,6 +18,10 @@ public class Client  extends UnicastRemoteObject implements ClientInterface, Run
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Server mycs;
 	
 	public Client (Server cs) throws RemoteException
@@ -26,49 +30,43 @@ public class Client  extends UnicastRemoteObject implements ClientInterface, Run
 	mycs.register(this);
 	}
 
-	public synchronized void receive (String s) throws RemoteException
-	{
-	System.out.println("Message: "+s);
+	public synchronized void receive (String s) throws RemoteException{
+		System.out.println("Message: "+s);
 	}
-	public void Run ()
-	{
-	Scanner in=new Scanner(System.in);
-	String msg;
+	
+	public void run (){
+		Scanner in=new Scanner(System.in);
+		String msg;
 
-	while(true)
-	{
-	try
-	{
-	msg=in.nextLine();
-	mycs.broadcast(msg);
-	}
-	catch(Exception e)
-	{
-	System.err.println("Problem….");
-	}
-	}
-	}
-
-	public static void main (String[] args){
-		{
-			String url = "rmi://localhost:1413/Server";
-			try
-			{
-			RemotePlayer me= (RemotePlayer) Naming.lookup(url);
-			//New Thread(new Client(me)).start();
-			System.out.println(me.action());
+		while(true){
+			try{
+				msg=in.nextLine();
+				mycs.broadcast(msg);
 			}
-			catch (Exception e)
-			{
-			System.err.println("Problem….") ;
+			catch(Exception e){
+				System.err.println("Problem….");
+			}
+		}
+	}
+
+		public static void main (String[] args){{
+		
+			String url = "rmi://localhost:1413/Server";
+			try{
+				RemotePlayer me= (RemotePlayer) Naming.lookup(url);
+				System.out.println(me.action());
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				
 			}
 		}
 			
-	}
-
-	public void run() {
-		// TODO Auto-generated method stub
 		
 	}
+
+	
+
+	
 
 }

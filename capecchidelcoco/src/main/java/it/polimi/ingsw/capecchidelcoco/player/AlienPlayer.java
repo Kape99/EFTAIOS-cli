@@ -1,11 +1,17 @@
 package it.polimi.ingsw.capecchidelcoco.player;
 
 import it.polimi.ingsw.capecchidelcoco.game.Game;
+
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Set;
 
-public class AlienPlayer extends Player{
+public class AlienPlayer extends Player implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Set<Player> killed = null;
 	
 	public AlienPlayer(Game myGame, int num){
