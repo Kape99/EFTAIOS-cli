@@ -17,14 +17,14 @@ public interface RemoteGame extends Remote {
 	
 	public String getWinner() throws RemoteException;
 	
-	public String attack() throws RemoteException;
+	public String attack(String name) throws RemoteException;
 	
-	public String showCard() throws RemoteException;
+	public String showCard(String name) throws RemoteException;
 	
-	public String useCard(String card) throws RemoteException;
+	public String useCard(String card, String name) throws RemoteException;
 	
-	public String discardCard(String card) throws RemoteException;
+	public String discardCard(String card, String name) throws RemoteException;
 	
-	public String makeNoise(String sector)throws RemoteException;
+	public String makeNoise(String sector, String name)throws RemoteException;
 
 }

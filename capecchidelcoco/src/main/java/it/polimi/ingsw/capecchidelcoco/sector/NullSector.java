@@ -6,7 +6,7 @@ public class NullSector extends Sector {
 
 	
 	public NullSector(int x, int y) {
-		super(x, y, 0 , false);
+		super(x, y, 'N' , false);
 	}
 
 	@Override

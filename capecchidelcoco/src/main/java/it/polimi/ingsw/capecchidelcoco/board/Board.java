@@ -27,17 +27,30 @@ public class Board {
 	
 	public Board () throws FileNotFoundException{
 		
-		Scanner input = new Scanner(new File("src/galilei.txt"));
-		board = new Sector[ROWS][COLS];
-		for (int row = 0; row < ROWS; row++ ){
-			for (int col = 0; col < COLS; col++ ){
-				if(input.hasNextInt()){
-					board[row][col] = findSectorType(input.nextInt(), row, col);
+	  	Scanner input = new Scanner(new File("src/galilei.txt"));
+			String tmp;
+			char[] value;
+			board = new Sector[ROWS][COLS];
+			char a[] = {'N','A'};
 			
-				}	
+			for (int row = 0; row < 14; row++ ){
+				tmp = input.nextLine();
+				value = tmp.toCharArray();
+				int col = 0;
+				for (int c = 0; c < value.length; c++ ){
+					char v = value[c];
+					if(v=='N' || v=='S' || v=='D' || v=='E' || v=='H' || v=='A')
+						{
+						board [row][col] = findSectorType(v,row,col);
+						col++;
+					}
+				}
+				
 			}
-		}
-		input.close();
+	}
+	
+	public Sector getSector(int row, int col){
+		return board[row][col];
 	}
 			
 	
@@ -47,6 +60,7 @@ public class Board {
 		visited.add(centralSector);
 		for (int i = 0; i < distance; i++){
 			for(Sector vi:visited){
+				//controlla tutti e sei i settori intorno
 				for (int dir = 0; dir < 6; dir++){
 					int parity = vi.getCol() % 2;
 						if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
@@ -73,36 +87,24 @@ public class Board {
 	 * @param col
 	 * @return
 	 */
-	public Sector findSectorType(int input,int row, int col){
-		Sector tmp = null;
-		switch (input){
-		case(0):
-			tmp = new NullSector(row, col);
-			break;
-			
-		case(1):
-			tmp = new SecureSector(row, col);						
-			break;
-			
-		case(2):
-			tmp = new DangerousSector(row, col);
-			break;
-			
-		case(3):
-			tmp = new HatchSector(row, col);
-			break;
-			
-		case(4):
-			tmp = new HumanSpawn(row, col);
-			break;
-			
-		case(5):
-			tmp = new AlienSpawn(row, col);
-			break;
-			
+	  public Sector findSectorType(char input,int row, int col){
+		  
+		  switch (input){
+			case 'N':
+			    return new NullSector(row, col);
+			case 'S':
+				return new SecureSector(row, col);	
+			case 'D':
+				return new DangerousSector(row, col);
+			case 'E':
+				return new HatchSector(row, col);
+			case 'H':
+				return new HumanSpawn(row, col);
+			case 'A':
+				return new AlienSpawn(row, col);
+			}
+			return null;
 		}
-		return tmp;
-	}
 	public static void main (String[] args) throws FileNotFoundException{
 		
 

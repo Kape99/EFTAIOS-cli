@@ -5,7 +5,7 @@ import it.polimi.ingsw.capecchidelcoco.player.Player;
 public class SecureSector extends Sector {
 
 	public SecureSector(int x, int y) {
-		super(x, y, 1, true);
+		super(x, y, 'S', true);
 
 	}
 

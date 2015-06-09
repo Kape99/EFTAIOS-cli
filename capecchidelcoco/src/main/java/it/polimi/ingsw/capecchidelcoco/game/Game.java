@@ -257,12 +257,120 @@ public class Game implements RemoteGame {
 		}
 
 		public String getMap() throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
+			String map = new String() ;
+			
+			
+			
+			/*
+			for (int row = 0 ; row < Board.ROWS; row++){
+				String s[]= new String[4];
+				for (int i = 0 ; i < 4; i ++)
+					s[i]= new String();
+				for  (int col = 0 ; col < Board.COLS; col =  col + 1){
+
+					if (col%2 == 0 ){
+						s[0]+=(board.getSector(row, col).getType()+"/   \\ ");
+						s[1]+=("/ "+board.getSector(row, col).getName()+" \\");
+						s[2]+=("\\     /");
+						s[3]+=(" \\___/ ");
+					}
+					else if (col%2 == 1 ){
+						s[2]+=(board.getSector(row, col).getType()+"/   \\ ");
+						s[3]+=("/ "+board.getSector(row, col).getName()+" \\");
+						s[0]+=("\\     /");
+						s[1]+=(" \\___/ ");
+					}
+					
+					
+				}
+				map+=(s[0]+";"+s[1]+";"+s[2]+";"+s[3]+";");
+				
+			}
+			
+			char a[] = map.toCharArray();
+			for (int j=0 ; j<14*4; j+=4){
+				for (int i=0; i<161;i++){
+					if (a[i+(j*161)]=='N'){
+						for (int c = 0; c<7; c++){
+							a[i+j*161]=' ';
+							a[i+161+j*161]=' ';
+						}
+					}
+			
+				}
+			}
+			map = a.toString();	
+			*/
+			for (int row = 0 ; row < Board.ROWS; row++){
+				for  (int col = 0 ; col < Board.COLS; col =  col + 2){
+					
+					switch (board.getSector(row, col).getType()){
+					case('N'):{
+						map+=("       ");
+						break;
+					}
+					case('S'):{
+						map+=("("+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+")");
+						break;
+					}
+					case('D'):{
+						map+=("{"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"}");
+						break;
+					}
+					case('E'):{
+						map+=("<"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+">");
+						break;
+					}
+					case('H'):{
+						map+=("|"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"|");
+						break;
+					}
+					case('A'):{
+						map+=("|"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"|");
+						break;
+					}	
+				}
+					map+=("       ");
+				}
+				map+=(";");
+				map+=("       ");
+				for  (int col = 1; col < Board.COLS; col =  col + 2){
+					switch (board.getSector(row, col).getType()){
+					case('N'):{
+						map+=("       ");
+						break;
+					}
+					case('S'):{
+						map+=("("+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+")");
+						break;
+					}
+					case('D'):{
+						map+=("{"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"}");
+						break;
+					}
+					case('E'):{
+						map+=("<"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+">");
+						break;
+					}
+					case('H'):{
+						map+=("|"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"|");
+						break;
+					}
+					case('A'):{
+						map+=("|"+board.getSector(row, col).getName()+" "+board.getSector(row, col).getType()+"|");
+						break;
+					}
+					}
+					map+=("       ");
+				}
+				map+=(";");
+			}
+		
+			return map;
 		}
 
 		public int connect(String name) throws RemoteException {
-			//TODO restiduire -1 se il nome esiste
+			//TODO restituire -1 se il nome esiste
 			return this.id;
 		}
 
@@ -297,6 +405,33 @@ public class Game implements RemoteGame {
 		}
 
 		public String makeNoise(String sector) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String attack(String name) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String showCard(String name) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String useCard(String card, String name) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String discardCard(String card, String name)
+				throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String makeNoise(String sector, String name)
+				throws RemoteException {
 			// TODO Auto-generated method stub
 			return null;
 		}

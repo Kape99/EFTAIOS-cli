@@ -1,6 +1,10 @@
 package it.polimi.ingsw.capecchidelcoco.server;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,29 +23,75 @@ public class Server implements ServerInterface {
 	
 	private static Server server = null;
 	
-	private List<Game> games;
+	private static List<Game> games;
 	private static Game actualGame = null;
 	private int i = 0;
 	
-	
-	private Server(){
+	 public static void main(String[] args) throws IOException, NotBoundException{
+		 games = new LinkedList<Game>();
+			Registry registry = null;
+			 try{
+				 	Game game = new  Game();
+				 	RemoteGame stub = (RemoteGame) UnicastRemoteObject.exportObject(game, 0);	
+		            registry = LocateRegistry.createRegistry(1413);
+		            registry.bind("Server", stub);
+		            System.out.println("Running?");
+		        } catch(Exception ex){
+		            ex.printStackTrace();
+		        }
+			 boolean finish = false;
+
+				while (!finish) {
+					String read = readLine("Press Q to exit\n");
+					if (read.equals("Q")) {
+						finish = true;
+					}
+				
+				
+				
+						
+				if (registry != null)
+					registry.unbind("Server");
+				System.exit(0);
+				
+			}
+		}
+	 
+	 
+	 
+	/* 
+	private Server() throws IOException, NotBoundException{
 		games = new LinkedList<Game>();
+		Registry registry = null;
 		 try{
 			 	Game game = new  Game();
 			 	RemoteGame stub = (RemoteGame) UnicastRemoteObject.exportObject(game, 0);	
-	            Registry registry = LocateRegistry.createRegistry(1413);
-	            registry.rebind("Server", stub);
+	            registry = LocateRegistry.createRegistry(1413);
+	            registry.bind("Server", stub);
 	            System.out.println("Running?");
 	        } catch(Exception ex){
 	            ex.printStackTrace();
 	        }
-	        while(true){
-	        	
-	        }
-		
+		 boolean finish = false;
+
+			while (!finish) {
+				String read = readLine("Press Q to exit\n");
+				if (read.equals("Q")) {
+					finish = true;
+				}
+			
+			
+			
+					
+			if (registry != null)
+				registry.unbind("Server");
+			System.exit(0);
+			
+		}
 	}
+	*/
 	
-	public static Server getServer() {
+	public static Server getServer() throws IOException, NotBoundException {
 		if (server==null){
 			server= new Server();
 		}
@@ -61,7 +111,23 @@ public class Server implements ServerInterface {
 	}
 
 
+	private static String readLine(String format, Object... args)
+			throws IOException {
+		if (System.console() != null) {
+			return System.console().readLine(format, args);
+		}
+		System.out.print(String.format(format, args));
 
+		BufferedReader br = null;
+		InputStreamReader isr = null;
+		String read = null;
+
+		isr = new InputStreamReader(System.in);
+		br = new BufferedReader(isr);
+		read = br.readLine();
+
+		return read;
+	}
 	
 	
 	

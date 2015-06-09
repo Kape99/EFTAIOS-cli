@@ -10,7 +10,7 @@ public class HatchSector extends Sector {
 	private boolean avaible = false;
 	
 	public HatchSector (int x, int y) {
-		super (x, y, 3, false);
+		super (x, y, 'E', false);
 		this.avaible = true;
 		this.num = count;
 		count++;

@@ -16,12 +16,12 @@ public abstract class  Sector extends Coordinates {
 	 * 4 - HumanSpawn
 	 * 5 - AlienSpawn
 	 */
-	private int type;
+	private char type;
 	private String name;
 	private List<Player> players;
 	private boolean usable;
 	
-	public Sector(int y, int x, int type, boolean usable){
+	public Sector(int y, int x, char type, boolean usable){
 		super(x, y);
 		this.type = type;
 		this.usable = usable;
@@ -46,11 +46,11 @@ public abstract class  Sector extends Coordinates {
 		return players;
 	}
 	
-	public void setType (int type){
+	public void setType (char type){
 		this.type = type;
 	}
 	
-	public int getType (){
+	public char getType (){
 		return this.type;
 	}
 	
@@ -79,7 +79,9 @@ public abstract class  Sector extends Coordinates {
 	}
 		
 	public String getName (){
-		return this.name;
+		if (this.type != 'N')
+			return this.name;
+		return "   ";
 	}
 	
 	
