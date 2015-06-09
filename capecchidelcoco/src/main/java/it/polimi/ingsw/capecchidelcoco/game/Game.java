@@ -13,13 +13,15 @@ import java.util.ArrayList;
 
 
 
-public class Game {
+public class Game implements RemoteGame {
+	
+	private int id;
 
 	public static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
 		"Maria Galmbani", "Silvano Porpora", "Paolo Landon", "Tuccio Brendon"};
 	public static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
-			
+	private String[] name;		
 	
 	private List<Player> players;
 	private Board board;
@@ -163,7 +165,7 @@ public class Game {
 	
 
 		/**
-		 * Add a player to gamePlay
+		 * Add a player to game
 		 * 
 		 * @param player
 		 * @throws GamePlayException
@@ -242,6 +244,61 @@ public class Game {
 		public void addClient(Client c) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		public String action() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String move(String sector, String player) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getMap() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int connect(String name) throws RemoteException {
+			//TODO restiduire -1 se il nome esiste
+			return this.id;
+		}
+
+		public String isEnded() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getWinner() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String attack() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String showCard() throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String useCard(String card) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String discardCard(String card) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String makeNoise(String sector) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 

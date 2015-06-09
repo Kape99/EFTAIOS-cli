@@ -5,6 +5,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,8 +22,23 @@ public class Server implements ServerInterface {
 	private List<Game> games;
 	private static Game actualGame = null;
 	private int i = 0;
+	
+	
 	private Server(){
 		games = new LinkedList<Game>();
+		 try{
+			 	Game game = new  Game();
+			 	RemoteGame stub = (RemoteGame) UnicastRemoteObject.exportObject(game, 0);	
+	            Registry registry = LocateRegistry.createRegistry(1413);
+	            registry.rebind("Server", stub);
+	            System.out.println("Running?");
+	        } catch(Exception ex){
+	            ex.printStackTrace();
+	        }
+	        while(true){
+	        	
+	        }
+		
 	}
 	
 	public static Server getServer() {
@@ -32,21 +48,6 @@ public class Server implements ServerInterface {
 		
 		return server;
     }
-	
-	 public static void main(String[] args){
-		 actualGame = new Game();
-	        try{
-	        	AlienPlayer ap = new AlienPlayer(actualGame,actualGame.getNumberOfPlayers());
-	            Registry registry = LocateRegistry.createRegistry(1413);
-	            registry.rebind("Server",ap);
-	            System.out.println("Running?");
-	        } catch(Exception ex){
-	            ex.printStackTrace();
-	        }
-	        while(true){
-	        	
-	        }
-	    }
 	
 	
 

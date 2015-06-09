@@ -11,7 +11,7 @@ public interface RemoteGame extends Remote {
 	
 	public String getMap() throws RemoteException;
 	
-	public String connect() throws RemoteException;
+	public int connect(String name) throws RemoteException;
 	
 	public String isEnded() throws RemoteException;
 	
