@@ -14,8 +14,8 @@ public class AlienPlayer extends Player implements Serializable{
 	private static final long serialVersionUID = 1L;
 	Set<Player> killed = null;
 	
-	public AlienPlayer(Game myGame, int num){
-		super(myGame, num);
+	public AlienPlayer(Game myGame, int num, String name){
+		super(myGame, num, name);
 		this.speed = 2;
 		this.faction = "Alien";
 		

@@ -21,8 +21,7 @@ public abstract class Player implements RemotePlayer {
 
 	//protected Board board;
 
-	
-	
+	protected String name;
 	protected Sector currentPosition;
 	List<Sector> possibleMoves = null;
 	int speed;
@@ -42,10 +41,10 @@ public abstract class Player implements RemotePlayer {
 	
 	
 	
-	public Player(Game myGame, int num){
+	public Player(Game myGame, int num, String name){
 		this.myGame = myGame;
 		this.playerNumber = num;
-		
+		this.name = name;
 		this.life = 1;
 		this.alive = true;
 		

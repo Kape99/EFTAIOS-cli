@@ -23,37 +23,29 @@ public class Server implements ServerInterface {
 	
 	private static Server server = null;
 	
-	private static List<Game> games;
-	private static Game actualGame = null;
-	private int i = 0;
+	
 	
 	 public static void main(String[] args) throws IOException, NotBoundException{
-		 games = new LinkedList<Game>();
+		 
 			Registry registry = null;
-			 try{
-				 	Game game = new  Game();
-				 	RemoteGame stub = (RemoteGame) UnicastRemoteObject.exportObject(game, 0);	
-		            registry = LocateRegistry.createRegistry(1413);
-		            registry.bind("Server", stub);
-		            System.out.println("Running?");
-		        } catch(Exception ex){
-		            ex.printStackTrace();
-		        }
-			 boolean finish = false;
-
-				while (!finish) {
-					String read = readLine("Press Q to exit\n");
-					if (read.equals("Q")) {
-						finish = true;
-					}
-				
-				
-				
-						
-				if (registry != null)
-					registry.unbind("Server");
-				System.exit(0);
-				
+			try{
+				GamesHandlerInterface game = new  GamesHandler();
+				GamesHandlerInterface stub = (GamesHandlerInterface) UnicastRemoteObject.exportObject(game, 0);	
+				registry = LocateRegistry.createRegistry(1413);
+				registry.bind("Server", stub);
+				System.out.println("Running?");
+			} catch(Exception ex){
+				ex.printStackTrace();
+			}
+			boolean finish = false;
+			while (!finish) {
+				String read = readLine("Press Q to exit\n");
+				if (read.equals("Q")) {
+					finish = true;
+				}
+			if (registry != null)
+				registry.unbind("Server");
+			System.exit(0);	
 			}
 		}
 	 
@@ -102,13 +94,10 @@ public class Server implements ServerInterface {
 	
 
 	
-	public synchronized void register (Client c) throws RemoteException{
-	actualGame.addClient(c);
-	}
 
-	public synchronized void broadcast (String s) throws RemoteException{
-		System.out.println(s);
-	}
+	
+
+
 
 
 	private static String readLine(String format, Object... args)
@@ -127,6 +116,20 @@ public class Server implements ServerInterface {
 		read = br.readLine();
 
 		return read;
+	}
+
+
+
+	public void broadcast(String s) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void register(Client c) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

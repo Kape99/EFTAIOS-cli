@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 
-public class Game implements RemoteGame {
+public class Game implements Runnable {
 	
 	private int id;
 
@@ -21,7 +21,7 @@ public class Game implements RemoteGame {
 		"Maria Galmbani", "Silvano Porpora", "Paolo Landon", "Tuccio Brendon"};
 	public static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
-	private String[] name;		
+	private String[] names;		
 	
 	private List<Player> players;
 	private Board board;
@@ -33,8 +33,11 @@ public class Game implements RemoteGame {
 
 	private boolean started = false;
 	private boolean ended = false;
+	private int turnOf;
 	private int numberOfTurns = 0;
 	private int maxNumberOfTurns;
+	private int cycle;
+	private boolean timerEnded;
 
 	
 	private boolean aliensWin = false;
@@ -45,7 +48,7 @@ public class Game implements RemoteGame {
 	private static final int MAX_TURNS = 39;
 
 		
-		public	Game() {
+		public	Game(int id) {
 			players = new ArrayList<Player>();
 			//setSectorDeck(new SectorDeck());
 			try {
@@ -57,11 +60,8 @@ public class Game implements RemoteGame {
 			//winnerPlayers = new ArrayList<Player>();
 			//hatchDeck = new HatchDeck();
 		}
+	
 		
-		public synchronized boolean addPlayer(Client cl){
-			return true;
-			
-		}
 
 		public List<Player> getPlayers() {
 			return players;
@@ -96,13 +96,48 @@ public class Game implements RemoteGame {
 
 		
 
-		public void start(){
+		public void run(){
 		
-			
+			boolean turnEnded = false;
+			boolean needSector = false;
 			currentPlayer = players.get(0);
 			started = true;
 			maxNumberOfTurns = MAX_TURNS*players.size() ;
+			ended = false;
+			while(!ended){
+				
+				while(!timerEnded && !turnEnded){
+					synchronized (this){
+						try {
+							this.wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if (timerEnded){
+							// TODO handle disconnect(even if the client is connected i kick him out of the game
+						}
+						if (turnEnded){
+							//TODO reset player parameter
+						}
+						if (needSector){
+							//TODO Request sector for noise
+						}
+					}
+					
+				}
+				
+			}
+			
+			
 		}
+
+		private boolean isEnded() {
+			
+			return ended;
+		}
+
+
 
 		/**
 		 * Has the game started?
@@ -117,6 +152,15 @@ public class Game implements RemoteGame {
 		 * @return the ended
 		 */
 	
+		public String getCharacter(String  name){
+			int index = -1;
+			for (int i = 0; i<names.length; i++)
+				if (names[i]==name)
+					index = i;
+			if (index!=-1)
+				return characterNameList[index]+" "+characterRoleList[index]+" "+players.get(index).getFaction();
+			return null;
+		}
 
 		void nextTurn() {
 			if (ended)
@@ -170,17 +214,24 @@ public class Game implements RemoteGame {
 		 * @param player
 		 * @throws GamePlayException
 		 */
-		void addPlayer(Player p){
-			players.add(p);
+		void addPlayer(String  name){
+			if (players.size()%2!=0)
+				players.add(new AlienPlayer(this, players.size(), name));
+			else players.add(new HumanPlayer(this, players.size(), name));
+			names[players.size()] = name;
+		}
+		
+		public int getID(){
+			return this.id;
 		}
 
 		
-		SectorCard pickDangerousSectorCard() {
+		public SectorCard pickDangerousSectorCard() {
 			return getSectorDeck().draw();
 		}
 
 		
-		void escaped(HumanPlayer human) {
+		public void escaped(HumanPlayer human) {
 
 			winnerPlayers.add(human);
 		}
@@ -246,61 +297,19 @@ public class Game implements RemoteGame {
 			
 		}
 
-		public String action() throws RemoteException {
+		public String action() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		public String move(String sector, String player) throws RemoteException {
+		public String move(String sector, String player)  {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		public String getMap() throws RemoteException {
+		public String getMap() {
 			String map = new String() ;
-			
-			
-			
-			/*
-			for (int row = 0 ; row < Board.ROWS; row++){
-				String s[]= new String[4];
-				for (int i = 0 ; i < 4; i ++)
-					s[i]= new String();
-				for  (int col = 0 ; col < Board.COLS; col =  col + 1){
-
-					if (col%2 == 0 ){
-						s[0]+=(board.getSector(row, col).getType()+"/   \\ ");
-						s[1]+=("/ "+board.getSector(row, col).getName()+" \\");
-						s[2]+=("\\     /");
-						s[3]+=(" \\___/ ");
-					}
-					else if (col%2 == 1 ){
-						s[2]+=(board.getSector(row, col).getType()+"/   \\ ");
-						s[3]+=("/ "+board.getSector(row, col).getName()+" \\");
-						s[0]+=("\\     /");
-						s[1]+=(" \\___/ ");
-					}
-					
-					
-				}
-				map+=(s[0]+";"+s[1]+";"+s[2]+";"+s[3]+";");
-				
-			}
-			
-			char a[] = map.toCharArray();
-			for (int j=0 ; j<14*4; j+=4){
-				for (int i=0; i<161;i++){
-					if (a[i+(j*161)]=='N'){
-						for (int c = 0; c<7; c++){
-							a[i+j*161]=' ';
-							a[i+161+j*161]=' ';
-						}
-					}
-			
-				}
-			}
-			map = a.toString();	
-			*/
+		
 			for (int row = 0 ; row < Board.ROWS; row++){
 				for  (int col = 0 ; col < Board.COLS; col =  col + 2){
 					
@@ -369,72 +378,7 @@ public class Game implements RemoteGame {
 			return map;
 		}
 
-		public int connect(String name) throws RemoteException {
-			//TODO restituire -1 se il nome esiste
-			return this.id;
-		}
 
-		public String isEnded() throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getWinner() throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String attack() throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String showCard() throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String useCard(String card) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String discardCard(String card) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String makeNoise(String sector) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String attack(String name) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String showCard(String name) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String useCard(String card, String name) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String discardCard(String card, String name)
-				throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String makeNoise(String sector, String name)
-				throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
-		}
 
 
 	

@@ -26,27 +26,23 @@ public class Board {
 	
 	
 	public Board () throws FileNotFoundException{
-		
 	  	Scanner input = new Scanner(new File("src/galilei.txt"));
-			String tmp;
-			char[] value;
-			board = new Sector[ROWS][COLS];
-			char a[] = {'N','A'};
-			
-			for (int row = 0; row < 14; row++ ){
-				tmp = input.nextLine();
-				value = tmp.toCharArray();
-				int col = 0;
-				for (int c = 0; c < value.length; c++ ){
-					char v = value[c];
-					if(v=='N' || v=='S' || v=='D' || v=='E' || v=='H' || v=='A')
-						{
-						board [row][col] = findSectorType(v,row,col);
-						col++;
-					}
+		String tmp;
+		char[] value;
+		board = new Sector[ROWS][COLS];	
+		for (int row = 0; row < 14; row++ ){
+			tmp = input.nextLine();
+			value = tmp.toCharArray();
+			int col = 0;
+			for (int c = 0; c < value.length; c++ ){
+				char v = value[c];
+				if(v=='N' || v=='S' || v=='D' || v=='E' || v=='H' || v=='A')
+					{
+					board [row][col] = findSectorType(v,row,col);
+					col++;
 				}
-				
 			}
+		}
 	}
 	
 	public Sector getSector(int row, int col){

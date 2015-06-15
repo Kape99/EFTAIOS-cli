@@ -26,7 +26,7 @@ public class App
     public static void main( String[] args ) throws RemoteException, FileNotFoundException
     {
     	
-		Game g= new Game();
+		Game g= new Game(1);
     	System.out.println(g.getMap().replace(";","\n"));
     }
     
