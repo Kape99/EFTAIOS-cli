@@ -9,7 +9,7 @@ public class GamesHandler implements GamesHandlerInterface {
 	
 	private static List<Game> games;
 	private static Game actualGame = null;
-	private int i = 0;
+	private int count = 0;
 	
 	
 	public GamesHandler (){
@@ -29,17 +29,17 @@ public class GamesHandler implements GamesHandlerInterface {
 			System.out.println("è pieno?");
 			createNewGame();	
 		}
-		System.out.println("connecting to game");
+		System.out.println("connecting to game "+(count-1)+" player "+name );
 		actualGame.addPlayer(name);
 		System.out.println(actualGame.getID());
 		return actualGame.getID();
 	}
 	
 	private void createNewGame(){
-		System.out.println("Creating new Game");
-		actualGame = new Game(i);
+		System.out.println("Creating new Game "+ count);
+		actualGame = new Game(count);
 		games.add(actualGame);
-		i++;
+		count++;
 	}
 
 	public Boolean isEnded() throws RemoteException {
@@ -51,7 +51,8 @@ public class GamesHandler implements GamesHandlerInterface {
 		String splitted[] = action.split(" ");
 		if (games.isEmpty())
 			return "Games empty";
-		System.out.println(splitted[0]);
+		
+		System.out.println(splitted[0]+", game:"+game+", player:"+name);
 
 		switch (splitted[0]){
 			case ("MAP"):{return games.get(game).getMap();}

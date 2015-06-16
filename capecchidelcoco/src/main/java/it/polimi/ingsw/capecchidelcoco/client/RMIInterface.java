@@ -42,6 +42,8 @@ public class RMIInterface implements NetworkInterface {
 			System.out.println("3");
 
 			controller = (GamesHandlerInterface) registry.lookup(url);
+			System.out.println("4");
+
 		} catch (AccessException e) {
 			e.printStackTrace();
 			return -1;

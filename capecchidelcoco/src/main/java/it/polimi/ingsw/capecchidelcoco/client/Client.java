@@ -66,7 +66,7 @@ public class Client{
 		System.out.println("Chose a name");
 		input = readLine("\n");
 		game = ni.connect(input);
-		System.out.println(game);
+		System.out.println("myGame "+game);
 		while (game ==-1){
 			System.out.println("name alrady use , try again");
 			input = readLine("\n");

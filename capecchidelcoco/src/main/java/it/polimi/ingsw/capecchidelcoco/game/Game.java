@@ -17,6 +17,9 @@ import java.util.Map;
 
 public class Game implements Runnable {
 	
+	
+	//TODO sistemare problema che non trova il le info sulla sdeconda partita
+	
 	private int id;
 
 	public static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
@@ -48,11 +51,12 @@ public class Game implements Runnable {
 	private List<Player> winnerPlayers;
 
 
-	public static final int MAX_PLAYERS = 8;
+	public static final int MAX_PLAYERS = 2;
 	private static final int MAX_TURNS = 39;
 
 		
 		public	Game(int id) {
+			this.id = id;
 			test = new HashMap<String,Player>();
 			players = new ArrayList<Player>();
 			//setSectorDeck(new SectorDeck());
@@ -96,7 +100,7 @@ public class Game implements Runnable {
 
 	
 		public boolean isFull(){
-			return (players.size() == MAX_PLAYERS);
+			return (test.size() == MAX_PLAYERS);
 		}
 
 		
@@ -138,7 +142,6 @@ public class Game implements Runnable {
 		}
 
 		private boolean isEnded() {
-			
 			return ended;
 		}
 
@@ -162,11 +165,15 @@ public class Game implements Runnable {
 		}
 	
 		public String getInfo(String  name){
-			int index = -1;
-			if (test.containsKey(name))
+			for (String s:this.test.keySet()){
+				System.out.println(s);
+			}
+			if (this.test.containsKey(name))
 				return "You are "+test.get(name).getInfo();
-			return "fallito get character";
+			return "fallito INFO";
 		}
+		
+		
 
 		void nextTurn() {
 			if (ended)
@@ -221,11 +228,11 @@ public class Game implements Runnable {
 		 * @throws GamePlayException
 		 */
 		void addPlayer(String  name){
-			System.out.println("size"+test.size());
-			if (test.size()%2==0)
-				test.put(name,new AlienPlayer(this, test.size(), name));
-			else test.put(name,new HumanPlayer(this, test.size(), name));
 			
+			if (this.test.size()%2==0)
+				this.test.put(name,new AlienPlayer(this, this.test.size(), name));
+			else this.test.put(name,new HumanPlayer(this, this.test.size(), name));
+			System.out.println("G size of test "+test.size());
 		}
 		
 		public int getID(){
