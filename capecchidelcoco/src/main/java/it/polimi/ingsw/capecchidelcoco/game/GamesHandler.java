@@ -2,6 +2,7 @@ package it.polimi.ingsw.capecchidelcoco.game;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GamesHandler implements GamesHandlerInterface {
@@ -12,33 +13,33 @@ public class GamesHandler implements GamesHandlerInterface {
 	
 	
 	public GamesHandler (){
-		actualGame = new Game(i);
+		games = new ArrayList<Game>();
+		System.out.println("GamesHandler");
+
 	}
 
 	public int connect(String name) throws RemoteException {
-		
-		if (actualGame.isFull()){
-			games.add(actualGame);
-			i++;
-			actualGame = null;
-		}
+
 		if (actualGame == null){
+			System.out.println("actualGame is null");
 			createNewGame();	
 		}
-		
-		actualGame.addPlayer(name);
 		if (actualGame.isFull()){
-			//TODO actualGame.start();
-			games.add(actualGame);
-			i++;
-			actualGame = null;
+			//TODO start game
+			System.out.println("è pieno?");
+			createNewGame();	
 		}
+		System.out.println("connecting to game");
+		actualGame.addPlayer(name);
+		System.out.println(actualGame.getID());
 		return actualGame.getID();
 	}
 	
 	private void createNewGame(){
-		i++;
+		System.out.println("Creating new Game");
 		actualGame = new Game(i);
+		games.add(actualGame);
+		i++;
 	}
 
 	public Boolean isEnded() throws RemoteException {
@@ -48,11 +49,15 @@ public class GamesHandler implements GamesHandlerInterface {
 
 	public String sendAction(String action, int game, String name) throws RemoteException {
 		String splitted[] = action.split(" ");
+		if (games.isEmpty())
+			return "Games empty";
+		System.out.println(splitted[0]);
+
 		switch (splitted[0]){
-		case ("MAP"):{return games.get(game).getMap();}
-		case ("MYCHARACTER"):{return games.get(game).getCharacter(name);}
+			case ("MAP"):{return games.get(game).getMap();}
+			case ("INFO"):{return games.get(game).getInfo(name);}
 		}
-		return null;
+		return "casa";
 	}
 
 }

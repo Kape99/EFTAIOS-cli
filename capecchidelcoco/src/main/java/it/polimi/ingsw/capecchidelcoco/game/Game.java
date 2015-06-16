@@ -8,8 +8,10 @@ import it.polimi.ingsw.capecchidelcoco.player.*;
 
 import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 
@@ -21,6 +23,8 @@ public class Game implements Runnable {
 		"Maria Galmbani", "Silvano Porpora", "Paolo Landon", "Tuccio Brendon"};
 	public static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
+	
+	private Map<String,Player> test;
 	private String[] names;		
 	
 	private List<Player> players;
@@ -49,6 +53,7 @@ public class Game implements Runnable {
 
 		
 		public	Game(int id) {
+			test = new HashMap<String,Player>();
 			players = new ArrayList<Player>();
 			//setSectorDeck(new SectorDeck());
 			try {
@@ -148,18 +153,19 @@ public class Game implements Runnable {
 			return started;
 		}
 
-		/**
-		 * @return the ended
-		 */
+		public String[] getCharacters(){
+			return characterNameList;
+		}
+		
+		public String[] getRoles(){
+			return characterRoleList;
+		}
 	
-		public String getCharacter(String  name){
+		public String getInfo(String  name){
 			int index = -1;
-			for (int i = 0; i<names.length; i++)
-				if (names[i]==name)
-					index = i;
-			if (index!=-1)
-				return characterNameList[index]+" "+characterRoleList[index]+" "+players.get(index).getFaction();
-			return null;
+			if (test.containsKey(name))
+				return "You are "+test.get(name).getInfo();
+			return "fallito get character";
 		}
 
 		void nextTurn() {
@@ -215,10 +221,11 @@ public class Game implements Runnable {
 		 * @throws GamePlayException
 		 */
 		void addPlayer(String  name){
-			if (players.size()%2!=0)
-				players.add(new AlienPlayer(this, players.size(), name));
-			else players.add(new HumanPlayer(this, players.size(), name));
-			names[players.size()] = name;
+			System.out.println("size"+test.size());
+			if (test.size()%2==0)
+				test.put(name,new AlienPlayer(this, test.size(), name));
+			else test.put(name,new HumanPlayer(this, test.size(), name));
+			
 		}
 		
 		public int getID(){

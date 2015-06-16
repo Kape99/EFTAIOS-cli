@@ -17,6 +17,15 @@ import java.util.Scanner;
 public class Client{
 	
 	
+	public static Scanner in = new Scanner(System.in);
+
+	
+	/**
+	 * List of commands
+	 * MAP
+	 * INFO
+	 */
+	
 	
 	protected Client(){
 		super();
@@ -57,17 +66,24 @@ public class Client{
 		System.out.println("Chose a name");
 		input = readLine("\n");
 		game = ni.connect(input);
-		while (game !=-1){
+		System.out.println(game);
+		while (game ==-1){
 			System.out.println("name alrady use , try again");
 			input = readLine("\n");
+			game = ni.connect(input);
 		}
 		name = input;
 		System.out.println("Connection to the room... Waiting for other player");
 		
-		//System.out.println("You are " + ni.sendCommand("MYCHARACTER", game, name));
+		System.out.println(ni.sendCommand("INFO", game, name));
+		
+		
 		boolean finish = false;
 		String toPrint;
-	
+		while(true){
+			input = readLine("\n");
+			System.out.println(ni.sendCommand(input, game, name).replace(";", "\n"));
+		}
 		
 	}
 			

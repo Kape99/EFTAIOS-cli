@@ -47,6 +47,7 @@ public abstract class Player implements RemotePlayer {
 		this.name = name;
 		this.life = 1;
 		this.alive = true;
+		setCharacter();
 		
 		
 	}
@@ -80,12 +81,15 @@ public abstract class Player implements RemotePlayer {
 		return characterRole;
 	}
 	
+	public String getInfo(){
+		return (characterName+" <"+characterRole+"> ("+faction+")");
+	}
 	/**
 	 *Set the name and the role of the character related to this player.  
 	 */
 	public void setCharacter() {
-		this.characterName = Game.characterNameList[playerNumber];
-		this.characterRole = Game.characterRoleList[playerNumber];
+		this.characterName = myGame.getCharacters()[playerNumber];
+		this.characterRole = myGame.getRoles()[playerNumber];
 	}
 	
 	public Set<Sector> reachable(Sector cSector, int distance){
