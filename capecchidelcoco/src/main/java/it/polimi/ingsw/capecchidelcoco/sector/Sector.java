@@ -2,6 +2,8 @@ package it.polimi.ingsw.capecchidelcoco.sector;
 
 import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
 import it.polimi.ingsw.capecchidelcoco.player.*;
+
+import java.util.ArrayList;
 import java.util.List;
 public abstract class  Sector extends Coordinates {
 
@@ -23,6 +25,7 @@ public abstract class  Sector extends Coordinates {
 	
 	public Sector(int y, int x, char type, boolean usable){
 		super(x, y);
+		players = new ArrayList<Player>();
 		this.type = type;
 		this.usable = usable;
 		setName();
@@ -85,10 +88,10 @@ public abstract class  Sector extends Coordinates {
 	}
 	
 	
-	public Coordinates getCoordinate(String name){
+	public static Coordinates GetCoordinate(String name){
 		int x =(int)((byte)name.charAt(0) - 'A');
 		String appo =""+ name.charAt(1) + name.charAt(2);
-    	int y = Integer.parseInt(appo);
+    	int y = Integer.parseInt(appo)-1;
 		Coordinates co = new Coordinates(x, y);
 		return co;
 	}

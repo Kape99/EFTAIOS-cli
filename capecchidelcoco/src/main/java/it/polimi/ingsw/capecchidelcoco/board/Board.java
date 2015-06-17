@@ -51,27 +51,41 @@ public class Board {
 			
 	
 	public Set<Sector> getNeighbors(Sector centralSector,int distance){
-		//possibleMoves.clear();
+		//TODO possibleMoves.clear();
 		Set<Sector> visited = new HashSet<Sector>();
-		visited.add(centralSector);
-		for (int i = 0; i < distance; i++){
-			for(Sector vi:visited){
-				//controlla tutti e sei i settori intorno
-				for (int dir = 0; dir < 6; dir++){
-					int parity = vi.getCol() % 2;
-						if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
-							visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
-						   }
-					   
-				   }
-			
-			}	   
+		for (int dir = 0; dir < 6; dir++){
+			int parity = centralSector.getCol() % 2;
+			try{
+				if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
+					visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
+				}
+			}catch(Exception e){}
 		}
-		visited.remove(centralSector);
+		if (distance >1 ){
+			Set<Sector> appo = new HashSet<Sector>();
+			appo.addAll(visited);
+			for (Sector vi:appo){
+					visited.addAll(getNeighbors(vi,distance-1));
+				}
+			}
+		
+	/*	for (int i = 0; i < distance; i++){
+				for(Sector vi:visited){
+					for (int dir = 0; dir < 6; dir++){
+						int parity = vi.getCol() % 2;
+						try{
+							if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
+								visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
+							}
+						}catch(Exception e){}
+					}
+				}
+		}
+		*/
 		return visited;
 	}
 		  
-	public Sector findSpawn(){
+	public Sector findSpawn(String faction){
 		return null;
 	}
 	

@@ -20,6 +20,11 @@ public class GamesHandler implements GamesHandlerInterface {
 
 	public int connect(String name) throws RemoteException {
 
+		for (Game g:games){
+			if (g.getPlayers().containsKey(name))
+				return -1;
+		}
+			
 		if (actualGame == null){
 			System.out.println("actualGame is null");
 			createNewGame();	
@@ -31,7 +36,7 @@ public class GamesHandler implements GamesHandlerInterface {
 		}
 		System.out.println("connecting to game "+(count-1)+" player "+name );
 		actualGame.addPlayer(name);
-		System.out.println(actualGame.getID());
+		System.out.println("game " +actualGame.getID());
 		return actualGame.getID();
 	}
 	
@@ -53,8 +58,10 @@ public class GamesHandler implements GamesHandlerInterface {
 			return "Games empty";
 		
 		System.out.println(splitted[0]+", game:"+game+", player:"+name);
-
 		switch (splitted[0]){
+			case ("MOVE"):{		
+				System.out.println("move in "+splitted[1]);
+				return games.get(game).move(splitted[1], name);}
 			case ("MAP"):{return games.get(game).getMap();}
 			case ("INFO"):{return games.get(game).getInfo(name);}
 		}

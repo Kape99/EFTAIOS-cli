@@ -11,8 +11,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 public abstract class Player implements RemotePlayer {
@@ -21,9 +24,10 @@ public abstract class Player implements RemotePlayer {
 
 	//protected Board board;
 
+	protected ArrayList<Sector> listOfMove;
 	protected String name;
 	protected Sector currentPosition;
-	List<Sector> possibleMoves = null;
+	protected Set<Sector> possibleMoves;
 	int speed;
 	protected List<ObjectCard> objects;
 	protected int playerNumber;
@@ -47,9 +51,12 @@ public abstract class Player implements RemotePlayer {
 		this.name = name;
 		this.life = 1;
 		this.alive = true;
+		possibleMoves = new TreeSet<Sector>();
 		setCharacter();
-		
-		
+		listOfMove = new ArrayList<Sector>();
+		objects = new ArrayList<ObjectCard>();
+		hasMoved = false;
+		sedated = false;		
 	}
 	
 	/**
@@ -82,8 +89,33 @@ public abstract class Player implements RemotePlayer {
 	}
 	
 	public String getInfo(){
-		return (characterName+" <"+characterRole+"> ("+faction+")");
+		String ret = "";
+		if (alive){
+			ret += "You are "+characterName+" <"+characterRole+"> ("+faction+").;";
+			ret += "You can move up to "+speed+" tile";
+			if (speed>1)
+				ret += "s";
+			ret += ".;Your actual location is "+currentPosition.getName()+".;";
+			ret += "You can move on those Sector:;";
+			ret += getPossibleMoves();
+	 		
+		}else{
+			ret += "You were "+characterName+" <"+characterRole+"> ("+faction+").;";
+			ret += "You are actualy death.";
+		}
+		return  ret;
 	}
+	private String getPossibleMoves() {
+		Set<String> tmp = new TreeSet<String>();
+		String ret = "";
+		possibleMoves = myGame.getBoard().getNeighbors(currentPosition, speed);
+		for (Sector s:possibleMoves)
+			tmp.add(s.getName());
+		for (String t:tmp)
+			ret += t + " ";
+		return ret;
+	}
+
 	/**
 	 *Set the name and the role of the character related to this player.  
 	 */
@@ -138,19 +170,32 @@ public abstract class Player implements RemotePlayer {
 	/**
 	 * @param nextPosition
 	 */
-	public void move(Sector nextPosition){
-		if (!hasMoved){
-			currentPosition.removePlayer(this);
-			currentPosition = nextPosition;
-			currentPosition.addPlayer(this);
-			hasMoved = true;
-			if (!sedated){
-				currentPosition.doAction(this);
+	public String move(String nextPosition){
+		String ret;
+		Sector s = myGame.getBoard().getSector(Sector.GetCoordinate(nextPosition).getY(),Sector.GetCoordinate(nextPosition).getX());
+		System.out.println(s.getName());
+		possibleMoves = myGame.getBoard().getNeighbors(currentPosition, speed);
+		if (possibleMoves.contains(s)){
+			if (!hasMoved){
+				currentPosition.removePlayer(this);
+				currentPosition = s;
+				currentPosition.addPlayer(this);
+				listOfMove.add(s);
+				hasMoved = true;
+				if (!sedated){
+					//currentPosition.doAction(this);
 				
 				//decidere come fare eseguire qualcosa alle carte
-				
+				}
+				return "You are in "+currentPosition.getName();
 			}
+			return "You alrady moved this turn";
 		}
+		ret = "Invalid destination, you can move here:;";
+		ret += getPossibleMoves();
+
+		return ret;
+	
 	}
 	
 	public boolean isAlive(){

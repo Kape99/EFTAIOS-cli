@@ -18,7 +18,9 @@ public class AlienPlayer extends Player implements Serializable{
 		super(myGame, num, name);
 		this.speed = 2;
 		this.faction = "Alien";
-		
+		//this.currentPosition = myGame.getBoard().findSpawn(faction);
+		this.currentPosition = myGame.getBoard().getSector(2, 1);
+		currentPosition.addPlayer(this);
 	}
 	
 	

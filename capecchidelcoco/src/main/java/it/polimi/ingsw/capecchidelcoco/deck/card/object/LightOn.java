@@ -22,7 +22,7 @@ public class LightOn extends ObjectCard {
 		public void doAction(Player currPlayer, Sector target){
 			visible = null;
 			Set<Sector> tmp = currPlayer.getGame().getBoard().getNeighbors(target, 1);
-			for (Player pl:currPlayer.getGame().getPlayers()){
+			for (Player pl:currPlayer.getGame().getPlayers().values()){
 				if (tmp.contains(pl.getCurrentPosition())){
 					visible.add(pl);
 				}

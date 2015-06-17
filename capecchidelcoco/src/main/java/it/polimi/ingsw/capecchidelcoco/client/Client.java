@@ -75,7 +75,7 @@ public class Client{
 		name = input;
 		System.out.println("Connection to the room... Waiting for other player");
 		
-		System.out.println(ni.sendCommand("INFO", game, name));
+		System.out.println(ni.sendCommand("INFO", game, name).replace(";", "\n"));
 		
 		
 		boolean finish = false;

@@ -10,6 +10,9 @@ public class HumanPlayer extends Player {
 		super(myGame, num, name);
 		this.speed = 1;
 		this.faction = "Human";
+		//this.currentPosition = myGame.getBoard().findSpawn(faction);
+		this.currentPosition = myGame.getBoard().getSector(3, 2);
+		currentPosition.addPlayer(this);
 	}
 
 	@Override

@@ -27,16 +27,17 @@ public class Game implements Runnable {
 	public static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
 	
-	private Map<String,Player> test;
-	private String[] names;		
+	private Map<String,Player> players;
+	//private String[] names;		
 	
-	private List<Player> players;
+	//private List<Player> players;
 	private Board board;
 	private SectorDeck sectorDeck;
 	private ObjectDeck objectDeck;
 	private HatchDeck hatchDeck;
 	private Player currentPlayer;
 	
+	private ArrayList<String> news;
 
 	private boolean started = false;
 	private boolean ended = false;
@@ -57,28 +58,29 @@ public class Game implements Runnable {
 		
 		public	Game(int id) {
 			this.id = id;
-			test = new HashMap<String,Player>();
-			players = new ArrayList<Player>();
+			players = new HashMap<String,Player>();
+			//players = new ArrayList<Player>();
 			//setSectorDeck(new SectorDeck());
+			//hatchDeck = new HatchDeck();
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//winnerPlayers = new ArrayList<Player>();
-			//hatchDeck = new HatchDeck();
+			winnerPlayers = new ArrayList<Player>();
+			
 		}
 	
 		
 
-		public List<Player> getPlayers() {
+		public Map<String,Player> getPlayers() {
 			return players;
 		}
 		
 		public List<Player> getPlayersOfType(String faction) {
 			List<Player> result = new ArrayList<Player>();
-			for(Player p: players) {
+			for(Player p: players.values()) {
 				if(p.getFaction() == faction)
 					result.add(p);
 			}
@@ -91,7 +93,7 @@ public class Game implements Runnable {
 
 		private int getNumberOfAliveHumanPlayers() {
 			int n = 0;
-			for (Player p : players) {
+			for (Player p : players.values()) {
 				if (p instanceof HumanPlayer && p.isAlive())
 					n++;
 			}
@@ -100,7 +102,7 @@ public class Game implements Runnable {
 
 	
 		public boolean isFull(){
-			return (test.size() == MAX_PLAYERS);
+			return (players.size() == MAX_PLAYERS);
 		}
 
 		
@@ -114,7 +116,6 @@ public class Game implements Runnable {
 			maxNumberOfTurns = MAX_TURNS*players.size() ;
 			ended = false;
 			while(!ended){
-				
 				while(!timerEnded && !turnEnded){
 					synchronized (this){
 						try {
@@ -165,11 +166,11 @@ public class Game implements Runnable {
 		}
 	
 		public String getInfo(String  name){
-			for (String s:this.test.keySet()){
+			for (String s:this.players.keySet()){
 				System.out.println(s);
 			}
-			if (this.test.containsKey(name))
-				return "You are "+test.get(name).getInfo();
+			if (this.players.containsKey(name))
+				return players.get(name).getInfo();
 			return "fallito INFO";
 		}
 		
@@ -190,9 +191,8 @@ public class Game implements Runnable {
 
 				return;
 			}
-			int currentPlayerIndex = players.indexOf(currentPlayer);
-			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-			currentPlayer = players.get(currentPlayerIndex);
+			turnOf = (turnOf + 1) % players.size();
+			currentPlayer = players.get(turnOf);
 			if (!currentPlayer.isAlive())
 				nextTurn();
 			
@@ -229,10 +229,10 @@ public class Game implements Runnable {
 		 */
 		void addPlayer(String  name){
 			
-			if (this.test.size()%2==0)
-				this.test.put(name,new AlienPlayer(this, this.test.size(), name));
-			else this.test.put(name,new HumanPlayer(this, this.test.size(), name));
-			System.out.println("G size of test "+test.size());
+			if (this.players.size()%2==0)
+				this.players.put(name,new AlienPlayer(this, this.players.size(), name));
+			else this.players.put(name,new HumanPlayer(this, this.players.size(), name));
+			System.out.println("G size of players "+players.size());
 		}
 		
 		public int getID(){
@@ -317,8 +317,8 @@ public class Game implements Runnable {
 		}
 
 		public String move(String sector, String player)  {
-			// TODO Auto-generated method stub
-			return null;
+			return players.get(player).move(sector);
+			
 		}
 
 		public String getMap() {
