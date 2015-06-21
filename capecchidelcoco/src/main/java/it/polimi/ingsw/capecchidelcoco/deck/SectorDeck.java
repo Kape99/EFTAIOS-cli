@@ -15,16 +15,18 @@ public class SectorDeck implements Deck {
 	
 	public SectorDeck (){
 		cardsNotUsed = 25;
+		deck = new LinkedList<SectorCard>();
+		discardedCard = new LinkedList<SectorCard>();
 		for(int i = 0; i < 6;i++){
 			this.deck.add(new NoiseYour(false));
-			this.deck.add(new NoiseAny(false));
+			this.deck.add(new NoiseYour(false));
 		}
 		for(int i = 0; i < 4;i++){
 			this.deck.add(new NoiseYour(true));
-			this.deck.add(new NoiseAny(true));
+			this.deck.add(new NoiseYour(true));
 		}
 		for(int i = 0; i < 5;i++){
-			this.deck.add(new Silence(false));
+			this.deck.add(new NoiseYour(false));
 		}
 		  
 		Collections.shuffle(this.deck);

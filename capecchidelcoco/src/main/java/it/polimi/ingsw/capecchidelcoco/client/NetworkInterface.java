@@ -8,6 +8,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 
 public interface NetworkInterface {
@@ -21,6 +22,6 @@ public interface NetworkInterface {
 	
 	boolean isEnded() throws RemoteException;
 
-	String updateBrodcast(int myGame, String player) throws IOException;
+	ArrayList<String> updateBrodcast(int game, String player, int counter) throws IOException;
 
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -73,12 +74,12 @@ public class RMIInterface implements NetworkInterface {
 		return false;
 	}
 
-	public String sendCommand(String command, int myGame, String player)throws RemoteException {
+	public String sendCommand(String command, int game, String player)throws RemoteException {
 		String splitted[] = command.split(" ");
 		String result;
 		for (int i = 0; i<valid.length; i++){
 			if (splitted[0].equals(valid[i])){
-				result = controller.sendAction(command, myGame, player);
+				result = controller.sendAction(command, game, player);
 				return result;
 			}
 		}
@@ -90,9 +91,8 @@ public class RMIInterface implements NetworkInterface {
 		return false;
 	}
 
-	public String updateBrodcast(int myGame, String player) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<String> updateBrodcast(int game, String name, int counter) throws IOException {
+		return controller.brodcast(game, name, counter);
 	}
 
 	

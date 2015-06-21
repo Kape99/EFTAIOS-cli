@@ -51,7 +51,7 @@ public abstract class Player implements RemotePlayer {
 		this.name = name;
 		this.life = 1;
 		this.alive = true;
-		possibleMoves = new TreeSet<Sector>();
+		possibleMoves = new HashSet<Sector>();
 		setCharacter();
 		listOfMove = new ArrayList<Sector>();
 		objects = new ArrayList<ObjectCard>();
@@ -65,6 +65,10 @@ public abstract class Player implements RemotePlayer {
 	 */
 	public int getPlayerNumber (){
 		return this.playerNumber;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 	
 	
@@ -108,7 +112,7 @@ public abstract class Player implements RemotePlayer {
 	private String getPossibleMoves() {
 		Set<String> tmp = new TreeSet<String>();
 		String ret = "";
-		possibleMoves = myGame.getBoard().getNeighbors(currentPosition, speed);
+		possibleMoves = reachable(currentPosition, speed);
 		for (Sector s:possibleMoves)
 			tmp.add(s.getName());
 		for (String t:tmp)
@@ -125,7 +129,10 @@ public abstract class Player implements RemotePlayer {
 	}
 	
 	public Set<Sector> reachable(Sector cSector, int distance){
-		return myGame.getBoard().getNeighbors(cSector, distance);
+		Set<Sector> ret = new HashSet<Sector>();
+		ret = myGame.getBoard().getNeighbors(cSector, distance);
+		ret.remove(cSector);
+		return ret;
 	}
 
 	public void addObjectCard(ObjectCard currentCard){
@@ -174,7 +181,7 @@ public abstract class Player implements RemotePlayer {
 		String ret;
 		Sector s = myGame.getBoard().getSector(Sector.GetCoordinate(nextPosition).getY(),Sector.GetCoordinate(nextPosition).getX());
 		System.out.println(s.getName());
-		possibleMoves = myGame.getBoard().getNeighbors(currentPosition, speed);
+		possibleMoves = reachable(currentPosition, speed);
 		if (possibleMoves.contains(s)){
 			if (!hasMoved){
 				currentPosition.removePlayer(this);
@@ -183,9 +190,8 @@ public abstract class Player implements RemotePlayer {
 				listOfMove.add(s);
 				hasMoved = true;
 				if (!sedated){
-					//currentPosition.doAction(this);
+					currentPosition.doAction(myGame, this);
 				
-				//decidere come fare eseguire qualcosa alle carte
 				}
 				return "You are in "+currentPosition.getName();
 			}

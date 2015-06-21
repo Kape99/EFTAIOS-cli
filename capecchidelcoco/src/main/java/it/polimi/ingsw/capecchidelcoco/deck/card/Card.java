@@ -1,5 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.deck.card;
 
+import it.polimi.ingsw.capecchidelcoco.game.Game;
 import it.polimi.ingsw.capecchidelcoco.player.Player;
 
 public abstract class Card {
@@ -24,6 +25,7 @@ public abstract class Card {
 	public static final int N_RED_CARDS = 3; 
 	
 	public abstract void doAction(Player pl);
+	public abstract void doAction(Game game, Player pl);
 
 	
 	

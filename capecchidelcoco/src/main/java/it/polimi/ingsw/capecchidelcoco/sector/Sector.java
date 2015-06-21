@@ -1,6 +1,7 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
 import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
+import it.polimi.ingsw.capecchidelcoco.game.Game;
 import it.polimi.ingsw.capecchidelcoco.player.*;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public abstract class  Sector extends Coordinates {
 		setName();
 	}
 	
-	public abstract void  doAction(Player pl);
+	public abstract void  doAction(Game game, Player pl);
 	
 	public boolean isUsable(){
 		return this.usable;

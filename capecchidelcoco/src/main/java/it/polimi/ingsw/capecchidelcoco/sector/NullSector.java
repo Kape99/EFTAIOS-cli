@@ -1,5 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
+import it.polimi.ingsw.capecchidelcoco.game.Game;
 import it.polimi.ingsw.capecchidelcoco.player.Player;
 
 public class NullSector extends Sector {
@@ -9,8 +10,14 @@ public class NullSector extends Sector {
 		super(x, y, 'N' , false);
 	}
 
-	@Override
+	
 	public void doAction(Player pl) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void doAction(Game game, Player pl) {
 		// TODO Auto-generated method stub
 		
 	}   

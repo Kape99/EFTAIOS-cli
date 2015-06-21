@@ -37,6 +37,7 @@ public class Game implements Runnable {
 	private HatchDeck hatchDeck;
 	private Player currentPlayer;
 	
+	
 	private ArrayList<String> news;
 
 	private boolean started = false;
@@ -59,9 +60,9 @@ public class Game implements Runnable {
 		public	Game(int id) {
 			this.id = id;
 			players = new HashMap<String,Player>();
-			//players = new ArrayList<Player>();
-			//setSectorDeck(new SectorDeck());
-			//hatchDeck = new HatchDeck();
+			news = new ArrayList<String>();
+			sectorDeck =new SectorDeck();
+			hatchDeck = new HatchDeck();
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
@@ -72,6 +73,9 @@ public class Game implements Runnable {
 			
 		}
 	
+		public void addNews(String inf){
+			news.add(inf);
+		}
 		
 
 		public Map<String,Player> getPlayers() {
@@ -125,7 +129,7 @@ public class Game implements Runnable {
 							e.printStackTrace();
 						}
 						if (timerEnded){
-							// TODO handle disconnect(even if the client is connected i kick him out of the game
+							// TODO handle disconnect(even if the client is connected i kick him out of the game)
 						}
 						if (turnEnded){
 							//TODO reset player parameter
@@ -180,22 +184,18 @@ public class Game implements Runnable {
 			if (ended)
 				return;
 			numberOfTurns++;
-
 			if (numberOfTurns > maxNumberOfTurns && getNumberOfAliveHumanPlayers() > 0
 					|| numberOfTurns <= maxNumberOfTurns
 					&& getNumberOfAliveHumanPlayers() == 0) {
-
 				aliensWin = true;
 				currentPlayer = null;
 				ended = true;
-
 				return;
 			}
 			turnOf = (turnOf + 1) % players.size();
 			currentPlayer = players.get(turnOf);
 			if (!currentPlayer.isAlive())
 				nextTurn();
-			
 		}
 
 		
@@ -251,8 +251,10 @@ public class Game implements Runnable {
 		}
 
 			
-		boolean isTurnOf(Player p) {
-			return p.equals(currentPlayer);
+		boolean isTurnOf(String player) {
+			if (started)			
+				return currentPlayer.equals(players.get(player));
+			return false;
 		}
 
 
@@ -305,19 +307,17 @@ public class Game implements Runnable {
 		public void setSectorDeck(SectorDeck sectorDeck) {
 			this.sectorDeck = sectorDeck;
 		}
-
-		public void addClient(Client c) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public String action() {
-			// TODO Auto-generated method stub
-			return null;
+		public ArrayList<String> getNews(String name, int counter){
+			ArrayList<String> ret = new ArrayList<String>();
+			for (int i = counter; i<news.size(); i++){
+				ret.add(news.get(i));
+			}
+			return ret;
 		}
 
 		public String move(String sector, String player)  {
-			return players.get(player).move(sector);
+			String ret =players.get(player).move(sector)+";";
+			return ret;
 			
 		}
 

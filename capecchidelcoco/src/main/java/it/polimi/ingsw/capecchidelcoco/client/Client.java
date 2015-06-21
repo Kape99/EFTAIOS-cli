@@ -46,6 +46,8 @@ public class Client{
 	private static String name;
 	
 	private static int game;
+	
+	private static int counter = 0;
 
 	public static void main (String[] args) throws IOException{
 		
@@ -75,7 +77,7 @@ public class Client{
 		name = input;
 		System.out.println("Connection to the room... Waiting for other player");
 		
-		System.out.println(ni.sendCommand("INFO", game, name).replace(";", "\n"));
+		System.out.println(ni.sendCommand("HELP", game, name).replace(";", "\n"));
 		
 		
 		boolean finish = false;
@@ -83,10 +85,20 @@ public class Client{
 		while(true){
 			input = readLine("\n");
 			System.out.println(ni.sendCommand(input, game, name).replace(";", "\n"));
+			update(ni);
+			
 		}
 		
 	}
 			
+	public static void update(NetworkInterface ni) throws IOException{
+		for (String s:ni.updateBrodcast(game, name, counter)){
+			if (s.startsWith(name))
+				System.out.println(s.replace(name+":", "you:"));
+			else System.out.println(s);
+			counter++;
+		}
+	}
 		
 	
 	/*	public static void main(String[] args) throws NotBoundException,

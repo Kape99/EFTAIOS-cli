@@ -17,6 +17,7 @@ public class HatchDeck implements Deck {
 	
 	public HatchDeck (){
 		cardsNotUsed = 6;
+		deck = new LinkedList<HatchCard>();
 		for (int i = 0; i<MAX_HATCH_CARD; i++ ){
 			this.deck.add(new GreenHatchCard());
 			this.deck.add(new RedHatchCard());

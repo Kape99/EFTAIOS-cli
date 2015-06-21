@@ -52,20 +52,41 @@ public class GamesHandler implements GamesHandlerInterface {
 		return null;
 	}
 
+	public ArrayList<String> brodcast(int game, String name, int counter)throws RemoteException{
+		
+		return games.get(game).getNews(name, counter);
+	}
 	public String sendAction(String action, int game, String name) throws RemoteException {
 		String splitted[] = action.split(" ");
 		if (games.isEmpty())
 			return "Games empty";
-		
-		System.out.println(splitted[0]+", game:"+game+", player:"+name);
 		switch (splitted[0]){
-			case ("MOVE"):{		
-				System.out.println("move in "+splitted[1]);
-				return games.get(game).move(splitted[1], name);}
-			case ("MAP"):{return games.get(game).getMap();}
-			case ("INFO"):{return games.get(game).getInfo(name);}
+		case ("MAP"):{return games.get(game).getMap();}
+		case ("INFO"):{return games.get(game).getInfo(name);}
+		case ("HELP"):{return help();}
+		
 		}
-		return "casa";
+		System.out.println(splitted[0]+", game:"+game+", player:"+name);
+		//if (games.get(game).isTurnOf(name))
+		switch (splitted[0]){
+			case ("MOVE"):{return games.get(game).move(splitted[1], name);}
+			//"MOVE","INFO","MAP","USECARD","HELP","PLAYERS"
+		}
+		return "Isn't your turn.";
+	}
+	public String help(){
+		return "Welcome in EFTAIOS;"
+				+ "This is the list of command you can use to play this beautiful BoardGame;"
+				+ ";"
+				+ "(This interface is case-sensitive so you MUST use uppercase letter);"
+				+ ";"
+				+ "HELP       --> Will show you this list of command.;"
+				+ "INFO       --> Will show you your character info,;"
+				+ "               your status, position, 'object you have'.;"
+				+ "MAP        --> Will show you the map where you are going to play.;"
+				+ "MOVE 'CRR' --> If possible(your turn, valid input) move you in 'CRR';"
+				+ "               'CRR' is C=collumn and RR=row of your detination;"
+				+ "               Ex.  'MOVE A01' will move you in A01 Sector.;";
 	}
 
 }

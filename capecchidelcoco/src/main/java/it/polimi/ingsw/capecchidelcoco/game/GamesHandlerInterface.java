@@ -2,6 +2,7 @@ package it.polimi.ingsw.capecchidelcoco.game;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface GamesHandlerInterface extends Remote{
 
@@ -10,5 +11,7 @@ public interface GamesHandlerInterface extends Remote{
 	public Boolean isEnded() throws RemoteException;
 
 	public String sendAction(String action, int game, String name) throws RemoteException ;
+	
+	public ArrayList<String> brodcast (int game, String name, int counter) throws RemoteException;
 
 }

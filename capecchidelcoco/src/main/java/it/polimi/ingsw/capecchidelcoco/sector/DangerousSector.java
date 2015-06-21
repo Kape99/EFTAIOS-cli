@@ -1,5 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.sector;
 
+import it.polimi.ingsw.capecchidelcoco.game.Game;
 import it.polimi.ingsw.capecchidelcoco.player.Player;
 
 public class DangerousSector extends Sector {
@@ -10,9 +11,8 @@ public class DangerousSector extends Sector {
 	}
 
 	@Override
-	public void doAction(Player pl) {
-		pl.getGame().getSectorDeck().draw().doAction(pl);
-		
+	public void doAction(Game game,Player pl) {
+		game.getSectorDeck().draw().doAction(game, pl);		
 	}   
 	
 
