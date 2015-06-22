@@ -14,4 +14,5 @@ public interface GamesHandlerInterface extends Remote{
 	
 	public ArrayList<String> brodcast (int game, String name, int counter) throws RemoteException;
 
+	public Boolean sendSector(String sector, int game, String name) throws RemoteException;
 }

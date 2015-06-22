@@ -1,6 +1,5 @@
 package it.polimi.ingsw.capecchidelcoco.client;
 
-import it.polimi.ingsw.capecchidelcoco.player.RemotePlayer;
 import it.polimi.ingsw.capecchidelcoco.server.Server;
 
 import java.io.BufferedReader;
@@ -82,10 +81,23 @@ public class Client{
 		
 		boolean finish = false;
 		String toPrint;
+		
 		while(true){
 			input = readLine("\n");
-			System.out.println(ni.sendCommand(input, game, name).replace(";", "\n"));
-			update(ni);
+			toPrint =ni.sendCommand(input, game, name);
+			if (toPrint.contains("%")){
+				;
+				do {
+					System.out.println(toPrint.replace(";", "\n").replace("ANY%",""));
+					input = readLine("\n");
+				}while (!ni.sendSector(input, game, name));
+				update(ni);
+				System.out.println("Turn ended");
+			}else{
+				update(ni);
+				System.out.println(toPrint.replace(";", "\n"));
+			
+			}
 			
 		}
 		
@@ -94,8 +106,8 @@ public class Client{
 	public static void update(NetworkInterface ni) throws IOException{
 		for (String s:ni.updateBrodcast(game, name, counter)){
 			if (s.startsWith(name))
-				System.out.println(s.replace(name+":", "you:"));
-			else System.out.println(s);
+				System.out.println(s.replace(name+":", "you:").replace(";", "\n"));
+			else System.out.println(s.replace(";", "\n"));
 			counter++;
 		}
 	}

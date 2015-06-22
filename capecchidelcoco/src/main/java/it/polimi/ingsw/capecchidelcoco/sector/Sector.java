@@ -32,7 +32,7 @@ public abstract class  Sector extends Coordinates {
 		setName();
 	}
 	
-	public abstract void  doAction(Game game, Player pl);
+	public abstract String  doAction(Game game, Player pl);
 	
 	public boolean isUsable(){
 		return this.usable;
@@ -90,9 +90,21 @@ public abstract class  Sector extends Coordinates {
 	
 	
 	public static Coordinates GetCoordinate(String name){
-		int x =(int)((byte)name.charAt(0) - 'A');
+		int x = -1;
+		try {
+			x = (int)((byte)name.charAt(0) - 'A');
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String appo =""+ name.charAt(1) + name.charAt(2);
-    	int y = Integer.parseInt(appo)-1;
+    	int y = -1;
+		try {
+			y = Integer.parseInt(appo)-1;
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Coordinates co = new Coordinates(x, y);
 		return co;
 	}

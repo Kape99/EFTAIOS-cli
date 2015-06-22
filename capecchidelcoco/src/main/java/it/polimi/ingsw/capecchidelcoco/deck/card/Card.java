@@ -25,7 +25,7 @@ public abstract class Card {
 	public static final int N_RED_CARDS = 3; 
 	
 	public abstract void doAction(Player pl);
-	public abstract void doAction(Game game, Player pl);
+	public abstract String doAction(Game game, Player pl);
 
 	
 	

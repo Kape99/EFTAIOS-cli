@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 
-public abstract class Player implements RemotePlayer {
+public abstract class Player{
 	
 	protected static final int MAX_OBJECT_CARDS = 3;
 
@@ -37,6 +37,7 @@ public abstract class Player implements RemotePlayer {
 	protected String characterName;
 	protected String characterRole; 
 	protected boolean hasMoved;
+	protected boolean hadAttacked;
 	protected boolean sedated;
 	protected String faction;
  	
@@ -94,9 +95,9 @@ public abstract class Player implements RemotePlayer {
 	
 	public String getInfo(){
 		String ret = "";
-		if (alive){
+		if (isAlive()){
 			ret += "You are "+characterName+" <"+characterRole+"> ("+faction+").;";
-			ret += "You can move up to "+speed+" tile";
+			ret += "You can move up to "+speed +" tile";
 			if (speed>1)
 				ret += "s";
 			ret += ".;Your actual location is "+currentPosition.getName()+".;";
@@ -144,6 +145,11 @@ public abstract class Player implements RemotePlayer {
 	
 	public void attacked(){
 		this.life--;
+		if (!isAlive()){
+			currentPosition = null;
+			hasMoved = true;
+			hadAttacked = true;
+		}
 		//TODO notificare morte
 	}
 	
@@ -171,6 +177,15 @@ public abstract class Player implements RemotePlayer {
 		speed = 1;
 	}
 	
+	public void reset(){
+		hasMoved = false;
+		hadAttacked = false;
+		sedated = false;
+		
+			 	
+			
+	}
+	
 	public Sector getCurrentPosition(){
 		return currentPosition;
 	}
@@ -179,6 +194,9 @@ public abstract class Player implements RemotePlayer {
 	 */
 	public String move(String nextPosition){
 		String ret;
+		if (Sector.GetCoordinate(nextPosition).getY()< 0 || Sector.GetCoordinate(nextPosition).getX() < 0 || Sector.GetCoordinate(nextPosition).getY() > 14 || Sector.GetCoordinate(nextPosition).getX() >23){
+			return "Wrong Sector name";
+		}
 		Sector s = myGame.getBoard().getSector(Sector.GetCoordinate(nextPosition).getY(),Sector.GetCoordinate(nextPosition).getX());
 		System.out.println(s.getName());
 		possibleMoves = reachable(currentPosition, speed);
@@ -189,10 +207,7 @@ public abstract class Player implements RemotePlayer {
 				currentPosition.addPlayer(this);
 				listOfMove.add(s);
 				hasMoved = true;
-				if (!sedated){
-					currentPosition.doAction(myGame, this);
 				
-				}
 				return "You are in "+currentPosition.getName();
 			}
 			return "You alrady moved this turn";
@@ -205,7 +220,9 @@ public abstract class Player implements RemotePlayer {
 	}
 	
 	public boolean isAlive(){
-		return alive;
+		if (life > 0)
+			return true;
+		return false;
 	}
 	
 	
@@ -217,9 +234,12 @@ public abstract class Player implements RemotePlayer {
 	public void findSpawn(){
 	}
 
-	public String action() throws RemoteException {
-		// TODO Auto-generated method stub
-		return "ciao";
+	public String action(){
+		if (!sedated && !hadAttacked){
+			return currentPosition.doAction(myGame, this);
+		
+		}
+		return "";
 	}
 
 	public String move() throws RemoteException {
@@ -247,10 +267,7 @@ public abstract class Player implements RemotePlayer {
 		return null;
 	}
 
-	public String attack() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract String attack();
 
 	public String showCard() throws RemoteException {
 		// TODO Auto-generated method stub

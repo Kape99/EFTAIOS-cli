@@ -18,15 +18,12 @@ public class HatchSector extends Sector {
 	}
 
 	
-	public void doAction(Player pl) {
-		//pl.getGame().getHatchDeck().draw().doAction(pl);
-		
-	}
+	
 
 	@Override
-	public void doAction(Game game, Player pl) {
+	public String doAction(Game game, Player pl) {
 		// TODO Auto-generated method stub
-		
+		return "";
 	}   
 
 }

@@ -17,9 +17,9 @@ public class RedHatchCard extends HatchCard{
 	}
 
 	@Override
-	public void doAction(Game game, Player pl) {
+	public String doAction(Game game, Player pl) {
 		// TODO Auto-generated method stub
-		
+		return "";
 	}
 	
 

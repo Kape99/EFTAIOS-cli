@@ -13,9 +13,9 @@ public class NoiseAny extends SectorCard {
 	
 	
 	@Override
-	public void doAction(Game game, Player currPlayer){
+	public String doAction(Game game, Player currPlayer){
 		//TODO ask which sector
-		
+		return "ANY";
 		/*if (this.hasObject){
 			currPlayer.addObjectCard(currPlayer.getGame().getObjectDeck().draw());
 		}*/

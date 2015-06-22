@@ -5,6 +5,9 @@ import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.deck.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.SectorCard;
 import it.polimi.ingsw.capecchidelcoco.player.*;
+import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
+import it.polimi.ingsw.capecchidelcoco.sector.DangerousSector;
+import it.polimi.ingsw.capecchidelcoco.sector.Sector;
 
 import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
@@ -12,14 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeSet;
 
 
 
 public class Game implements Runnable {
 	
 	
-	//TODO sistemare problema che non trova il le info sulla sdeconda partita
-	
+
 	private int id;
 
 	public static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
@@ -28,7 +31,7 @@ public class Game implements Runnable {
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
 	
 	private Map<String,Player> players;
-	//private String[] names;		
+	private String[] names;		
 	
 	//private List<Player> players;
 	private Board board;
@@ -45,20 +48,20 @@ public class Game implements Runnable {
 	private int turnOf;
 	private int numberOfTurns = 0;
 	private int maxNumberOfTurns;
-	private int cycle;
 	private boolean timerEnded;
 
 	
 	private boolean aliensWin = false;
 	private List<Player> winnerPlayers;
+	private int offset; 
 
-
-	public static final int MAX_PLAYERS = 2;
+	public static final int MAX_PLAYERS = 3;
 	private static final int MAX_TURNS = 39;
 
 		
 		public	Game(int id) {
 			this.id = id;
+			names = new String[8];
 			players = new HashMap<String,Player>();
 			news = new ArrayList<String>();
 			sectorDeck =new SectorDeck();
@@ -66,7 +69,6 @@ public class Game implements Runnable {
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			winnerPlayers = new ArrayList<Player>();
@@ -111,6 +113,28 @@ public class Game implements Runnable {
 
 		
 
+		public void startGame(){
+			
+			offset = (int) (Math.random()*players.size());
+			turnOf = offset;
+			currentPlayer = players.get(names[offset]);
+			started = true;
+			maxNumberOfTurns = MAX_TURNS*players.size();
+			ended = false;
+			TreeSet<String> tmp = new TreeSet<String>();
+			tmp.addAll(players.keySet());
+			news.add(";;Game is started;;those are the player in this game:");
+			for (String s:tmp)
+				news.add("'"+s+"'");
+			news.add(";;Is the turn of: '"+names[offset]+"';");
+
+		}
+		
+		
+		
+		
+		
+		
 		public void run(){
 		
 			boolean turnEnded = false;
@@ -170,34 +194,47 @@ public class Game implements Runnable {
 		}
 	
 		public String getInfo(String  name){
-			for (String s:this.players.keySet()){
-				System.out.println(s);
-			}
+		
 			if (this.players.containsKey(name))
 				return players.get(name).getInfo();
-			return "fallito INFO";
+			return "fallito INFO ";
 		}
 		
 		
 
-		void nextTurn() {
-			if (ended)
-				return;
+		public String nextTurn() {
+			if (ended){
+				return"game ended";
+				}
 			numberOfTurns++;
-			if (numberOfTurns > maxNumberOfTurns && getNumberOfAliveHumanPlayers() > 0
-					|| numberOfTurns <= maxNumberOfTurns
+			if (numberOfTurns > maxNumberOfTurns+offset && getNumberOfAliveHumanPlayers() > 0
+					|| numberOfTurns <= maxNumberOfTurns+offset
 					&& getNumberOfAliveHumanPlayers() == 0) {
 				aliensWin = true;
 				currentPlayer = null;
 				ended = true;
-				return;
+				for (int i = 0; i < players.size(); i++)
+					if (players.get(names[i]).getFaction()=="Alien")
+						winnerPlayers.add(players.get(names[i]));
+				news.add("Game ended");
+				news.add("Those are the winners:");
+				for(Player p:winnerPlayers)
+					news.add("'"+p.getName()+"' "+p.getCharacter()+" <"+p.getRole()+"> ("+p.getFaction()+").;");
+				return ";";
 			}
+			if (currentPlayer.isAlive() && currentPlayer.action()=="ANY")
+				return "ANY% Where do you want to make a noise?;";
+			nextP();
+			return "Turn ended;";
+		}
+		public void nextP(){
 			turnOf = (turnOf + 1) % players.size();
-			currentPlayer = players.get(turnOf);
+			currentPlayer = players.get(names[turnOf]);
+			currentPlayer.reset();
+			news.add("Is the turn of: '"+ currentPlayer.getName()+"'");
 			if (!currentPlayer.isAlive())
 				nextTurn();
 		}
-
 		
 
 		/**
@@ -219,7 +256,13 @@ public class Game implements Runnable {
 		}
 
 	
-	
+		public boolean valid(String sector){
+			Coordinates c = Sector.GetCoordinate(sector);
+			if (c.getY() >= 0 && c.getY() < 14 && c.getX() >= 0 && c.getX() < 23)
+				if (board.getSector(c.getY(),c.getX()) instanceof DangerousSector)
+					return true;
+			return false;
+		}
 
 		/**
 		 * Add a player to game
@@ -228,17 +271,20 @@ public class Game implements Runnable {
 		 * @throws GamePlayException
 		 */
 		void addPlayer(String  name){
-			
 			if (this.players.size()%2==0)
 				this.players.put(name,new AlienPlayer(this, this.players.size(), name));
 			else this.players.put(name,new HumanPlayer(this, this.players.size(), name));
-			System.out.println("G size of players "+players.size());
+			names[players.size()-1] = name;
 		}
 		
 		public int getID(){
 			return this.id;
 		}
 
+		public String attack(String name){
+			return players.get(name).attack();
+			
+		}
 		
 		public SectorCard pickDangerousSectorCard() {
 			return getSectorDeck().draw();
@@ -246,7 +292,6 @@ public class Game implements Runnable {
 
 		
 		public void escaped(HumanPlayer human) {
-
 			winnerPlayers.add(human);
 		}
 

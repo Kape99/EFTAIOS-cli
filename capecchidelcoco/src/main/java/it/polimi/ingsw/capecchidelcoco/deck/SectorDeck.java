@@ -19,14 +19,14 @@ public class SectorDeck implements Deck {
 		discardedCard = new LinkedList<SectorCard>();
 		for(int i = 0; i < 6;i++){
 			this.deck.add(new NoiseYour(false));
-			this.deck.add(new NoiseYour(false));
+			this.deck.add(new NoiseAny(false));
 		}
 		for(int i = 0; i < 4;i++){
 			this.deck.add(new NoiseYour(true));
-			this.deck.add(new NoiseYour(true));
+			this.deck.add(new NoiseAny(true));
 		}
 		for(int i = 0; i < 5;i++){
-			this.deck.add(new NoiseYour(false));
+			this.deck.add(new Silence(false));
 		}
 		  
 		Collections.shuffle(this.deck);
@@ -42,7 +42,8 @@ public class SectorDeck implements Deck {
         
    
 	public SectorCard draw(){
-		cardsNotUsed--;
+		if (deck.isEmpty())
+			shuffle();
 		SectorCard tmp = deck.get(1);
 		deck.remove(1);
 		discardedCard.add(tmp);

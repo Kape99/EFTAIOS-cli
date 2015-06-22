@@ -15,11 +15,7 @@ public class HumanPlayer extends Player {
 		currentPosition.addPlayer(this);
 	}
 
-	@Override
-	public String action() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public String move() throws RemoteException {
@@ -52,9 +48,8 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public String attack() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public String attack(){
+		return "You can't attack";
 	}
 
 	@Override

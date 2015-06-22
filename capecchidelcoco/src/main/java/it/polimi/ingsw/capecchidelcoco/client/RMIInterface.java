@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class RMIInterface implements NetworkInterface {
 
 	private GamesHandlerInterface controller;
-	private static final String valid[] = {"MOVE","INFO","MAP","SHOWCARD","USECARD","HELP","PLAYERS"};
+	private static final String valid[] = {"MOVE","INFO","MAP","SHOWCARD","USECARD","HELP","PLAYERS","ATTACK","END"};
 
 	public int connect(String name) throws IOException {
 		/*String url = "rmi://localhost:1413/Server";
@@ -77,6 +77,8 @@ public class RMIInterface implements NetworkInterface {
 	public String sendCommand(String command, int game, String player)throws RemoteException {
 		String splitted[] = command.split(" ");
 		String result;
+		if (command.startsWith(" ") || command == "\n")
+			return "";
 		for (int i = 0; i<valid.length; i++){
 			if (splitted[0].equals(valid[i])){
 				result = controller.sendAction(command, game, player);
@@ -86,6 +88,7 @@ public class RMIInterface implements NetworkInterface {
 		return "Wrong Command";
 	}
 
+	
 	public boolean isEnded() throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
@@ -93,6 +96,13 @@ public class RMIInterface implements NetworkInterface {
 
 	public ArrayList<String> updateBrodcast(int game, String name, int counter) throws IOException {
 		return controller.brodcast(game, name, counter);
+	}
+
+	@Override
+	public boolean sendSector(String sector, int game, String name)
+			throws RemoteException {
+		
+		return controller.sendSector(sector, game, name);
 	}
 
 	

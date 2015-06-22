@@ -1,7 +1,5 @@
 package it.polimi.ingsw.capecchidelcoco.client;
 
-import it.polimi.ingsw.capecchidelcoco.player.RemotePlayer;
-
 import java.io.IOException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -24,4 +22,5 @@ public interface NetworkInterface {
 
 	ArrayList<String> updateBrodcast(int game, String player, int counter) throws IOException;
 
+	boolean sendSector(String sector, int game, String name) throws RemoteException ;
 }

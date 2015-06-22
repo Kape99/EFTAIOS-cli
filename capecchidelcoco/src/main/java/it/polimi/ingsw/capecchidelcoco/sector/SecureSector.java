@@ -17,8 +17,8 @@ public class SecureSector extends Sector {
 	}
 
 	@Override
-	public void doAction(Game game, Player pl) {
+	public String doAction(Game game, Player pl) {
 		// TODO Auto-generated method stub
-		
+		return "";
 	}   
 }
