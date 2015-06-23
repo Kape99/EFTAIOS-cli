@@ -11,7 +11,7 @@ public class Adrenaline extends ObjectCard{
 	
 	@Override
 	public void doAction(Player currPlayer){
-		currPlayer.setAdrenaline();
+		//currPlayer.setAdrenaline();
 	}
 
 }

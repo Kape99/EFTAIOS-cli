@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class RMIInterface implements NetworkInterface {
 
 	private GamesHandlerInterface controller;
-	private static final String valid[] = {"MOVE","INFO","MAP","SHOWCARD","USECARD","HELP","PLAYERS","ATTACK","END"};
+	private static final String valid[] = {"MOVE","INFO","MAP","HELP","ATTACK","END","MOVEMENTS","TURN"};
 
 	public int connect(String name) throws IOException {
 		/*String url = "rmi://localhost:1413/Server";
@@ -60,8 +60,6 @@ public class RMIInterface implements NetworkInterface {
 			return controller.connect(name);
 
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		System.out.println("6");
@@ -70,7 +68,6 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	public boolean close() throws IOException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -89,10 +86,7 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	
-	public boolean isEnded() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	public ArrayList<String> updateBrodcast(int game, String name, int counter) throws IOException {
 		return controller.brodcast(game, name, counter);

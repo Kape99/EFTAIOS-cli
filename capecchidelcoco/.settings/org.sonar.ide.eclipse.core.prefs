@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 extraProperties=sonar.host.url\=http\://localhost\:9000/\r\nsonar.language\=java
+lastAnalysisDate=1435074559371
 projectKey=it.polimi.ingsw\:capecchidelcoco
 serverUrl=http\://localhost\:9000
 version=2

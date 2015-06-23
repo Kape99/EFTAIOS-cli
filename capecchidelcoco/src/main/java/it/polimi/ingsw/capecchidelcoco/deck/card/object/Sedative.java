@@ -12,7 +12,7 @@ public class Sedative extends ObjectCard {
 	
 	@Override
 	public void doAction(Player currPlayer){
-		currPlayer.setSedated();
+		//currPlayer.setSedated();
 	}
 
 }

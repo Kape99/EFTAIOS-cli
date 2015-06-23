@@ -15,14 +15,13 @@ public class Silence extends SectorCard {
 	@Override
 	public void doAction(Player currPlayer){
 		if (this.hasObject){
-			currPlayer.addObjectCard(currPlayer.getGame().getObjectDeck().draw());
+			//currPlayer.addObjectCard(currPlayer.getGame().getObjectDeck().draw());
 		}
 	}
 
 
 	@Override
 	public String doAction(Game game, Player pl) {
-		// TODO Auto-generated method stub
 		game.addNews(pl.getName()+": Silence;");
 		return "SILENCE";
 	}

@@ -33,9 +33,8 @@ public class Server implements ServerInterface {
 				GamesHandlerInterface stub = (GamesHandlerInterface) UnicastRemoteObject.exportObject(game, 0);	
 				registry = LocateRegistry.createRegistry(1413);
 				registry.bind("Server", stub);
-				System.out.println("Running?");
+				System.out.println("Running");
 			} catch(Exception ex){
-				ex.printStackTrace();
 			}
 			boolean finish = false;
 			while (!finish) {
@@ -49,39 +48,6 @@ public class Server implements ServerInterface {
 			}
 		}
 	 
-	 
-	 
-	/* 
-	private Server() throws IOException, NotBoundException{
-		games = new LinkedList<Game>();
-		Registry registry = null;
-		 try{
-			 	Game game = new  Game();
-			 	RemoteGame stub = (RemoteGame) UnicastRemoteObject.exportObject(game, 0);	
-	            registry = LocateRegistry.createRegistry(1413);
-	            registry.bind("Server", stub);
-	            System.out.println("Running?");
-	        } catch(Exception ex){
-	            ex.printStackTrace();
-	        }
-		 boolean finish = false;
-
-			while (!finish) {
-				String read = readLine("Press Q to exit\n");
-				if (read.equals("Q")) {
-					finish = true;
-				}
-			
-			
-			
-					
-			if (registry != null)
-				registry.unbind("Server");
-			System.exit(0);
-			
-		}
-	}
-	*/
 	
 	public static Server getServer() throws IOException, NotBoundException {
 		if (server==null){

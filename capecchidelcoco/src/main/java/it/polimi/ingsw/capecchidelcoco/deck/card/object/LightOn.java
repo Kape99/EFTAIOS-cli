@@ -3,7 +3,6 @@ package it.polimi.ingsw.capecchidelcoco.deck.card.object;
 import it.polimi.ingsw.capecchidelcoco.player.Player;
 import it.polimi.ingsw.capecchidelcoco.sector.*;
 
-import java.util.List;
 import java.util.Set;
 
 public class LightOn extends ObjectCard {

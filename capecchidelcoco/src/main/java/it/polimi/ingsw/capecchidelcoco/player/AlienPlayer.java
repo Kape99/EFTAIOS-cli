@@ -2,54 +2,63 @@ package it.polimi.ingsw.capecchidelcoco.player;
 
 import it.polimi.ingsw.capecchidelcoco.game.Game;
 
-import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class AlienPlayer extends Player implements Serializable{
+/**
+ * @author lucacapecchi
+ *
+ * this class define the method needed for an alien Player
+ * 
+ */
+public class AlienPlayer extends Player{
+
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	List<Player> killed = null;
 	
+	/**
+	 * Constructor of the class
+	 * @param myGame - is the game in witch the player is playing
+	 * @param num - is the counter that remember the order on witch the player are joined
+	 * @param name - is the name of the user related to this player
+	 */
 	public AlienPlayer(Game myGame, int num, String name){
 		super(myGame, num, name);
 		killed = new ArrayList<Player>();
 		this.speed = 2;
 		this.faction = "Alien";
-		//this.currentPosition = myGame.getBoard().findSpawn(faction);
-		this.currentPosition = myGame.getBoard().getSector(2, 1);
+		this.currentPosition = myGame.getBoard().findSpawn(faction);
 		currentPosition.addPlayer(this);
+		listOfMove.add(currentPosition);
 	}
 	
 	
+	/**
+	 * Set the speed of an alien after an attack,
+	 * if in the attack he killed someone he can move faster
+	 * 
+	 */
 	public void updateSpeed(){
 		if (!killed.isEmpty()){
 			speed = 3;
 		}
 	}
-
+	
 	
 
-	
-
-	@Override
 	public String attack() {
 		if (!hasMoved){
-			return "You must move before attack";
+			return "You must move before attack;";
 		}
 		if (hadAttacked){
-			return "you alrady attack this turn";
+			return "you alrady attack this turn;";
 		}
 		ArrayList<Player> tmp = new ArrayList<Player>();
-		String ret = "";
+		String ret = "Attacking location;";
 		tmp.addAll(currentPosition.playerList());
 		tmp.remove(this);
 		hadAttacked = true;
+		myGame.addNews("'"+name+"' attacking on:"+currentPosition.getName());
 		for (Player p:tmp){
 			p.attacked();
 			if (!p.isAlive()){
@@ -58,36 +67,8 @@ public class AlienPlayer extends Player implements Serializable{
 			}
 		}
 		updateSpeed();
-			
 		return ret;
 	}
 
-	@Override
-	public String showCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public String useCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public String discardCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public String makeNoise() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 }

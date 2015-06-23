@@ -19,25 +19,26 @@ import java.util.TreeSet;
 
 
 
-public class Game implements Runnable {
+public class Game{
 	
 	
 
 	private int id;
 
-	public static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
+	private static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
 		"Maria Galmbani", "Silvano Porpora", "Paolo Landon", "Tuccio Brendon"};
-	public static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
+	private static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
 	
 	private Map<String,Player> players;
 	private String[] names;		
 	
-	//private List<Player> players;
+
 	private Board board;
 	private SectorDeck sectorDeck;
 	private ObjectDeck objectDeck;
 	private HatchDeck hatchDeck;
+	
 	private Player currentPlayer;
 	
 	
@@ -46,19 +47,16 @@ public class Game implements Runnable {
 	private boolean started = false;
 	private boolean ended = false;
 	private int turnOf;
-	private int numberOfTurns = 0;
+	private int numberOfTurns = 1;
 	private int maxNumberOfTurns;
-	private boolean timerEnded;
-
 	
-	private boolean aliensWin = false;
 	private List<Player> winnerPlayers;
 	private int offset; 
 
 	public static final int MAX_PLAYERS = 3;
 	private static final int MAX_TURNS = 39;
 
-		
+		 
 		public	Game(int id) {
 			this.id = id;
 			names = new String[8];
@@ -69,7 +67,6 @@ public class Game implements Runnable {
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
 			}
 			winnerPlayers = new ArrayList<Player>();
 			
@@ -130,46 +127,6 @@ public class Game implements Runnable {
 
 		}
 		
-		
-		
-		
-		
-		
-		public void run(){
-		
-			boolean turnEnded = false;
-			boolean needSector = false;
-			currentPlayer = players.get(0);
-			started = true;
-			maxNumberOfTurns = MAX_TURNS*players.size() ;
-			ended = false;
-			while(!ended){
-				while(!timerEnded && !turnEnded){
-					synchronized (this){
-						try {
-							this.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						if (timerEnded){
-							// TODO handle disconnect(even if the client is connected i kick him out of the game)
-						}
-						if (turnEnded){
-							//TODO reset player parameter
-						}
-						if (needSector){
-							//TODO Request sector for noise
-						}
-					}
-					
-				}
-				
-			}
-			
-			
-		}
-
 		private boolean isEnded() {
 			return ended;
 		}
@@ -200,17 +157,26 @@ public class Game implements Runnable {
 			return "fallito INFO ";
 		}
 		
+		public void setEnded(boolean ended){
+			this.ended = ended;
+		}
+		
 		
 
 		public String nextTurn() {
+			if (!currentPlayer.hasMoved() && currentPlayer.isAlive())
+				return "You have to move before anding the turn;";
 			if (ended){
-				return"game ended";
+				news.add("Game ended");
+				news.add("Those are the winners:");
+				for(Player p:winnerPlayers)
+					news.add("'"+p.getName()+"': "+p.getCharacter()+" <"+p.getRole()+"> faction:("+p.getFaction()+").;");
+				return ";";
 				}
 			numberOfTurns++;
 			if (numberOfTurns > maxNumberOfTurns+offset && getNumberOfAliveHumanPlayers() > 0
 					|| numberOfTurns <= maxNumberOfTurns+offset
 					&& getNumberOfAliveHumanPlayers() == 0) {
-				aliensWin = true;
 				currentPlayer = null;
 				ended = true;
 				for (int i = 0; i < players.size(); i++)
@@ -219,20 +185,30 @@ public class Game implements Runnable {
 				news.add("Game ended");
 				news.add("Those are the winners:");
 				for(Player p:winnerPlayers)
-					news.add("'"+p.getName()+"' "+p.getCharacter()+" <"+p.getRole()+"> ("+p.getFaction()+").;");
+					news.add("'"+p.getName()+"': "+p.getCharacter()+" <"+p.getRole()+"> faction:("+p.getFaction()+").;");
 				return ";";
 			}
 			if (currentPlayer.isAlive() && currentPlayer.action()=="ANY")
-				return "ANY% Where do you want to make a noise?;";
+				return "ANY%Where do you want to make a noise?;";
+			if (ended){
+				news.add("Game ended");
+				news.add("Those are the winners:");
+				for(Player p:winnerPlayers)
+					news.add("'"+p.getName()+"': "+p.getCharacter()+" <"+p.getRole()+"> faction:("+p.getFaction()+").;");
+				return ";";
+				}
 			nextP();
 			return "Turn ended;";
 		}
+		
+		
 		public void nextP(){
 			turnOf = (turnOf + 1) % players.size();
 			currentPlayer = players.get(names[turnOf]);
 			currentPlayer.reset();
-			news.add("Is the turn of: '"+ currentPlayer.getName()+"'");
+			news.add(";Is the turn of: '"+ currentPlayer.getName()+"'");
 			if (!currentPlayer.isAlive())
+				news.add("'"+currentPlayer.getName()+"' id death");
 				nextTurn();
 		}
 		
@@ -433,8 +409,21 @@ public class Game implements Runnable {
 				}
 				map+=(";");
 			}
-		
+			map += ";Legenda:;"
+					+ "|Coordinates A-Alien Spawn/H-Human Spawn|;"
+					+ "(Coordinates S-Secure);"
+					+ "{Coordinates D-Dangerous};"
+					+ "<Coordinates E-Escape Hatch>;";
 			return map;
+		}
+
+		public String getMovemets(String name) {
+		
+			return players.get(name).printMovements();
+		}
+
+		public String getTurn() {
+			return ""+(numberOfTurns/players.size())+1+";";
 		}
 
 

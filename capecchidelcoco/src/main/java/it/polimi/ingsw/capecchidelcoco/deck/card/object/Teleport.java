@@ -11,7 +11,7 @@ public class Teleport extends ObjectCard{
 		}
 	
 		public void doAction(Player currPlayer){
-			currPlayer.findSpawn();
+			//currPlayer.findSpawn();
 		}
 
 }

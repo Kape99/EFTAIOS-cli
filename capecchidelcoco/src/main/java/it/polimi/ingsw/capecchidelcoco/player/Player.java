@@ -1,38 +1,30 @@
 package it.polimi.ingsw.capecchidelcoco.player;
 
 import it.polimi.ingsw.capecchidelcoco.sector.*;
-import it.polimi.ingsw.capecchidelcoco.board.Board;
-import it.polimi.ingsw.capecchidelcoco.deck.card.*;
-import it.polimi.ingsw.capecchidelcoco.deck.card.object.ObjectCard;
 import it.polimi.ingsw.capecchidelcoco.game.*;
 
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 
+/**
+ * @author lucacapecchi
+ *
+ */
+
 public abstract class Player{
 	
-	protected static final int MAX_OBJECT_CARDS = 3;
-
-	//protected Board board;
-
+	//private static final int MAX_OBJECT_CARDS = 3;
 	protected ArrayList<Sector> listOfMove;
 	protected String name;
 	protected Sector currentPosition;
-	protected Set<Sector> possibleMoves;
-	int speed;
-	protected List<ObjectCard> objects;
-	protected int playerNumber;
-	protected int life;
-	protected boolean alive;
+	private Set<Sector> possibleMoves;
+	protected int speed;
+	//private List<ObjectCard> objects;
+	private int playerNumber;
+	private int life;
 	protected Game myGame;
 	protected String characterName;
 	protected String characterRole; 
@@ -46,28 +38,38 @@ public abstract class Player{
 	
 	
 	
+	/**
+	 * Constructor of the Class
+	 * specify and initialize all the variable needed to a player in general
+	 * @param myGame - is the game in witch the player is playing
+	 * @param num - is the counter that remember the order on witch the player are joined
+	 * @param name - is the name of the user related to this player
+	 	 */
 	public Player(Game myGame, int num, String name){
 		this.myGame = myGame;
 		this.playerNumber = num;
 		this.name = name;
 		this.life = 1;
-		this.alive = true;
-		possibleMoves = new HashSet<Sector>();
+		this.possibleMoves = new HashSet<Sector>();
 		setCharacter();
-		listOfMove = new ArrayList<Sector>();
-		objects = new ArrayList<ObjectCard>();
-		hasMoved = false;
-		sedated = false;		
+		this.listOfMove = new ArrayList<Sector>();
+		//this.objects = new ArrayList<ObjectCard>();
+		this.hasMoved = false;
+		this.sedated = false;		
 	}
 	
 	/**
-	 * Method that return the number of this player.
-	 * @return number of this player.
+	 * Method that return the number of this player
+	 * @return this player's number
 	 */
 	public int getPlayerNumber (){
 		return this.playerNumber;
 	}
 	
+	/**
+	 * Method that return the name of this player
+	 * @return this player's name
+	 */
 	public String getName(){
 		return this.name;
 	}
@@ -77,9 +79,11 @@ public abstract class Player{
 	 * Returns the list of object (cards) currently owned by the player. 
 	 * @return the objects
 	 */
+	/*
 	public List<ObjectCard> getObjects() {
 		return objects;
 	}
+	*/
 	
 	/**
 	 * Return the character name related to this player 
@@ -89,14 +93,22 @@ public abstract class Player{
 		return characterName;
 	}
 	
+	/**
+	 * Return the character role related to this player 
+	 * @return the role of the character.
+	 */
 	public String getRole (){
 		return characterRole;
 	}
 	
+	/**
+	 * Method use the get all the info related to this player
+	 * @return a string with all the info(name, character, role,position...)
+	 */
 	public String getInfo(){
-		String ret = "";
+		String ret = "'"+name+"';";
 		if (isAlive()){
-			ret += "You are "+characterName+" <"+characterRole+"> ("+faction+").;";
+			ret += "You are "+characterName+" <"+characterRole+"> faction:("+faction+").;";
 			ret += "You can move up to "+speed +" tile";
 			if (speed>1)
 				ret += "s";
@@ -105,11 +117,16 @@ public abstract class Player{
 			ret += getPossibleMoves();
 	 		
 		}else{
-			ret += "You were "+characterName+" <"+characterRole+"> ("+faction+").;";
+			ret += "You were "+characterName+" <"+characterRole+"> faction:("+faction+").;";
 			ret += "You are actualy death.";
 		}
 		return  ret;
 	}
+	
+	/**
+	 * Method use to list the possible move of the player and order them
+	 * @return a string with the name of the sector he can move on (ordered)
+	 */
 	private String getPossibleMoves() {
 		Set<String> tmp = new TreeSet<String>();
 		String ret = "";
@@ -122,13 +139,19 @@ public abstract class Player{
 	}
 
 	/**
-	 *Set the name and the role of the character related to this player.  
+	 * Set the name and the role of the character related to this player
 	 */
 	public void setCharacter() {
 		this.characterName = myGame.getCharacters()[playerNumber];
 		this.characterRole = myGame.getRoles()[playerNumber];
 	}
 	
+	/**
+	 * Method run to get a list of Sector where a player can move on
+	 * @param cSector - the sector of the player before the move
+	 * @param distance - the distance the player can cover each turn
+	 * @return a set of reachable sector
+	 */
 	public Set<Sector> reachable(Sector cSector, int distance){
 		Set<Sector> ret = new HashSet<Sector>();
 		ret = myGame.getBoard().getNeighbors(cSector, distance);
@@ -136,66 +159,95 @@ public abstract class Player{
 		return ret;
 	}
 
+	/*
 	public void addObjectCard(ObjectCard currentCard){
 		if (objects.size() >= MAX_OBJECT_CARDS){
 			objects.remove(1);
 		}
 		objects.add(currentCard);
 	}
+	*/
 	
+	/**
+	 * Method use when a player is attacked by another player
+	 * and check his condition 
+	 * in case he is dead he is removed from the map
+	 */
 	public void attacked(){
 		this.life--;
 		if (!isAlive()){
 			currentPosition = null;
+			currentPosition.removePlayer(this);
 			hasMoved = true;
 			hadAttacked = true;
 		}
-		//TODO notificare morte
 	}
 	
+	/**
+	 * @return the faction of this player
+	 */
 	public String getFaction(){
 		return faction;
 	}
 	
+	/**
+	 * @return the game this player is playing
+	 */
 	public Game getGame(){
 		return myGame;
 	}
 	
+	/*
 	public void setSedated(){
 		sedated = true;
 	}
+	*/
 	
+	/*
 	public void resetSedated(){
 		sedated = false;
 	}
+	*/
 	
+	/*
 	public void setAdrenaline(){
 		speed = 2;
 	}
+	*/
 	
+	/*
 	public void resetAdrenaline(){
 		speed = 1;
 	}
+	*/
 	
+	/**
+	 * Reset the condition of a player so he can re-perform some action 
+	 * (when he start a new turn)
+	 */
 	public void reset(){
 		hasMoved = false;
 		hadAttacked = false;
-		sedated = false;
-		
-			 	
-			
+		//sedated = false;	
 	}
 	
+	/**
+	 * @return the Sector where is located this player
+	 */
 	public Sector getCurrentPosition(){
 		return currentPosition;
 	}
+	
 	/**
-	 * @param nextPosition
+	 * Method that check if destination of a movement if valid
+	 * and if it is move the player on that location 
+	 * @param nextPosition - destination of the movement
+	 * @return - String containing the information of this action
 	 */
 	public String move(String nextPosition){
 		String ret;
 		if (Sector.GetCoordinate(nextPosition).getY()< 0 || Sector.GetCoordinate(nextPosition).getX() < 0 || Sector.GetCoordinate(nextPosition).getY() > 14 || Sector.GetCoordinate(nextPosition).getX() >23){
-			return "Wrong Sector name";
+			return "Wrong Sector name;";
 		}
 		Sector s = myGame.getBoard().getSector(Sector.GetCoordinate(nextPosition).getY(),Sector.GetCoordinate(nextPosition).getX());
 		System.out.println(s.getName());
@@ -208,87 +260,72 @@ public abstract class Player{
 				listOfMove.add(s);
 				hasMoved = true;
 				
-				return "You are in "+currentPosition.getName();
+				return "You are in "+currentPosition.getName()+";";
 			}
-			return "You alrady moved this turn";
+			return "You alrady moved this turn;";
 		}
 		ret = "Invalid destination, you can move here:;";
 		ret += getPossibleMoves();
 
-		return ret;
+		return ret+";";
 	
 	}
 	
+	/**
+	 * Check the status of this player
+	 * @return the status (true if he is alive,
+	 * false otherwise)
+	 */
 	public boolean isAlive(){
 		if (life > 0)
 			return true;
 		return false;
 	}
 	
-	
-	
+	/*
 	public void defense(){
 		this.life++;
 	}
-	
-	public void findSpawn(){
-	}
+	*/
 
+	/**
+	 * Method use to perform action needed on the location at the end of this turn
+	 * (draw a sector card, add this player to the winner of this game...)
+	 * @return the result of the action
+	 */
 	public String action(){
 		if (!sedated && !hadAttacked){
 			return currentPosition.doAction(myGame, this);
-		
 		}
 		return "";
 	}
 
-	public String move() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * @return  the hasMoved value
+	 */
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 
-	public String getMap() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Method that perform the attack of a player on his sector if he is Alien
+	 * 
+	 * @return the info of the attack 
+	 */
+	public String attack(){
+		return null;	
 	}
 
-	public String connect() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * @return the list of all movement performed by this player
+	 */
+	public String printMovements() {
+		String ret = "";
+		int i=0;
+		for (Sector s:listOfMove){
+			ret += i+"["+s.getName()+"]    ";
+		}
+		return ret+";";
 	}
-	
-	public String isEnded() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getWinner() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public abstract String attack();
-
-	public String showCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String useCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String discardCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String makeNoise() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 	
 }

@@ -14,7 +14,7 @@ public class Defense extends ObjectCard{
 		
 		public void doAction(Player currPlayer){
 			
-			currPlayer.defense();
+			//currPlayer.defense();
 		}
 
 }

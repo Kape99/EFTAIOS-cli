@@ -7,6 +7,13 @@ import java.util.*;
 
 
 
+/**
+ * @author lucacapecchi
+ *
+ * Class Board
+ * Generate the map where the player are playing,
+ * Offer method to navigate through map.
+ */
 public class Board {
 	
 	
@@ -18,13 +25,19 @@ public class Board {
 	
 	List<Sector> d;
 	
-	
-	//possibile lettura da file
+	Sector humanSpawn;
+	Sector alienSpawn;
+
 	
 	private Sector[][] board;
 	
 	
 	
+	/**Constructor of the class
+	 * Read the map from the file and initialize each sector in the map
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	public Board () throws FileNotFoundException{
 	  	Scanner input = new Scanner(new File("src/galilei.txt"));
 		String tmp;
@@ -43,21 +56,26 @@ public class Board {
 				}
 			}
 		}
+		input.close();
 	}
 	
+	/**Method used to get a sector contained in the map
+	 * @param row - row coordinate of the needed sector
+	 * @param col - col coordinate of the needed sector  
+	 * @return the requested sector
+	 */
 	public Sector getSector(int row, int col){
 		return board[row][col];
 	}
 			
 	
 	public Set<Sector> getNeighbors(Sector centralSector,int distance){
-		//TODO possibleMoves.clear();
 		Set<Sector> visited = new HashSet<Sector>();
 		for (int dir = 0; dir < 6; dir++){
 			int parity = centralSector.getCol() % 2;
 			try{
-				if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
-					visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
+				if(board[centralSector.getRow() + Direction.getYDIRECTION()[parity][dir]][centralSector.getCol() + Direction.getXDIRECTION()[dir]].isUsable()){
+					visited.add(board[centralSector.getRow() + Direction.getYDIRECTION()[parity][dir]][centralSector.getCol() + Direction.getXDIRECTION()[dir]]);
 				}
 			}catch(Exception e){}
 		}
@@ -68,34 +86,26 @@ public class Board {
 					visited.addAll(getNeighbors(vi,distance-1));
 				}
 			}
-		
-	/*	for (int i = 0; i < distance; i++){
-				for(Sector vi:visited){
-					for (int dir = 0; dir < 6; dir++){
-						int parity = vi.getCol() % 2;
-						try{
-							if(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]].isUsable()){
-								visited.add(board[centralSector.getRow() + Direction.yDirection[parity][dir]][centralSector.getCol() + Direction.xDirection[dir]]);
-							}
-						}catch(Exception e){}
-					}
-				}
-		}
-		*/
 		return visited;
 	}
 		  
+	/**Method use to find the Spawn sector of the given faction
+	 * @param faction
+	 * @return Sector asked
+	 */
 	public Sector findSpawn(String faction){
-		return null;
+		if (faction == "Alien")
+			return alienSpawn;
+		return humanSpawn;
 	}
 	
 	
 	/**
-	 * Return the istance of sector of the type indicated as input
-	 * @param input		The type of the sector that permit the creation of the correct instance
-	 * @param row 		
-	 * @param col
-	 * @return
+	 * Return the instance of sector of the type indicated as input
+	 * @param input The type of the sector that permit the creation of the correct instance
+	 * @param row - row of the sector to be created
+	 * @param col - col of the sector to be created
+	 * @return the created sector
 	 */
 	  public Sector findSectorType(char input,int row, int col){
 		  
@@ -108,20 +118,16 @@ public class Board {
 				return new DangerousSector(row, col);
 			case 'E':
 				return new HatchSector(row, col);
-			case 'H':
-				return new HumanSpawn(row, col);
-			case 'A':
-				return new AlienSpawn(row, col);
+			case 'H':{Sector tmp = new HumanSpawn(row, col);
+					humanSpawn = tmp;
+					return tmp;}
+			case 'A':{Sector tmp = new AlienSpawn(row, col);
+					alienSpawn = tmp;
+					return tmp;}
 			}
 			return null;
 		}
-	public static void main (String[] args) throws FileNotFoundException{
-		
 
-			//new Board();
-		
-	}
-	
 	
 
 

@@ -22,7 +22,11 @@ public class HatchSector extends Sector {
 
 	@Override
 	public String doAction(Game game, Player pl) {
-		// TODO Auto-generated method stub
+		if (pl.getFaction()=="Human"){
+			game.addWinner(pl);
+			game.setEnded(true);
+			return ";";
+		}
 		return "";
 	}   
 

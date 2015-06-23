@@ -17,8 +17,6 @@ public interface NetworkInterface {
 	boolean close() throws IOException;
 	
 	String sendCommand(String command, int myGame, String player) throws RemoteException;
-	
-	boolean isEnded() throws RemoteException;
 
 	ArrayList<String> updateBrodcast(int game, String player, int counter) throws IOException;
 
