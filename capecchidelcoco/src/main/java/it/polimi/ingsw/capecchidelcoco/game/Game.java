@@ -1,7 +1,6 @@
 package it.polimi.ingsw.capecchidelcoco.game;
 
 import it.polimi.ingsw.capecchidelcoco.board.Board;
-import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.deck.*;
 import it.polimi.ingsw.capecchidelcoco.deck.card.SectorCard;
 import it.polimi.ingsw.capecchidelcoco.player.*;
@@ -19,10 +18,14 @@ import java.util.TreeSet;
 
 
 
+/**
+ * @author lucacapecchi
+ * Handle all the information of a game
+ */
 public class Game{
 	
 	
-
+    //The identificator of the game
 	private int id;
 
 	private static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
@@ -57,6 +60,10 @@ public class Game{
 	private static final int MAX_TURNS = 39;
 
 		 
+		/**
+		 * Constructor of the class
+		 * @param id - id of the game
+		 */
 		public	Game(int id) {
 			this.id = id;
 			names = new String[8];
@@ -72,15 +79,26 @@ public class Game{
 			
 		}
 	
+		/**
+		 * Add information for all user
+		 * @param inf - the new information
+		 */
 		public void addNews(String inf){
 			news.add(inf);
 		}
-		
 
+		/**
+		 * @return The list of player linked with his name
+		 */
 		public Map<String,Player> getPlayers() {
 			return players;
 		}
 		
+		/**
+		 * Use to get all player of the requested faction
+		 * @param faction
+		 * @return all player of the requested faction
+		 */
 		public List<Player> getPlayersOfType(String faction) {
 			List<Player> result = new ArrayList<Player>();
 			for(Player p: players.values()) {
@@ -90,10 +108,16 @@ public class Game{
 			return result;
 		}
 
+		/**
+		 * @return the number of player in this game
+		 */
 		public int getNumberOfPlayers() {
 			return players.size();
 		}
 
+		/**
+		 * @return the number of alive human player
+		 */
 		private int getNumberOfAliveHumanPlayers() {
 			int n = 0;
 			for (Player p : players.values()) {
@@ -104,12 +128,19 @@ public class Game{
 		}
 
 	
+		/**
+		 * @return true if the game is full
+		 *         false otherwise
+		 */
 		public boolean isFull(){
 			return (players.size() == MAX_PLAYERS);
 		}
 
 		
 
+		/**
+		 * Initialize the game
+		 */
 		public void startGame(){
 			
 			offset = (int) (Math.random()*players.size());
@@ -124,14 +155,7 @@ public class Game{
 			for (String s:tmp)
 				news.add("'"+s+"'");
 			news.add(";;Is the turn of: '"+names[offset]+"';");
-
 		}
-		
-		private boolean isEnded() {
-			return ended;
-		}
-
-
 
 		/**
 		 * Has the game started?
@@ -151,7 +175,6 @@ public class Game{
 		}
 	
 		public String getInfo(String  name){
-		
 			if (this.players.containsKey(name))
 				return players.get(name).getInfo();
 			return "fallito INFO ";
@@ -161,8 +184,12 @@ public class Game{
 			this.ended = ended;
 		}
 		
-		
-
+	
+		/**
+		 * perform the switching of turn and checking if the game is ended
+		 * make the action of a player related to his sector
+		 * @return the result of this request
+		 */
 		public String nextTurn() {
 			if (!currentPlayer.hasMoved() && currentPlayer.isAlive())
 				return "You have to move before anding the turn;";
@@ -202,6 +229,9 @@ public class Game{
 		}
 		
 		
+		/**
+		 * change the current player playing
+		 */
 		public void nextP(){
 			turnOf = (turnOf + 1) % players.size();
 			currentPlayer = players.get(names[turnOf]);
@@ -232,6 +262,11 @@ public class Game{
 		}
 
 	
+		/**
+		 * Check if the given string is a valid sector for a noise
+		 * @param sector - name of the sector
+		 * @return the result of the request
+		 */
 		public boolean valid(String sector){
 			Coordinates c = Sector.GetCoordinate(sector);
 			if (c.getY() >= 0 && c.getY() < 14 && c.getX() >= 0 && c.getX() < 23)
@@ -257,9 +292,13 @@ public class Game{
 			return this.id;
 		}
 
+		/**
+		 * perform the attack for the given player
+		 * @param name -  name of the attacking player
+		 * @return the result of the attack
+		 */
 		public String attack(String name){
 			return players.get(name).attack();
-			
 		}
 		
 		public SectorCard pickDangerousSectorCard() {
@@ -267,11 +306,20 @@ public class Game{
 		}
 
 		
+		/**
+		 * add to winner the player who reach the hatch
+		 * @param human - who reach the hatch
+		 */
 		public void escaped(HumanPlayer human) {
 			winnerPlayers.add(human);
 		}
 
 			
+		/**
+		 * check if is the turn of the given player
+		 * @param player - name of the player
+		 * @return the result of the request
+		 */
 		boolean isTurnOf(String player) {
 			if (started)			
 				return currentPlayer.equals(players.get(player));
@@ -328,6 +376,13 @@ public class Game{
 		public void setSectorDeck(SectorDeck sectorDeck) {
 			this.sectorDeck = sectorDeck;
 		}
+		
+		/**
+		 * Update the player with all the message he is missing
+		 * @param name - name of the player
+		 * @param counter - the last message he have
+		 * @return the message he is missing
+		 */
 		public ArrayList<String> getNews(String name, int counter){
 			ArrayList<String> ret = new ArrayList<String>();
 			for (int i = counter; i<news.size(); i++){
@@ -336,12 +391,21 @@ public class Game{
 			return ret;
 		}
 
+		/**
+		 * move a player to the asked destination
+		 * @param sector - destination
+		 * @param player - name of the player
+		 * @return result of the move
+		 */
 		public String move(String sector, String player)  {
 			String ret =players.get(player).move(sector)+";";
 			return ret;
 			
 		}
 
+		/**
+		 * @return a string containing all map information
+		 */
 		public String getMap() {
 			String map = new String() ;
 		
@@ -417,13 +481,19 @@ public class Game{
 			return map;
 		}
 
+		/**
+		 * @param name - of the requesting player
+		 * @return the list of movement made by this player
+		 */
 		public String getMovemets(String name) {
-		
 			return players.get(name).printMovements();
 		}
 
+		/**
+		 * @return the current turn
+		 */
 		public String getTurn() {
-			return ""+(numberOfTurns/players.size())+1+";";
+			return (numberOfTurns/players.size())+1+";";
 		}
 
 

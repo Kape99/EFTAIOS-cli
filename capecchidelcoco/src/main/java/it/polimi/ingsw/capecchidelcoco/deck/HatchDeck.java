@@ -10,7 +10,7 @@ import java.util.List;
 
 public class HatchDeck implements Deck {
 	
-	LinkedList<HatchCard> deck;
+	List<HatchCard> deck;
 	List<HatchCard> discardedCard;
 	public static final int MAX_HATCH_CARD = 6;
 	int cardsNotUsed = 6;
@@ -27,6 +27,8 @@ public class HatchDeck implements Deck {
 		
 			
 	}
+	
+	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCard);
 		this.discardedCard.clear();
@@ -34,11 +36,10 @@ public class HatchDeck implements Deck {
 		
         }
         
-   
+   @Override
 	public HatchCard draw(){
-		cardsNotUsed--;
-		HatchCard tmp = deck.get(1);
-		deck.remove(1);
+		HatchCard tmp = deck.get(0);
+		deck.remove(0);
 		discardedCard.add(tmp);
 		return tmp;
 	}

@@ -9,12 +9,7 @@ public class GreenHatchCard extends HatchCard{
 		
 	}
 
-	@Override
-	public void doAction(Player pl) {
-		// TODO Auto-generated method stub
-		pl.getGame().addWinner(pl);
-		
-	}
+
 
 	@Override
 	public String doAction(Game game, Player pl) {

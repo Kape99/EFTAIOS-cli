@@ -22,22 +22,9 @@ public class ObjectCard extends Card{
 	public boolean isUsable() {
 		return usable;
 	}
-	
-
-	public void doAction(Player currPlayer){
-		
-	}
-
-
-	public void doAction(Player currPlayer, Sector target) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public String doAction(Game game, Player pl) {
-		// TODO Auto-generated method stub
 		return "";
 	}
 }

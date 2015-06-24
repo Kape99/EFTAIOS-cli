@@ -5,6 +5,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lucacapecchi
+ * This Class generate games, connect player to it,
+ * handle the action asked by a client
+ * 
+ */
 public class GamesHandler implements GamesHandlerInterface {
 	
 	private static List<Game> games;
@@ -12,6 +18,9 @@ public class GamesHandler implements GamesHandlerInterface {
 	private int count = 0;
 	
 	
+	/**
+	 * Constructor
+	 */
 	public GamesHandler (){
 		games = new ArrayList<Game>();
 		System.out.println("GamesHandler");
@@ -19,24 +28,21 @@ public class GamesHandler implements GamesHandlerInterface {
 	}
 
 	public int connect(String name) throws RemoteException {
-
 		for (Game g:games){
 			if (g.getPlayers().containsKey(name))
 				return -1;
 		}
-			
 		if (actualGame == null){
 			System.out.println("actualGame is null");
 			createNewGame();	
 		}
-	
 		System.out.println("connecting to game "+(count-1)+" player "+name );
 		actualGame.addPlayer(name);
 		System.out.println("game " +actualGame.getID());
 		int ret = actualGame.getID();
 		if (actualGame.isFull()){
 			actualGame.startGame();
-			System.out.println("è pieno?");
+			System.out.println("è pieno");
 			createNewGame();	
 		}
 		return ret;
@@ -50,7 +56,6 @@ public class GamesHandler implements GamesHandlerInterface {
 	}
 
 	public Boolean isEnded() throws RemoteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -83,6 +88,8 @@ public class GamesHandler implements GamesHandlerInterface {
 		}
 		return "Isn't your turn.";
 	}
+	
+	
 	public String help(){
 		return ";;Welcome in EFTAIOS;;;"
 				+ "This is the list of command you can use to play this beautiful BoardGame;"

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.capecchidelcoco.deck.card.object;
 
-import it.polimi.ingsw.capecchidelcoco.player.Player;
-
 
 public class Teleport extends ObjectCard{
 
@@ -10,8 +8,5 @@ public class Teleport extends ObjectCard{
 			super(true);
 		}
 	
-		public void doAction(Player currPlayer){
-			//currPlayer.findSpawn();
-		}
-
+	
 }

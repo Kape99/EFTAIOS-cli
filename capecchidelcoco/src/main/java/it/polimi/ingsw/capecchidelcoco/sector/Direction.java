@@ -9,7 +9,8 @@ package it.polimi.ingsw.capecchidelcoco.sector;
 public class Direction {
 
 	
-	/**The 2 dimension are needed for the parity 
+	/**
+	 * The 2 dimension are needed for the parity 
 	 * if the X coordinate of the given sector is odd i use the first array
 	 * if the X coordinate of the given sector is even i use the second array
 	 * 

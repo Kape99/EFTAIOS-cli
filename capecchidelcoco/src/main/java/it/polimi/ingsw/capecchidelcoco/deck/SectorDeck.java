@@ -6,15 +6,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Collections;
 
+/**
+ * @author lucacapecchi
+ * Define a sector deck defining the abstract method of deck
+ */
 public class SectorDeck implements Deck {
 	
-	LinkedList<SectorCard> deck;
+	//List of card contained
+	List<SectorCard> deck;
+	//List of card used 
 	List<SectorCard> discardedCard;
 	
-	int cardsNotUsed = 25;
-	
+
+	/**
+	 * Constructor
+	 * create the sector deck with the needed card
+	 */
 	public SectorDeck (){
-		cardsNotUsed = 25;
 		deck = new LinkedList<SectorCard>();
 		discardedCard = new LinkedList<SectorCard>();
 		for(int i = 0; i < 6;i++){
@@ -33,19 +41,21 @@ public class SectorDeck implements Deck {
 
 			
 	}
+	
+	@Override
 	public void shuffle() {
         this.deck.addAll(this.discardedCard);
 		this.discardedCard.clear();
 		Collections.shuffle(this.deck);
 		
         }
-        
-   
+	
+	@Override
 	public SectorCard draw(){
 		if (deck.isEmpty())
 			shuffle();
-		SectorCard tmp = deck.get(1);
-		deck.remove(1);
+		SectorCard tmp = deck.get(0);
+		deck.remove(0);
 		discardedCard.add(tmp);
 		return tmp;
 	}

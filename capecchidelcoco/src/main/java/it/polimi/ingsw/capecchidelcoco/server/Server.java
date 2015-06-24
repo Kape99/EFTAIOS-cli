@@ -3,21 +3,13 @@ package it.polimi.ingsw.capecchidelcoco.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.LinkedList;
-import java.util.List;
-
 import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.game.*;
-import it.polimi.ingsw.capecchidelcoco.player.AlienPlayer;
-import it.polimi.ingsw.capecchidelcoco.player.HumanPlayer;
-import it.polimi.ingsw.capecchidelcoco.player.Player;
 
 public class Server implements ServerInterface {
 	
