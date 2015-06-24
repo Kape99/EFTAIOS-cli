@@ -9,8 +9,9 @@ import it.polimi.ingsw.capecchidelcoco.sector.DangerousSector;
 import it.polimi.ingsw.capecchidelcoco.sector.Sector;
 
 import java.io.FileNotFoundException;
-import java.rmi.RemoteException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class Game{
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
 	
 	private Map<String,Player> players;
-	private String[] names;		
+	private List<String> names;		
 	
 
 	private Board board;
@@ -50,13 +51,11 @@ public class Game{
 	private boolean started = false;
 	private boolean ended = false;
 	private int turnOf;
-	private int numberOfTurns = 1;
+	private int numberOfTurns = 0;
 	private int maxNumberOfTurns;
 	
 	private List<Player> winnerPlayers;
-	private int offset; 
-
-	public static final int MAX_PLAYERS = 3;
+	public static final int MAX_PLAYERS = 8;
 	private static final int MAX_TURNS = 39;
 
 		 
@@ -66,7 +65,7 @@ public class Game{
 		 */
 		public	Game(int id) {
 			this.id = id;
-			names = new String[8];
+			names = new LinkedList<String>();
 			players = new HashMap<String,Player>();
 			news = new ArrayList<String>();
 			sectorDeck =new SectorDeck();
@@ -142,19 +141,18 @@ public class Game{
 		 * Initialize the game
 		 */
 		public void startGame(){
-			
-			offset = (int) (Math.random()*players.size());
-			turnOf = offset;
-			currentPlayer = players.get(names[offset]);
+			Collections.shuffle(names);
+			turnOf = 0;
+			currentPlayer = players.get(names.get(turnOf));
 			started = true;
 			maxNumberOfTurns = MAX_TURNS*players.size();
 			ended = false;
 			TreeSet<String> tmp = new TreeSet<String>();
 			tmp.addAll(players.keySet());
 			news.add(";;Game is started;;those are the player in this game:");
-			for (String s:tmp)
+			for (String s:names)
 				news.add("'"+s+"'");
-			news.add(";;Is the turn of: '"+names[offset]+"';");
+			news.add(";;Is the turn of: '"+names.get(turnOf)+"';");
 		}
 
 		/**
@@ -201,14 +199,14 @@ public class Game{
 				return ";";
 				}
 			numberOfTurns++;
-			if (numberOfTurns > maxNumberOfTurns+offset && getNumberOfAliveHumanPlayers() > 0
-					|| numberOfTurns <= maxNumberOfTurns+offset
+			if (numberOfTurns > maxNumberOfTurns && getNumberOfAliveHumanPlayers() > 0
+					|| numberOfTurns <= maxNumberOfTurns
 					&& getNumberOfAliveHumanPlayers() == 0) {
 				currentPlayer = null;
 				ended = true;
 				for (int i = 0; i < players.size(); i++)
-					if (players.get(names[i]).getFaction()=="Alien")
-						winnerPlayers.add(players.get(names[i]));
+					if (players.get(names.get(i)).getFaction()=="Alien")
+						winnerPlayers.add(players.get(names.get(i)));
 				news.add("Game ended");
 				news.add("Those are the winners:");
 				for(Player p:winnerPlayers)
@@ -234,15 +232,14 @@ public class Game{
 		 */
 		public void nextP(){
 			turnOf = (turnOf + 1) % players.size();
-			currentPlayer = players.get(names[turnOf]);
+			currentPlayer = players.get(names.get(turnOf));
 			currentPlayer.reset();
-			news.add(";Is the turn of: '"+ currentPlayer.getName()+"'");
+			news.add("Is the turn of: '"+ currentPlayer.getName()+"'");
 			if (!currentPlayer.isAlive())
-				news.add("'"+currentPlayer.getName()+"' id death");
+				news.add("'"+currentPlayer.getName()+"' is death");
 				nextTurn();
 		}
 		
-
 		/**
 		 * @return the winnerPlayer
 		 */
@@ -285,7 +282,7 @@ public class Game{
 			if (this.players.size()%2==0)
 				this.players.put(name,new AlienPlayer(this, this.players.size(), name));
 			else this.players.put(name,new HumanPlayer(this, this.players.size(), name));
-			names[players.size()-1] = name;
+			names.add(name);
 		}
 		
 		public int getID(){
@@ -493,7 +490,9 @@ public class Game{
 		 * @return the current turn
 		 */
 		public String getTurn() {
-			return (numberOfTurns/players.size())+1+";";
+			if (started)
+				return ((numberOfTurns)/players.size())+1+";";
+			return "Game not sterted yet;";
 		}
 
 

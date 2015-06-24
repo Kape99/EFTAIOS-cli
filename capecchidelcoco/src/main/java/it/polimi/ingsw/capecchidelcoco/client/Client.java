@@ -17,11 +17,6 @@ public class Client{
 	private static Scanner in = new Scanner(System.in);
 
 	
-	/**
-	 * List of commands
-	 * MAP
-	 * INFO
-	 */
 
 
 
@@ -55,7 +50,6 @@ public class Client{
 		System.out.println("Chose a name");
 		input = readLine("\n");
 		game = ni.connect(input);
-		System.out.println("myGame "+game);
 		while (game ==-1){
 			System.out.println("name alrady use , try again");
 			input = readLine("\n");
@@ -109,8 +103,8 @@ public class Client{
 	public static void update(NetworkInterface ni) throws IOException{
 		for (String s:ni.updateBrodcast(game, name, counter)){
 			if (s.startsWith(name))
-				System.out.println(s.replace(name+":", "you:").replace(";", "\n"));
-			else System.out.println(s.replace(";", "\n"));
+				System.out.println("#"+s.replace(name+":", "you:").replace(";", "\n"));
+			else System.out.println("#"+s.replace(";", "\n"));
 			counter++;
 		}
 	}

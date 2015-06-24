@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+
 import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.game.*;
 
@@ -77,7 +78,14 @@ public class Server implements ServerInterface {
 	}
 
 
+	@Override
+	public void register(Client c) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 
+
+	@Override
 	public void broadcast(String s) throws RemoteException {
 		// TODO Auto-generated method stub
 		
@@ -85,13 +93,6 @@ public class Server implements ServerInterface {
 
 
 
-	public void register(Client c) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
 }
 
 

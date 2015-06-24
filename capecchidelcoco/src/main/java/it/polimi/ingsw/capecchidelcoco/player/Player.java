@@ -176,8 +176,8 @@ public abstract class Player{
 	public void attacked(){
 		this.life--;
 		if (!isAlive()){
-			currentPosition = null;
 			currentPosition.removePlayer(this);
+			currentPosition = null;
 			hasMoved = true;
 			hadAttacked = true;
 		}
@@ -324,6 +324,7 @@ public abstract class Player{
 		int i=0;
 		for (Sector s:listOfMove){
 			ret += i+"["+s.getName()+"]    ";
+			i++;
 		}
 		return ret+";";
 	}

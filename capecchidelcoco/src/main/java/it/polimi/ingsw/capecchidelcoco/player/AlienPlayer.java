@@ -51,7 +51,7 @@ public class AlienPlayer extends Player{
 			return "You must move before attack;";
 		}
 		if (hadAttacked){
-			return "you alrady attack this turn;";
+			return "You alrady attack this turn;";
 		}
 		ArrayList<Player> tmp = new ArrayList<Player>();
 		String ret = "Attacking location;";
@@ -59,6 +59,8 @@ public class AlienPlayer extends Player{
 		tmp.remove(this);
 		hadAttacked = true;
 		myGame.addNews("'"+name+"' attacking on:"+currentPosition.getName());
+		if (tmp.isEmpty())
+			return "None here;";
 		for (Player p:tmp){
 			p.attacked();
 			if (!p.isAlive()){

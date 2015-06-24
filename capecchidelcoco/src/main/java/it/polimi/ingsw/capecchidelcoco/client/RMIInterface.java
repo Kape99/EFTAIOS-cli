@@ -30,10 +30,10 @@ public class RMIInterface implements NetworkInterface {
 		String url = "Server";
         Registry registry;
 		try {
-			System.out.println("1");
+			System.out.println("5");
 
 			registry = LocateRegistry.getRegistry(1413);
-			System.out.println("2");
+			System.out.println("4");
 
 		} catch (RemoteException e) {			
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class RMIInterface implements NetworkInterface {
 			System.out.println("3");
 
 			controller = (GamesHandlerInterface) registry.lookup(url);
-			System.out.println("4");
+			System.out.println("2");
 
 		} catch (AccessException e) {
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class RMIInterface implements NetworkInterface {
 			return -1;
 		}
 		try {
-			System.out.println("5");
+			System.out.println("1");
 			return controller.connect(name);
 
 		} catch (RemoteException e) {
