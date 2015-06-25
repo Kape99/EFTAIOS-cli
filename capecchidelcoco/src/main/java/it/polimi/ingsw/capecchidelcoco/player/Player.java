@@ -259,7 +259,6 @@ public abstract class Player{
 				currentPosition.addPlayer(this);
 				listOfMove.add(s);
 				hasMoved = true;
-				
 				return "You are in "+currentPosition.getName()+";";
 			}
 			return "You alrady moved this turn;";

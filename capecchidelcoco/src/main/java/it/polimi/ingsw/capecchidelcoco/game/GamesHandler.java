@@ -26,7 +26,7 @@ public class GamesHandler implements GamesHandlerInterface {
 
 	}
 
-	public int connect(String name) throws RemoteException {
+	public synchronized int connect(String name) throws RemoteException {
 		for (Game g:games){
 			if (g.getPlayers().containsKey(name))
 				return -1;
@@ -58,32 +58,45 @@ public class GamesHandler implements GamesHandlerInterface {
 		return null;
 	}
 
-	public ArrayList<String> brodcast(int game, String name, int counter)throws RemoteException{
+	public synchronized ArrayList<String> brodcast(int game, String name, int counter)throws RemoteException{
 		return games.get(game).getNews(name, counter);
 	}
 	
 	
-	public String sendAction(String action, int game, String name) throws RemoteException {
+	public synchronized String sendAction(String action, int game, String name) throws RemoteException {
 		String splitted[] = action.split(" ");
 		if (games.isEmpty())
 			return "Games empty";
 		switch (splitted[0]){
-		case ("MAP"):{return games.get(game).getMap();}
-		case ("INFO"):{return games.get(game).getInfo(name);}
-		case ("HELP"):{return help();}
-		case ("MOVEMENTS"):{return games.get(game).getMovemets(name);}
-		case ("TURN"):{return games.get(game).getTurn();}
+			case ("MAP"):{
+				return games.get(game).getMap();
+				}
+			case ("INFO"):{
+				return games.get(game).getInfo(name);
+				}
+			case ("HELP"):{
+				return help();
+				}
+			case ("MOVEMENTS"):{
+				return games.get(game).getMovemets(name);
+				}
+			case ("TURN"):{
+				return games.get(game).getTurn();
+				}
 		}
 		if (!games.get(game).isStarted())
 			return "Game not started yet";
 		if (games.get(game).isTurnOf(name) && games.get(game).getPlayers().get(name).isAlive())
 		switch (splitted[0]){
 			case ("MOVE"):{
-				
-				return games.get(game).move(splitted[1], name);}
-			case ("ATTACK"):{return games.get(game).attack(name);}
-			case ("END"):{return games.get(game).nextTurn();}
-			//"MOVE","INFO","MAP","USECARD","HELP","PLAYERS"
+				return games.get(game).move(splitted[1], name);
+				}
+			case ("ATTACK"):{
+				return games.get(game).attack(name);
+				}
+			case ("END"):{
+				return games.get(game).nextTurn();
+			}
 		}
 		return "Isn't your turn.";
 	}
@@ -111,11 +124,10 @@ public class GamesHandler implements GamesHandlerInterface {
 				+ "END        --> Will end your turn and draw a sector card if you have too;"
 				+ "				  the game may ask you to chose a sector where you have to make a noise;";
 	}
-	//{"MOVE","INFO","MAP","HELP","ATTACK","END"}
 
 
 	@Override
-	public Boolean sendSector(String sector, int game, String name)throws RemoteException {
+	public synchronized Boolean sendSector(String sector, int game, String name)throws RemoteException {
 		if( games.get(game).valid(sector)){
 			games.get(game).addNews(name+": Noise in "+sector);
 			games.get(game).nextP();

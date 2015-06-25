@@ -55,28 +55,21 @@ public class Client{
 			input = readLine("\n");
 			game = ni.connect(input);
 		}
-		long delay =1000;
-		
+		long delay =2000;
 		timer.schedule(new TimerTask(){
 			 @Override
 			  public void run() {
-			   try {
-				update(ni);
-			} catch (IOException e) {
-			}
-			  }
-			
+				 try {
+					 update(ni);
+				 } catch (IOException e) {
+				 }
+			 }
 		}, delay, delay);
-		
 		name = input;
 		System.out.println("Connection to the room... Waiting for other player");
-		
 		System.out.println(ni.sendCommand("HELP", game, name).replace(";", "\n"));
-		
-		
 		boolean finish = false;
 		String toPrint;
-		
 		while(true){
 			input = readLine("\n");
 			toPrint =ni.sendCommand(input, game, name);

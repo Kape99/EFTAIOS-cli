@@ -36,7 +36,7 @@ public class SectorDeck implements Deck {
 		for(int i = 0; i < 5;i++){
 			this.deck.add(new Silence(false));
 		}
-		  
+		 
 		Collections.shuffle(this.deck);
 
 			

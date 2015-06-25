@@ -62,7 +62,7 @@ public class RMIInterface implements NetworkInterface {
 		} catch (RemoteException e) {
 		}
 		
-		System.out.println("6");
+		System.out.println("0");
 
 		return -1;
 	}

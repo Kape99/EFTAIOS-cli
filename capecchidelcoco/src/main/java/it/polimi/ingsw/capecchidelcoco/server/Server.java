@@ -3,6 +3,7 @@ package it.polimi.ingsw.capecchidelcoco.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,29 +18,27 @@ public class Server implements ServerInterface {
 	private static Server server = null;
 	
 	
-	
-	 public static void main(String[] args) throws IOException, NotBoundException{
-		 
-			Registry registry = null;
-			try{
-				GamesHandlerInterface game = new  GamesHandler();
-				GamesHandlerInterface stub = (GamesHandlerInterface) UnicastRemoteObject.exportObject(game, 0);	
-				registry = LocateRegistry.createRegistry(1413);
-				registry.bind("Server", stub);
-				System.out.println("Running");
-			} catch(Exception ex){
-			}
-			boolean finish = false;
-			while (!finish) {
-				String read = readLine("Press Q to exit\n");
-				if (read.equals("Q")) {
-					finish = true;
-				}
-			if (registry != null)
-				registry.unbind("Server");
-			System.exit(0);	
-			}
+	private Server() throws NotBoundException, IOException{
+		Registry registry = null;
+		try{
+			GamesHandlerInterface game = new  GamesHandler();
+			GamesHandlerInterface stub = (GamesHandlerInterface) UnicastRemoteObject.exportObject(game, 0);	
+			registry = LocateRegistry.createRegistry(1413);
+			registry.bind("Server", stub);
+			System.out.println("Running");
+		} catch(Exception ex){
 		}
+		boolean finish = false;
+		while (!finish) {
+			String read = readLine("Press Q to exit\n");
+			if (read.equals("Q")) {
+				finish = true;
+			}
+		if (registry != null)
+			registry.unbind("Server");
+		System.exit(0);	
+		}
+	}
 	 
 	
 	public static Server getServer() throws IOException, NotBoundException {

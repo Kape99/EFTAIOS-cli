@@ -75,7 +75,6 @@ public class Game{
 			} catch (FileNotFoundException e) {
 			}
 			winnerPlayers = new ArrayList<Player>();
-			
 		}
 	
 		/**
