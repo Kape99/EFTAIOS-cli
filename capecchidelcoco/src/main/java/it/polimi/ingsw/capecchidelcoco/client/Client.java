@@ -70,7 +70,6 @@ public class Client{
 			input = readLine("\n");
 			toPrint =ni.sendCommand(input, game, name);
 			if (toPrint.contains("%")){
-				;
 				do {
 					System.out.println(toPrint.replace(";", "\n").replace("ANY%",""));
 					input = readLine("\n");

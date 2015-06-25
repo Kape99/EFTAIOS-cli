@@ -494,6 +494,15 @@ public class Game{
 			return "Game not sterted yet;";
 		}
 
+		public String addNotes(String name, String note) {
+			players.get(name).addNote(note);
+			return "Note added;";
+		}
+
+		public String getNotes(String name) {
+			return players.get(name).printNotes();
+		}
+
 
 
 

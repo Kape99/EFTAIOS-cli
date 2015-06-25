@@ -32,7 +32,7 @@ public abstract class Player{
 	protected boolean hadAttacked;
 	protected boolean sedated;
 	protected String faction;
- 	
+ 	private ArrayList<String> notes;
 	
 	
 	
@@ -55,7 +55,8 @@ public abstract class Player{
 		this.listOfMove = new ArrayList<Sector>();
 		//this.objects = new ArrayList<ObjectCard>();
 		this.hasMoved = false;
-		this.sedated = false;		
+		this.sedated = false;	
+		this.notes = new ArrayList<String>();
 	}
 	
 	/**
@@ -325,6 +326,24 @@ public abstract class Player{
 			i++;
 		}
 		return ret+";";
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public String printNotes() {
+		String ret = "";
+		for (String s:notes)
+			ret += s+";";
+		return ret;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void addNote(String note) {
+		
+		this.notes.add(note.replace("ADDNOTE ", "*"));
 	}
 	
 }

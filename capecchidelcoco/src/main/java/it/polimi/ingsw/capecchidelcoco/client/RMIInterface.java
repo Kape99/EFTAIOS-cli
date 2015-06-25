@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class RMIInterface implements NetworkInterface {
 
 	private GamesHandlerInterface controller;
-	private static final String valid[] = {"MOVE","INFO","MAP","HELP","ATTACK","END","MOVEMENTS","TURN"};
+	private static final String valid[] = {"MOVE","INFO","MAP","HELP","ATTACK","END","MOVEMENTS","TURN","ADDNOTE","NOTES"};
 
 	public int connect(String name) throws IOException {
 		/*String url = "rmi://localhost:1413/Server";
