@@ -117,7 +117,7 @@ public class GamesHandler implements GamesHandlerInterface {
 				+ "TURN       --> The actual turn;"
 				+ ";;"
 				+ "During your turn you must move and then you have to decide if attack or not;"
-				+ "MOVE 'CRR' --> If possible(your turn, valid input) move you in 'CRR';"
+				+ "MOVE CRR --> If possible(your turn, valid input) move you in 'CRR';"
 				+ "               'CRR' is C=collumn and RR=row of your detination;"
 				+ "               Ex.  'MOVE A01' will move you in A01 Sector.;"
 				+ "ATTACK     --> After the movement attack the current location;"

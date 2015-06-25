@@ -20,10 +20,6 @@ public class Client{
 
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private static Timer timer;
 	
 	private static String name;
@@ -37,7 +33,7 @@ public class Client{
 	public static void main (String[] args) throws IOException{
 		timer = new Timer(true);
 		String input = "";
-		while (!("1").equals(input) && !("2").equals(input) ){
+		while (!("1").equals(input)){
 			System.out.println("Choose your network interface:");
 			System.out.println("1 - RMI");
 			System.out.println(" - Socket to be implemented");
@@ -70,7 +66,7 @@ public class Client{
 		System.out.println(ni.sendCommand("HELP", game, name).replace(";", "\n"));
 		boolean finish = false;
 		String toPrint;
-		while(true){
+		while(!finish){
 			input = readLine("\n");
 			toPrint =ni.sendCommand(input, game, name);
 			if (toPrint.contains("%")){

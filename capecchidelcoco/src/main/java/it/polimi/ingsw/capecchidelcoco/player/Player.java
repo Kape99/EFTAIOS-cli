@@ -250,7 +250,6 @@ public abstract class Player{
 			return "Wrong Sector name;";
 		}
 		Sector s = myGame.getBoard().getSector(Sector.GetCoordinate(nextPosition).getY(),Sector.GetCoordinate(nextPosition).getX());
-		System.out.println(s.getName());
 		possibleMoves = reachable(currentPosition, speed);
 		if (possibleMoves.contains(s)){
 			if (!hasMoved){

@@ -74,8 +74,6 @@ public class RMIInterface implements NetworkInterface {
 	public String sendCommand(String command, int game, String player)throws RemoteException {
 		String splitted[] = command.split(" ");
 		String result;
-		if (command.startsWith(" ") || command == "\n")
-			return "";
 		for (int i = 0; i<valid.length; i++){
 			if (splitted[0].equals(valid[i])){
 				result = controller.sendAction(command, game, player);
