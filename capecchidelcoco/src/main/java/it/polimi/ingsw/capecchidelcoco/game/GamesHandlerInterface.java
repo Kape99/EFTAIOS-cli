@@ -2,7 +2,7 @@ package it.polimi.ingsw.capecchidelcoco.game;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lucacapecchi
@@ -38,7 +38,7 @@ public interface GamesHandlerInterface extends Remote{
 	 * @return the message he is missing
 	 * @throws RemoteException
 	 */
-	public ArrayList<String> brodcast (int game, String name, int counter) throws RemoteException;
+	public List<String> brodcast (int game, String name, int counter) throws RemoteException;
 
 	/**
 	 * send a sector when asked to do it

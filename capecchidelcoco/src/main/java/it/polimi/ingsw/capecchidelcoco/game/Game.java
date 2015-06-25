@@ -7,7 +7,6 @@ import it.polimi.ingsw.capecchidelcoco.player.*;
 import it.polimi.ingsw.capecchidelcoco.sector.Coordinates;
 import it.polimi.ingsw.capecchidelcoco.sector.DangerousSector;
 import it.polimi.ingsw.capecchidelcoco.sector.Sector;
-
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -25,13 +27,15 @@ import java.util.TreeSet;
  */
 public class Game{
 	
+	private static final Logger LOG = Logger.getLogger(Game.class.getName());
+
 	
     //The identificator of the game
 	private int id;
 
-	private static final String[] characterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
+	private static final String[] CharacterNameList = {"Piero Ceccarella", "Ennio Maria Dominoni", "Vittorio Martana", "Julia Niguloti",
 		"Maria Galmbani", "Silvano Porpora", "Paolo Landon", "Tuccio Brendon"};
-	private static final String[] characterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
+	private static final String[] CharacterRoleList = {"First Alien", "Captain", "Second Alien", "Pilot",
 		"Third Alien", "Psychologist", "Fourth Alien", "Soldier"};
 	
 	private Map<String,Player> players;
@@ -46,7 +50,7 @@ public class Game{
 	private Player currentPlayer;
 	
 	
-	private ArrayList<String> news;
+	private List<String> news;
 
 	private boolean started = false;
 	private boolean ended = false;
@@ -73,6 +77,8 @@ public class Game{
 			try {
 				board = new Board();
 			} catch (FileNotFoundException e) {
+				LOG.log(Level.SEVERE, "Fallito caricamento mappa"+e);
+				
 			}
 			winnerPlayers = new ArrayList<Player>();
 		}
@@ -146,7 +152,7 @@ public class Game{
 			started = true;
 			maxNumberOfTurns = MAX_TURNS*players.size();
 			ended = false;
-			TreeSet<String> tmp = new TreeSet<String>();
+			Set<String> tmp = new TreeSet<String>();
 			tmp.addAll(players.keySet());
 			news.add(";;Game is started;;those are the player in this game:");
 			for (String s:names)
@@ -164,11 +170,11 @@ public class Game{
 		}
 
 		public String[] getCharacters(){
-			return characterNameList;
+			return CharacterNameList;
 		}
 		
 		public String[] getRoles(){
-			return characterRoleList;
+			return CharacterRoleList;
 		}
 	
 		public String getInfo(String  name){
@@ -265,8 +271,7 @@ public class Game{
 		 */
 		public boolean valid(String sector){
 			Coordinates c = Sector.GetCoordinate(sector);
-			if (c.getY() >= 0 && c.getY() < 14 && c.getX() >= 0 && c.getX() < 23)
-				if (board.getSector(c.getY(),c.getX()) instanceof DangerousSector)
+			if (c.getY() >= 0 && c.getY() < 14 && c.getX() >= 0 && c.getX() < 23 && board.getSector(c.getY(),c.getX()) instanceof DangerousSector)
 					return true;
 			return false;
 		}
@@ -379,8 +384,8 @@ public class Game{
 		 * @param counter - the last message he have
 		 * @return the message he is missing
 		 */
-		public ArrayList<String> getNews(String name, int counter){
-			ArrayList<String> ret = new ArrayList<String>();
+		public List<String> getNews(String name, int counter){
+			List<String> ret = new ArrayList<String>();
 			for (int i = counter; i<news.size(); i++){
 				ret.add(news.get(i));
 			}

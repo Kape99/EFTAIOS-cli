@@ -1,11 +1,9 @@
 package it.polimi.ingsw.capecchidelcoco.client;
 
-import it.polimi.ingsw.capecchidelcoco.server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,12 +12,6 @@ import java.util.TimerTask;
 public class Client{
 	
 	
-	private static Scanner in = new Scanner(System.in);
-
-	
-
-
-
 	private static Timer timer;
 	
 	private static String name;

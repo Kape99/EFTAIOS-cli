@@ -8,11 +8,16 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.polimi.ingsw.capecchidelcoco.client.Client;
 import it.polimi.ingsw.capecchidelcoco.game.*;
 
 public class Server implements ServerInterface {
+	
+	private static final Logger LOG = Logger.getLogger(Server.class.getName());
+
 	
 	private static Server server = null;
 	
@@ -26,11 +31,12 @@ public class Server implements ServerInterface {
 			registry.bind("Server", stub);
 			System.out.println("Running");
 		} catch(Exception ex){
+			LOG.log(Level.SEVERE,"errore createRegistry",ex);
 		}
 		boolean finish = false;
 		while (!finish) {
 			String read = readLine("Press Q to exit\n");
-			if (read.equals("Q")) {
+			if (("Q").equals(read)) {
 				finish = true;
 			}
 		if (registry != null)

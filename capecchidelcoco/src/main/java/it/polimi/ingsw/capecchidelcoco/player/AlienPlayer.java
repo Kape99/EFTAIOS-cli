@@ -45,7 +45,7 @@ public class AlienPlayer extends Player{
 	}
 	
 	
-
+	@Override
 	public String attack() {
 		if (!hasMoved){
 			return "You must move before attack;";
@@ -53,7 +53,7 @@ public class AlienPlayer extends Player{
 		if (hadAttacked){
 			return "You alrady attack this turn;";
 		}
-		ArrayList<Player> tmp = new ArrayList<Player>();
+		List<Player> tmp = new ArrayList<Player>();
 		String ret = "Attacking location;";
 		tmp.addAll(currentPosition.playerList());
 		tmp.remove(this);

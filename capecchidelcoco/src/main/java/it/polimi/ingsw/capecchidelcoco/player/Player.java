@@ -5,6 +5,7 @@ import it.polimi.ingsw.capecchidelcoco.game.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -17,7 +18,7 @@ import java.util.TreeSet;
 public abstract class Player{
 	
 	//private static final int MAX_OBJECT_CARDS = 3;
-	protected ArrayList<Sector> listOfMove;
+	protected List<Sector> listOfMove;
 	protected String name;
 	protected Sector currentPosition;
 	private Set<Sector> possibleMoves;
@@ -32,7 +33,7 @@ public abstract class Player{
 	protected boolean hadAttacked;
 	protected boolean sedated;
 	protected String faction;
- 	private ArrayList<String> notes;
+ 	private List<String> notes;
 	
 	
 	

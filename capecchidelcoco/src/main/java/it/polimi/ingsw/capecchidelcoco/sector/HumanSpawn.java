@@ -9,14 +9,9 @@ public class HumanSpawn extends Sector {
 		super(x, y, 'H', false);
 }
 
-	public void doAction(Player pl) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public String doAction(Game game, Player pl) {
-		// TODO Auto-generated method stub
 		return "";
 	}   
 

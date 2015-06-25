@@ -1,10 +1,14 @@
 package test;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 import java.io.FileNotFoundException;
 
-
+import it.polimi.ingsw.capecchidelcoco.game.Game;
+import it.polimi.ingsw.capecchidelcoco.player.AlienPlayer;
+import it.polimi.ingsw.capecchidelcoco.player.Player;
 import it.polimi.ingsw.capecchidelcoco.sector.*;
 
 public class SectorTest {
@@ -14,6 +18,7 @@ public class SectorTest {
 	Sector s3 = new HatchSector(0, 10);
 	Sector s4 = new AlienSpawn(10, 10);
 	Sector s5 = new NullSector(10, 20);
+	Sector s6 = new HumanSpawn(10,10);
 	@Test
 	public void checkName() throws FileNotFoundException{
 		assertEquals(s1.getName(),"A01");
@@ -21,6 +26,8 @@ public class SectorTest {
 		assertEquals(s3.getName(),"K01");
 		assertEquals(s4.getName(),"K11");
 		assertEquals(s5.getName(),"   ");
+		assertEquals(s6.getName(),"K11");
+
 	}
 	
 	@Test
@@ -48,7 +55,16 @@ public class SectorTest {
 		assertTrue(s3.isUsable());
 		assertFalse(s4.isUsable());
 		assertFalse(s5.isUsable());
+		assertFalse(s6.isUsable());
+
 	}
 	
+	@Test
+	public void checkAddPlayer(){
+		Game g = new Game(0);
+		Player p1 = new AlienPlayer(g,0,"p1");
+		s1.addPlayer(p1);
+		assertTrue(s1.playerList().contains(p1));
+	}
 	
 }

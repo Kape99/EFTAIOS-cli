@@ -10,14 +10,9 @@ public class AlienSpawn extends Sector {
 	}
 
 	
-	public void doAction(Player pl) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public String doAction(Game game, Player pl) {
-		// TODO Auto-generated method stub
 		return "";
 	}   
 

@@ -6,9 +6,9 @@ import java.rmi.NotBoundException;
 
 public class MainServer {
 	
-
-	
-
+	private MainServer(){
+		
+	}
 
 	public static void main(String[] args) throws IOException, NotBoundException{
 	

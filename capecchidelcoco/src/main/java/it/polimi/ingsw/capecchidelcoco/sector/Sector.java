@@ -6,6 +6,8 @@ import it.polimi.ingsw.capecchidelcoco.player.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lucacapecchi
@@ -16,6 +18,8 @@ import java.util.List;
  */
 public abstract class  Sector extends Coordinates {
 
+	
+	private static final Logger LOG = Logger.getLogger(Sector.class.getName());
 	
 	/*
 	 * Tell which type of sector is the one in coordinate [row][col]
@@ -118,11 +122,11 @@ public abstract class  Sector extends Coordinates {
 	 * Generate the name of this sector from his coordinate
 	 */
 	public void setName (){
-		String name= new String();
-		name += (char)('A'+(byte)getCol()); 
+		String sName= new String();
+		sName += (char)('A'+(byte)getCol()); 
 		//return the given integer with 2 digit
-		name += String.format("%02d", getRow()+1);
-		this.name = name;
+		sName += String.format("%02d", getRow()+1);
+		this.name = sName;
 	}
 		
 	/**
@@ -145,18 +149,16 @@ public abstract class  Sector extends Coordinates {
 	public static Coordinates GetCoordinate(String name){
 		int x = -1;
 		try {
-			x = (int)((byte)name.charAt(0) - 'A');
+			x = ((byte)name.charAt(0) - 'A');
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.log(Level.SEVERE, "Fallito GetCoordinate on char "+e1);
 		}
 		String appo =""+ name.charAt(1) + name.charAt(2);
     	int y = -1;
 		try {
 			y = Integer.parseInt(appo)-1;
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.log(Level.SEVERE, "Fallito GetCoordinate on number "+e);
 		}
 		Coordinates co = new Coordinates(x, y);
 		return co;

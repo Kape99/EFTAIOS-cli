@@ -14,7 +14,7 @@ public class App
 	
     public static void main( String[] args ) throws RemoteException, FileNotFoundException
     {
-    	
+    	System.out.println("HelloWorld!");
     }
     
     
