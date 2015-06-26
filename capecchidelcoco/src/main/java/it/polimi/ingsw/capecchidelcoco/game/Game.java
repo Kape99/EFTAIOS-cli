@@ -59,7 +59,7 @@ public class Game{
 	private int maxNumberOfTurns;
 	
 	private List<Player> winnerPlayers;
-	public static final int MAX_PLAYERS = 8;
+	public static final int MAX_PLAYERS = 3;
 	private static final int MAX_TURNS = 39;
 
 		 
